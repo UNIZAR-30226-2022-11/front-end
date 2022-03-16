@@ -1,8 +1,6 @@
 <head>
   <style>
-div{
-  background-color: darkslategray;
-}
+
   </style>
 
 </head>
@@ -12,70 +10,85 @@ div{
   <div class="tablero">
     <img style="height:100%; width: 50%; top:0%; left: 25%; right: 25%; position: absolute;" (click)="mover($event)" src="./assets/ajedrez/tablero.png">
   </div>
+
+  <div class="peonBlanco" *ngIf="peonBlanco0.color!=0">
+    <img (click)="seleccionar('peonNegro0', $event); mover($event)"
+    style="position: absolute; height:10%; width: 5%; top:{{peonBlanco0.fil}}; left:{{peonBlanco0.col}};"
+    src={{peonBlanco0.img}}>
+  </div>
   
-  <div class="peonNegro">
-    <img (click)="seleccionar('peonNegro0', $event)"
+  <div class="peonNegro" *ngIf="peonNegro0.color!=0">
+    <img (click)="seleccionar('peonNegro0', $event); mover($event)"
     style="position: absolute; height:10%; width: 5%; top:{{peonNegro0.fil}}; left:{{peonNegro0.col}};"
     src={{peonNegro0.img}}>
   </div>
   
-  <div class="peonNegro">
+  <div class="peonNegro" *ngIf="peonNegro1.color!=0; mover($event)">
     <img (click)="seleccionar('peonNegro1', $event)"
     style="position: absolute; height:10%; width: 5%; top:{{peonNegro1.fil}}; left:{{peonNegro1.col}};"
     src={{peonNegro1.img}}>
   </div>
   
-  <div class="peonNegro">
+  <div class="peonNegro" *ngIf="peonNegro2.color!=0; mover($event)">
     <img (click)="seleccionar('peonNegro2', $event)"
     style="position: absolute; height:10%; width: 5%; top:{{peonNegro2.fil}}; left:{{peonNegro2.col}};"
     src={{peonNegro2.img}}>
   </div>
 
-  <div class="peonNegro">
+  <div class="peonNegro" *ngIf="peonNegro3.color!=0; mover($event)">
     <img (click)="seleccionar('peonNegro3', $event)"
     style="position: absolute; height:10%; width: 5%; top:{{peonNegro3.fil}}; left:{{peonNegro3.col}};"
     src={{peonNegro3.img}}>
   </div>
 
-  <div class="peonNegro">
+  <div class="peonNegro" *ngIf="peonNegro4.color!=0; mover($event)">
     <img (click)="seleccionar('peonNegro4', $event)"
     style="position: absolute; height:10%; width: 5%; top:{{peonNegro4.fil}}; left:{{peonNegro4.col}};"
     src={{peonNegro4.img}}>
   </div>
 
-  <div class="peonNegro">
+  <div class="peonNegro" *ngIf="peonNegro5.color!=0; mover($event)">
     <img (click)="seleccionar('peonNegro5', $event)"
     style="position: absolute; height:10%; width: 5%; top:{{peonNegro5.fil}}; left:{{peonNegro5.col}};"
     src={{peonNegro5.img}}>
   </div>
   
-  <div class="alfilNegro">
+  <div class="alfilNegro" *ngIf="alfilNegro0.color!=0; mover($event)">
     <img (click)="seleccionar('alfilNegro0', $event)"
     style="position: absolute; height:10%; width: 5%; top:{{alfilNegro0.fil}}; left:{{alfilNegro0.col}};"
     src={{alfilNegro0.img}}>
   </div>
   
-  <div class="caballonegro">
-    <img (click)="seleccionar('caballoNegro0', $event)"
+  <div class="caballonegro" *ngIf="caballoNegro0.color!=0; mover($event)">
+    <img (click)="seleccionar('caballoNegro0', $event); mover($event)"
     style="position: absolute; height:10%; width: 5%; top:{{caballoNegro0.fil}}; left:{{caballoNegro0.col}};"
     src={{caballoNegro0.img}}>
   </div>
   
-  <div class="torrenegra">
+  <div class="torrenegra" *ngIf="torreNegra0.color!=0; mover($event)">
     <img (click)="seleccionar('torreNegra0', $event)"
     style="position: absolute; height:10%; width: 5%; top:{{torreNegra0.fil}}; left:{{torreNegra0.col}};"
     src={{torreNegra0.img}}>
   </div>
   
-  <div class="reinanegra">
+  <div class="reinanegra" *ngIf="reinaNegra.color!=0; mover($event)">
     <img (click)="seleccionar('reinaNegra', $event)"
     style="position: absolute; height:10%; width: 5%; top:{{reinaNegra.fil}}; left:{{reinaNegra.col}};"
     src={{reinaNegra.img}}>
   </div>
     
-  <div class="reyngro">
+  <div class="reyngro" *ngIf="reyNegro.color!=0; mover($event)">
     <img (click)="seleccionar('reyNegro', $event)"
     style="position: absolute; height:10%; width: 5%; top: {{reyNegro.fil}} ; left:{{reyNegro.col}};"
     src={{reyNegro.img}}>
   </div>
 </body>
+
+<p>{{pieza}}</p>
+<p>{{seleccionada}}</p>
+<p>{{puedeMover}}</p>
+<p>{{filaIni}} Fila inicial</p>
+<p>{{columnIni}} Col inicial</p>
+<br>
+<p>{{filaFin}} Fila Final</p>
+<p>{{columnFin}} Col Final</p>
