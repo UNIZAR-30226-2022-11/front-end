@@ -1,0 +1,63 @@
+<head>
+  <style>
+div{
+  background-color: darkslategray;
+}
+  </style>
+
+</head>
+
+<body>
+  <app-header></app-header>
+  <div class="tablero">
+    <img style="height:100%; width: 50%; top:0%; left: 25%; right: 25%; position: absolute;" (click)="mover($event)" src="./assets/ajedrez/tablero.png">
+  </div>
+  
+  <div class="peonNegro">
+    <img (click)="seleccionar('peonNegro0', $event)"
+    style="position: absolute; height:10%; width: 5%; top:{{peonNegro0.fil}}; left:{{peonNegro0.col}};"
+    src={{peonNegro0.img}}>
+  </div>
+  
+  <div class="peonNegro">
+    <img (click)="seleccionar('peonNegro1', $event)"
+    style="position: absolute; height:10%; width: 5%; top:{{peonNegro1.fil}}; left:{{peonNegro1.col}};"
+    src={{peonNegro1.img}}>
+  </div>
+  
+  <div class="peonNegro">
+    <img (click)="seleccionar('peonNegro2', $event)"
+    style="position: absolute; height:10%; width: 5%; top:{{peonNegro2.fil}}; left:{{peonNegro2.col}};"
+    src={{peonNegro2.img}}>
+  </div>
+  
+  <div class="alfilNegro">
+    <img (click)="seleccionar('alfilNegro0', $event)"
+    style="position: absolute; height:10%; width: 5%; top:{{alfilNegro0.fil}}; left:{{alfilNegro0.col}};"
+    src={{alfilNegro0.img}}>
+  </div>
+  
+  <div class="caballonegro">
+    <img (click)="seleccionar('caballoNegro0', $event)"
+    style="position: absolute; height:10%; width: 5%; top:{{caballoNegro0.fil}}; left:{{caballoNegro0.col}};"
+    src={{caballoNegro0.img}}>
+  </div>
+  
+  <div class="torrenegra">
+    <img (click)="seleccionar('torreNegra0', $event)"
+    style="position: absolute; height:10%; width: 5%; top:{{torreNegra0.fil}}; left:{{torreNegra0.col}};"
+    src={{torreNegra0.img}}>
+  </div>
+  
+  <div class="reinanegra">
+    <img (click)="seleccionar('reinaNegra', $event)"
+    style="position: absolute; height:10%; width: 5%; top:{{reinaNegra.fil}}; left:{{reinaNegra.col}};"
+    src={{reinaNegra.img}}>
+  </div>
+    
+  <div class="reyngro">
+    <img (click)="seleccionar('reyNegro', $event)"
+    style="position: absolute; height:10%; width: 5%; top: {{reyNegro.fil}} ; left:{{reyNegro.col}};"
+    src={{reyNegro.img}}>
+  </div>
+</body>
