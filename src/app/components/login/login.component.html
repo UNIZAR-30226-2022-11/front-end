@@ -1,0 +1,18 @@
+
+<div>{{Contador}}</div>
+<ul>
+    <li *ngFor="let numero of arr">{{ numero }}</li>
+</ul>
+<button (click)="suma()">Iniciar sesion</button>
+<button (click)="add()">Iniciar sesion</button><button (click)="suma()">Iniciar sesion</button>
+<button (click)="add()">Iniciar sesion</button>
+<label for="user">Usuario:</label>
+<input type="text" id="user"><br>
+
+<div *ngIf="_user.user">
+    <div>Nombre: {{ _user.user.name }}</div>
+    <div>Email: {{ _user.user.email}}</div>
+</div>
+<label for="password">Contraseña:</label>
+<input type="text" id="password"><br>
+<button (click)="login()">LOGIN</button>
