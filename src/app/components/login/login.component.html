@@ -5,11 +5,14 @@
 
 <!-- The Modal -->
 <div id="id01" class="modal">
-        <span onclick="document.getElementById('id01').style.display='none'"
-    class="close" title="Close Modal">&times;</span>
     
     <!-- Modal Content -->
         <div class="container row modal-content animate bordered-form">
+            <div class="close-container">
+                <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+                
+              </div>
+          
             <div class="column">
                 <div class="box" >
                     <div class="title"><b>Sign In</b></div>
@@ -17,7 +20,6 @@
                         <input type="text" placeholder="Username" name="uname" required>
                     
                         <input type="password" placeholder="Password" name="psw" required>
-
                         
                         <button class="loginButton" type="submit">Sign In</button>
                     </form>
@@ -41,11 +43,6 @@
                     </form>
                 </div>
             </div>
-        </div>
-    
-<div class="column">
-    <span onclick="document.getElementById('id01').style.display='none'"
-class="close" title="Close Modal">&times;</span>
 
 </div>
 </div>

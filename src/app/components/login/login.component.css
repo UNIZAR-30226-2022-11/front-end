@@ -69,7 +69,7 @@ button:hover {
     background-color: #fefefe;
     margin: 5px auto; /* 15% from the top and centered */
     border: 1px solid #888;
-    width: 80%; /* Could be more or less, depending on screen size */
+    width: 50%; /* Could be more or less, depending on screen size */
 }
 
 /* The Close Button */
@@ -125,4 +125,12 @@ button:hover {
     text-align:center;
     margin: 10px;
     font-size: large;
+}
+
+.close-container{
+    position: relative;
+    text-align: center;
+    margin: 24px 0 12px 0;
+    top:0;
+    margin:0 0 40px 0;
 }
