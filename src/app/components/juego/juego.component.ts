@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { pieza } from 'src/app/interface';
+import { pieza } from 'src/app/other/interfaces';
 
 @Component({
   selector: 'app-juego',
