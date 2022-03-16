@@ -40,6 +40,10 @@ export class JuegoComponent {
   peonNegro0:pieza = {"col":this.columna[0].toString() + "%", "fil":this.fila[6].toString() + "%", "img": "./assets/ajedrez/peon_negro.png"};
   peonNegro1:pieza = {"col":this.columna[1].toString() + "%", "fil":this.fila[6].toString() + "%", "img": "./assets/ajedrez/peon_negro.png"};
   peonNegro2:pieza = {"col":this.columna[2].toString() + "%", "fil":this.fila[6].toString() + "%", "img": "./assets/ajedrez/peon_negro.png"};
+  peonNegro3:pieza = {"col":this.columna[3].toString() + "%", "fil":this.fila[6].toString() + "%", "img": "./assets/ajedrez/peon_negro.png"};
+  peonNegro4:pieza = {"col":this.columna[4].toString() + "%", "fil":this.fila[6].toString() + "%", "img": "./assets/ajedrez/peon_negro.png"};
+  peonNegro5:pieza = {"col":this.columna[5].toString() + "%", "fil":this.fila[6].toString() + "%", "img": "./assets/ajedrez/peon_negro.png"};
+  
   alfilNegro0:pieza = {"col":this.columna[2].toString() + "%", "fil":this.fila[7].toString() + "%", "img": "./assets/ajedrez/alfil_negro.png"};
   caballoNegro0:pieza = {"col":this.columna[1].toString() + "%", "fil":this.fila[7].toString() + "%", "img": "./assets/ajedrez/caballo_negro.png"};
   torreNegra0:pieza = {"col":this.columna[0].toString() + "%", "fil":this.fila[7].toString() + "%", "img": "./assets/ajedrez/torre_negra.png"};
@@ -55,7 +59,7 @@ export class JuegoComponent {
     [this.v, this.v, this.v, this.v, this.v, this.v, this.v, this.v],
     [this.v, this.v, this.v, this.v, this.v, this.v, this.v, this.v],
     [this.v, this.v, this.v, this.v, this.v, this.v, this.v, this.v],
-    [this.peonNegro0, this.peonNegro1, this.peonNegro2, this.v, this.v, this.v, this.v, this.v],
+    [this.peonNegro0, this.peonNegro1, this.peonNegro2, this.peonNegro3, this.peonNegro4, this.peonNegro5, this.v, this.v],
     [this.torreNegra0, this.caballoNegro0, this.alfilNegro0, this.reyNegro, this.reinaNegra, this.v, this.v, this.v]
 ]
 
@@ -91,28 +95,37 @@ export class JuegoComponent {
     
     if(!this.seleccionada) {
       if(p == "peonNegro0") {
-        this.peonNegro0.img = "./assets/ajedrez/peon_blanco.png"
+        this.peonNegro0.img = "./assets/ajedrez/peon_azul.png"
       }
       else if(p == "peonNegro1") {
-        this.peonNegro1.img = "./assets/ajedrez/peon_blanco.png"
+        this.peonNegro1.img = "./assets/ajedrez/peon_azul.png"
       }  
       else if(p == "peonNegro2") {
-        this.peonNegro2.img = "./assets/ajedrez/peon_blanco.png"
-      }  
+        this.peonNegro2.img = "./assets/ajedrez/peon_azul.png"
+      }
+      else if(p == "peonNegro3") {
+        this.peonNegro3.img = "./assets/ajedrez/peon_azul.png"
+      } 
+      else if(p == "peonNegro4") {
+        this.peonNegro4.img = "./assets/ajedrez/peon_azul.png"
+      } 
+      else if(p == "peonNegro5") {
+        this.peonNegro5.img = "./assets/ajedrez/peon_azul.png"
+      }   
       else if(p == "alfilNegro0") {
-        this.alfilNegro0.img = "./assets/ajedrez/alfil_blanco.png"
+        this.alfilNegro0.img = "./assets/ajedrez/alfil_azul.png"
       }  
       else if(p == "caballoNegro0") {
-        this.caballoNegro0.img = "./assets/ajedrez/caballo_blanco.png"
+        this.caballoNegro0.img = "./assets/ajedrez/caballo_azul.png"
       } 
       else if(p == "torreNegra0") {
-        this.torreNegra0.img = "./assets/ajedrez/torre_blanca.png"
+        this.torreNegra0.img = "./assets/ajedrez/torre_azul.png"
       }   
       else if(p == "reinaNegra") {
-        this.reinaNegra.img = "./assets/ajedrez/reina_blanca.png"
+        this.reinaNegra.img = "./assets/ajedrez/reina_azul.png"
       } 
       else if(p == "reyNegro") {
-        this.reyNegro.img = "./assets/ajedrez/rey_blanco.png"
+        this.reyNegro.img = "./assets/ajedrez/rey_azul.png"
       } 
 
       this.seleccionada = !this.seleccionada;
@@ -131,7 +144,19 @@ export class JuegoComponent {
       else if(p == "peonNegro2") {
         this.peonNegro2.img = "./assets/ajedrez/peon_negro.png"
         this.seleccionada = !this.seleccionada;
+      }
+      else if(p == "peonNegro3") {
+        this.peonNegro3.img = "./assets/ajedrez/peon_negro.png"
+        this.seleccionada = !this.seleccionada;
       } 
+      else if(p == "peonNegro4") {
+        this.peonNegro4.img = "./assets/ajedrez/peon_negro.png"
+        this.seleccionada = !this.seleccionada;
+      } 
+      else if(p == "peonNegro5") {
+        this.peonNegro5.img = "./assets/ajedrez/peon_negro.png"
+        this.seleccionada = !this.seleccionada;
+      }   
       else if(p == "alfilNegro0") {
         this.alfilNegro0.img = "./assets/ajedrez/alfil_negro.png"
         this.seleccionada = !this.seleccionada;
@@ -179,7 +204,8 @@ export class JuegoComponent {
 
 
   comprobarJugada(pieza:string){
-    if((this.pieza == "peonNegro0") || (this.pieza == "peonNegro1") || (this.pieza == "peonNegro2")){
+    if((this.pieza == "peonNegro0") || (this.pieza == "peonNegro1") || (this.pieza == "peonNegro2") 
+    || (this.pieza == "peonNegro3") || (this.pieza == "peonNegro4") || (this.pieza == "peonNegro5")){
       this.puedeMover = (((this.filaIni - this.filaFin  == 1) || (this.filaIni - this.filaFin  == 2) && this.filaIni == 6) 
                         && (this.columnFin == this.columnIni))
 
@@ -224,7 +250,8 @@ export class JuegoComponent {
     var auxFila = this.filaIni
     var auxColumna = this.columnIni
 
-    if((this.pieza == "peonNegro0") || (this.pieza == "peonNegro1") || (this.pieza == "peonNegro2")){
+    if((this.pieza == "peonNegro0") || (this.pieza == "peonNegro1") || (this.pieza == "peonNegro2")
+    || (this.pieza == "peonNegro3") || (this.pieza == "peonNegro4") || (this.pieza == "peonNegro5")){
       while((auxFila > this.filaFin) && this.puedeMover) {
         this.puedeMover = (this.tablero[auxFila][auxColumna] == this.v)
         auxFila--
@@ -342,6 +369,24 @@ export class JuegoComponent {
           this.peonNegro2.img  = "./assets/ajedrez/peon_negro.png"
           this.peonNegro2.fil = this.auxY.toString() + "%"
           this.peonNegro2.col =  this.auxX.toString() + "%" 
+        }
+
+        if(this.pieza == "peonNegro3") {  
+          this.peonNegro3.img  = "./assets/ajedrez/peon_negro.png"
+          this.peonNegro3.fil = this.auxY.toString() + "%"
+          this.peonNegro3.col =  this.auxX.toString() + "%" 
+        }
+
+        if(this.pieza == "peonNegro4") {  
+          this.peonNegro4.img  = "./assets/ajedrez/peon_negro.png"
+          this.peonNegro4.fil = this.auxY.toString() + "%"
+          this.peonNegro4.col =  this.auxX.toString() + "%" 
+        }
+
+        if(this.pieza == "peonNegro5") {  
+          this.peonNegro5.img  = "./assets/ajedrez/peon_negro.png"
+          this.peonNegro5.fil = this.auxY.toString() + "%"
+          this.peonNegro5.col =  this.auxX.toString() + "%" 
         }
 
         if(this.pieza == "alfilNegro0") {
