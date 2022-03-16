@@ -1,1 +1,64 @@
-<button (click)="btnClick()">Iniciar Sesion</button>
+<html>
+<body>
+<!-- Button to open the modal login form -->
+<button onclick="document.getElementById('id01').style.display='block'">Login</button>
+
+<!-- The Modal -->
+<div id="id01" class="modal">
+        <span onclick="document.getElementById('id01').style.display='none'"
+    class="close" title="Close Modal">&times;</span>
+    
+    <!-- Modal Content -->
+        <div class="container row modal-content animate bordered-form">
+            <div class="column">
+                <div class="box" >
+                    <div class="title"><b>Sign In</b></div>
+                    <form action="/action_page.php">
+                        <input type="text" placeholder="Username" name="uname" required>
+                    
+                        <input type="password" placeholder="Password" name="psw" required>
+                    
+                        <button class="loginButton" type="submit">Sign In</button>
+                    </form>
+                </div>
+            </div>
+            <div class="column">
+                <div class="box" >
+                    <div class="title"><b>Sign Up</b></div>
+                    <form action="/action_page.php">
+                        <input type="text" placeholder="Username" name="uname" required>
+
+                        <input type="text" placeholder="Full Name" name="fname" required>
+
+                        <input type="text" placeholder="Email Address" name="email" required>
+
+                        <input type="password" placeholder="Password" name="psw1" required>
+                    
+                        <input type="password" placeholder="Confirm Password" name="psw2" required>
+                    
+                        <button class="loginButton" type="submit">Sign Up</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    
+<div class="column">
+    <span onclick="document.getElementById('id01').style.display='none'"
+class="close" title="Close Modal">&times;</span>
+
+</div>
+</div>
+
+<script>
+    // Get the modal
+    var modal = document.getElementById('id01');
+    
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    }
+</script>
+</body>
+</html>
