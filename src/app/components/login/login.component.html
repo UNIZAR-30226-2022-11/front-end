@@ -28,18 +28,18 @@
             <div class="column">
                 <div class="box" >
                     <div class="title"><b>Sign Up</b></div>
-                    <form action="/action_page.php">
-                        <input type="text" placeholder="Username" name="uname" required>
+                    <form [formGroup]="signupForm" (ngSubmit)="enviar(signupForm.value)">
+                        <input formControlName="user" type="text" placeholder="Username" name="uname" required>
 
-                        <input type="text" placeholder="Full Name" name="fname" required>
+                        <input formControlName="fullName" type="text" placeholder="Full Name" name="fname" required>
 
-                        <input type="text" placeholder="Email Address" name="email" required>
-
-                        <input type="password" placeholder="Password" name="psw1" required>
+                        <input formControlName="email" type="text" placeholder="Email Address" name="email" required>
+                            <div *ngIf="signupForm.get('email').hasError('email') && signupForm.get('email').touched">Email incorrecto</div>
+                        <input formControlName="password" type="password" placeholder="Password" name="psw1" required>
                     
-                        <input type="password" placeholder="Confirm Password" name="psw2" required>
+                        <input formControlName="passwordConfirm" type="password" placeholder="Confirm Password" name="psw2" required>
                     
-                        <button class="loginButton" type="submit">Sign Up</button>
+                        <button [disabled]="signupForm.invalid" class="loginButton" type="submit">Sign Up</button>
                     </form>
                 </div>
             </div>
