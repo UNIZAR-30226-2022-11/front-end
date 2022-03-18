@@ -10,77 +10,200 @@
   <div class="tablero">
     <img style="height:100%; width: 50%; top:0%; left: 25%; right: 25%; position: absolute;" (click)="mover($event)" src="./assets/ajedrez/tablero.png">
   </div>
-
-  <div class="peonBlanco" *ngIf="peonBlanco0.color!=0">
-    <img (click)="seleccionar('peonNegro0', $event); mover($event)"
-    style="position: absolute; height:10%; width: 5%; top:{{peonBlanco0.fil}}; left:{{peonBlanco0.col}};"
-    src={{peonBlanco0.img}}>
-  </div>
   
-  <div class="peonNegro" *ngIf="peonNegro0.color!=0">
+  <div class="peonNegro" *ngIf="peonNegro0.color!=0;">
     <img (click)="seleccionar('peonNegro0', $event); mover($event)"
     style="position: absolute; height:10%; width: 5%; top:{{peonNegro0.fil}}; left:{{peonNegro0.col}};"
     src={{peonNegro0.img}}>
   </div>
   
-  <div class="peonNegro" *ngIf="peonNegro1.color!=0; mover($event)">
-    <img (click)="seleccionar('peonNegro1', $event)"
+  <div class="peonNegro" *ngIf="peonNegro1.color!=0;">
+    <img (click)="seleccionar('peonNegro1', $event); mover($event)"
     style="position: absolute; height:10%; width: 5%; top:{{peonNegro1.fil}}; left:{{peonNegro1.col}};"
     src={{peonNegro1.img}}>
   </div>
   
-  <div class="peonNegro" *ngIf="peonNegro2.color!=0; mover($event)">
-    <img (click)="seleccionar('peonNegro2', $event)"
+  <div class="peonNegro" *ngIf="peonNegro2.color!=0;">
+    <img (click)="seleccionar('peonNegro2', $event); mover($event)"
     style="position: absolute; height:10%; width: 5%; top:{{peonNegro2.fil}}; left:{{peonNegro2.col}};"
     src={{peonNegro2.img}}>
   </div>
 
-  <div class="peonNegro" *ngIf="peonNegro3.color!=0; mover($event)">
-    <img (click)="seleccionar('peonNegro3', $event)"
+  <div class="peonNegro" *ngIf="peonNegro3.color!=0;">
+    <img (click)="seleccionar('peonNegro3', $event); mover($event)"
     style="position: absolute; height:10%; width: 5%; top:{{peonNegro3.fil}}; left:{{peonNegro3.col}};"
     src={{peonNegro3.img}}>
   </div>
 
-  <div class="peonNegro" *ngIf="peonNegro4.color!=0; mover($event)">
-    <img (click)="seleccionar('peonNegro4', $event)"
+  <div class="peonNegro" *ngIf="peonNegro4.color!=0;">
+    <img (click)="seleccionar('peonNegro4', $event); mover($event)"
     style="position: absolute; height:10%; width: 5%; top:{{peonNegro4.fil}}; left:{{peonNegro4.col}};"
     src={{peonNegro4.img}}>
   </div>
 
-  <div class="peonNegro" *ngIf="peonNegro5.color!=0; mover($event)">
-    <img (click)="seleccionar('peonNegro5', $event)"
+  <div class="peonNegro" *ngIf="peonNegro5.color!=0;">
+    <img (click)="seleccionar('peonNegro5', $event); mover($event)"
     style="position: absolute; height:10%; width: 5%; top:{{peonNegro5.fil}}; left:{{peonNegro5.col}};"
     src={{peonNegro5.img}}>
   </div>
+
+  <div class="peonNegro" *ngIf="peonNegro6.color!=0;">
+    <img (click)="seleccionar('peonNegro6', $event); mover($event)"
+    style="position: absolute; height:10%; width: 5%; top:{{peonNegro6.fil}}; left:{{peonNegro6.col}};"
+    src={{peonNegro6.img}}>
+  </div>
+
+  <div class="peonNegro" *ngIf="peonNegro7.color!=0;">
+    <img (click)="seleccionar('peonNegro7', $event); mover($event)"
+    style="position: absolute; height:10%; width: 5%; top:{{peonNegro7.fil}}; left:{{peonNegro7.col}};"
+    src={{peonNegro7.img}}>
+  </div>
+
+
+  <div class="peonBlanco" *ngIf="peonBlanco0.color!=0;">
+    <img (click)="seleccionar('peonBlanco0', $event); mover($event)"
+    style="position: absolute; height:10%; width: 5%; top:{{ peonBlanco0.fil }}; left:{{peonBlanco0.col}};"
+    src={{peonBlanco0.img}}>
+  </div>
+
+  <div class="peonBlanco" *ngIf="peonBlanco1.color!=0;">
+    <img (click)="seleccionar('peonBlanco1', $event); mover($event)"
+    style="position: absolute; height:10%; width: 5%; top:{{ peonBlanco1.fil }}; left:{{peonBlanco1.col}};"
+    src={{peonBlanco1.img}}>
+  </div>
+
+  <div class="peonBlanco" *ngIf="peonBlanco2.color!=0;">
+    <img (click)="seleccionar('peonBlanco2', $event); mover($event)"
+    style="position: absolute; height:10%; width: 5%; top:{{ peonBlanco2.fil }}; left:{{peonBlanco2.col}};"
+    src={{peonBlanco2.img}}>
+  </div>
+
+  <div class="peonBlanco" *ngIf="peonBlanco3.color!=0;">
+    <img (click)="seleccionar('peonBlanco3', $event); mover($event)"
+    style="position: absolute; height:10%; width: 5%; top:{{ peonBlanco3.fil }}; left:{{peonBlanco3.col}};"
+    src={{peonBlanco3.img}}>
+  </div>
+
+  <div class="peonBlanco" *ngIf="peonBlanco4.color!=0;">
+    <img (click)="seleccionar('peonBlanco4', $event); mover($event)"
+    style="position: absolute; height:10%; width: 5%; top:{{ peonBlanco4.fil }}; left:{{peonBlanco4.col}};"
+    src={{peonBlanco4.img}}>
+  </div>
+
+  <div class="peonBlanco" *ngIf="peonBlanco5.color!=0;">
+    <img (click)="seleccionar('peonBlanco5', $event); mover($event)"
+    style="position: absolute; height:10%; width: 5%; top:{{ peonBlanco5.fil }}; left:{{peonBlanco5.col}};"
+    src={{peonBlanco5.img}}>
+  </div>
+
+  <div class="peonBlanco" *ngIf="peonBlanco6.color!=0;">
+    <img (click)="seleccionar('peonBlanco6', $event); mover($event)"
+    style="position: absolute; height:10%; width: 5%; top:{{ peonBlanco6.fil }}; left:{{peonBlanco6.col}};"
+    src={{peonBlanco6.img}}>
+  </div>
+
+  <div class="peonBlanco" *ngIf="peonBlanco7.color!=0;">
+    <img (click)="seleccionar('peonBlanco7', $event); mover($event)"
+    style="position: absolute; height:10%; width: 5%; top:{{ peonBlanco7.fil }}; left:{{peonBlanco7.col}};"
+    src={{peonBlanco7.img}}>
+  </div>
+
+
   
-  <div class="alfilNegro" *ngIf="alfilNegro0.color!=0; mover($event)">
-    <img (click)="seleccionar('alfilNegro0', $event)"
+  <div class="alfilNegro" *ngIf="alfilNegro0.color!=0;">
+    <img (click)="seleccionar('alfilNegro0', $event); mover($event)"
     style="position: absolute; height:10%; width: 5%; top:{{alfilNegro0.fil}}; left:{{alfilNegro0.col}};"
     src={{alfilNegro0.img}}>
   </div>
+
+  <div class="alfilNegro" *ngIf="alfilNegro1.color!=0;">
+    <img (click)="seleccionar('alfilNegro1', $event); mover($event)"
+    style="position: absolute; height:10%; width: 5%; top:{{alfilNegro1.fil}}; left:{{alfilNegro1.col}};"
+    src={{alfilNegro1.img}}>
+  </div>
+
+  <div class="alfilBlanco" *ngIf="alfilBlanco0.color!=0;">
+    <img (click)="seleccionar('alfilBlanco0', $event); mover($event)"
+    style="position: absolute; height:10%; width: 5%; top:{{alfilBlanco0.fil}}; left:{{alfilBlanco0.col}};"
+    src={{alfilBlanco0.img}}>
+  </div>
+
+  <div class="alfilBlanco" *ngIf="alfilBlanco1.color!=0;">
+    <img (click)="seleccionar('alfilBlanco1', $event); mover($event)"
+    style="position: absolute; height:10%; width: 5%; top:{{alfilBlanco1.fil}}; left:{{alfilBlanco1.col}};"
+    src={{alfilBlanco1.img}}>
+  </div>
   
-  <div class="caballonegro" *ngIf="caballoNegro0.color!=0; mover($event)">
+  <div class="caballonegro" *ngIf="caballoNegro0.color!=0;">
     <img (click)="seleccionar('caballoNegro0', $event); mover($event)"
     style="position: absolute; height:10%; width: 5%; top:{{caballoNegro0.fil}}; left:{{caballoNegro0.col}};"
     src={{caballoNegro0.img}}>
   </div>
+
+  <div class="caballonegro" *ngIf="caballoNegro1.color!=0;">
+    <img (click)="seleccionar('caballoNegro1', $event); mover($event)"
+    style="position: absolute; height:10%; width: 5%; top:{{caballoNegro1.fil}}; left:{{caballoNegro1.col}};"
+    src={{caballoNegro1.img}}>
+  </div>
   
-  <div class="torrenegra" *ngIf="torreNegra0.color!=0; mover($event)">
-    <img (click)="seleccionar('torreNegra0', $event)"
+  <div class="caballoBlanco" *ngIf="caballoBlanco0.color!=0;">
+    <img (click)="seleccionar('caballoBlanco0', $event); mover($event)"
+    style="position: absolute; height:10%; width: 5%; top:{{caballoBlanco0.fil}}; left:{{caballoBlanco0.col}};"
+    src={{caballoBlanco0.img}}>
+  </div>
+
+  <div class="caballoBlanco" *ngIf="caballoBlanco1.color!=0;">
+    <img (click)="seleccionar('caballoBlanco1', $event); mover($event)"
+    style="position: absolute; height:10%; width: 5%; top:{{caballoBlanco1.fil}}; left:{{caballoBlanco1.col}};"
+    src={{caballoBlanco1.img}}>
+  </div>
+
+  <div class="torrenegra" *ngIf="torreNegra0.color!=0;">
+    <img (click)="seleccionar('torreNegra0', $event); mover($event)"
     style="position: absolute; height:10%; width: 5%; top:{{torreNegra0.fil}}; left:{{torreNegra0.col}};"
     src={{torreNegra0.img}}>
   </div>
+
+  <div class="torrenegra" *ngIf="torreNegra1.color!=0;">
+    <img (click)="seleccionar('torreNegra1', $event); mover($event)"
+    style="position: absolute; height:10%; width: 5%; top:{{torreNegra1.fil}}; left:{{torreNegra1.col}};"
+    src={{torreNegra1.img}}>
+  </div>
+
+  <div class="torreBlanca" *ngIf="torreBlanca0.color!=0;">
+    <img (click)="seleccionar('torreBlanca0', $event); mover($event)"
+    style="position: absolute; height:10%; width: 5%; top:{{torreBlanca0.fil}}; left:{{torreBlanca0.col}};"
+    src={{torreBlanca0.img}}>
+  </div>
+
+  <div class="torreBlanca" *ngIf="torreBlanca1.color!=0;">
+    <img (click)="seleccionar('torreBlanca1', $event); mover($event)"
+    style="position: absolute; height:10%; width: 5%; top:{{torreBlanca1.fil}}; left:{{torreBlanca1.col}};"
+    src={{torreBlanca1.img}}>
+  </div>
   
-  <div class="reinanegra" *ngIf="reinaNegra.color!=0; mover($event)">
-    <img (click)="seleccionar('reinaNegra', $event)"
+  <div class="reinanegra" *ngIf="reinaNegra.color!=0;">
+    <img (click)="seleccionar('reinaNegra', $event); mover($event)"
     style="position: absolute; height:10%; width: 5%; top:{{reinaNegra.fil}}; left:{{reinaNegra.col}};"
     src={{reinaNegra.img}}>
   </div>
+
+  <div class="reinaBlanca" *ngIf="reinaBlanca.color!=0;">
+    <img (click)="seleccionar('reinaBlanca', $event); mover($event)"
+    style="position: absolute; height:10%; width: 5%; top:{{reinaBlanca.fil}}; left:{{reinaBlanca.col}};"
+    src={{reinaBlanca.img}}>
+  </div>
     
-  <div class="reyngro" *ngIf="reyNegro.color!=0; mover($event)">
-    <img (click)="seleccionar('reyNegro', $event)"
+  <div class="reynegro" *ngIf="reyNegro.color!=0;">
+    <img (click)="seleccionar('reyNegro', $event); mover($event)"
     style="position: absolute; height:10%; width: 5%; top: {{reyNegro.fil}} ; left:{{reyNegro.col}};"
     src={{reyNegro.img}}>
+  </div>
+
+  <div class="reyBlanco" *ngIf="reyBlanco.color!=0;">
+    <img (click)="seleccionar('reyBlanco', $event); mover($event)"
+    style="position: absolute; height:10%; width: 5%; top: {{reyBlanco.fil}} ; left:{{reyBlanco.col}};"
+    src={{reyBlanco.img}}>
   </div>
 </body>
 
