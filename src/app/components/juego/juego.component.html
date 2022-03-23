@@ -193,6 +193,12 @@
     style="position: absolute; height:10%; width: 5%; top:{{reinaBlanca.fil}}; left:{{reinaBlanca.col}};"
     src={{reinaBlanca.img}}>
   </div>
+
+  <div class="reinaBlanca0" *ngIf="reinaBlanca0.color!=0;">
+    <img (click)="seleccionar('reinaBlanca', $event); mover($event)"
+    style="position: absolute; height:10%; width: 5%; top:{{reinaBlanca0.fil}}; left:{{reinaBlanca0.col}};"
+    src={{reinaBlanca0.img}}>
+  </div>
     
   <div class="reynegro" *ngIf="reyNegro.color!=0;">
     <img (click)="seleccionar('reyNegro', $event); mover($event)"

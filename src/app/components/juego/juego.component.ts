@@ -33,6 +33,7 @@ export class JuegoComponent {
   
   blanco:number = 1
   negro:number = 0
+  turno:boolean = true //0 para blancas, 1 para negras
 
 
   //valor para casillas vacias
@@ -83,6 +84,8 @@ export class JuegoComponent {
   torreBlanca1:pieza = {"col":this.columna[(this.blanco*7)+(0*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*7)+(0*this.negro)].toString() + "%", "img": "./assets/ajedrez/torre_blanca.png", "color":1};
   
   reinaBlanca:pieza = {"col":this.columna[(this.blanco*3)+(4*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*7)+(0*this.negro)].toString() + "%", "img": "./assets/ajedrez/reina_blanca.png", "color":1};
+  reinaBlanca0:pieza = {"col":"", "fil":"", "img": "", "color":0};
+  
   reyBlanco:pieza = {"col":this.columna[(this.blanco*4)+(3*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*7)+(0*this.negro)].toString() + "%", "img": "./assets/ajedrez/rey_blanco.png", "color":1};
   
 
@@ -123,6 +126,21 @@ tableroBlanco:pieza[][] =
   clickY = 0;
   clickX = 0;
 
+
+  enroqueNegro0:boolean = true;
+  enroqueNegro1:boolean = true;
+  enroqueBlanco0:boolean = true;
+  enroqueBlanco1:boolean = true;
+
+  reset() {
+    this.enroqueNegro0 = true;
+    this.enroqueNegro1 = true;
+    this.enroqueBlanco0 = true;
+    this.enroqueBlanco1 = true;
+    this.seleccionada = false
+    this.turno = true
+  }
+
   elegirLado(blanco:boolean){
     if(blanco) {
       console.log("buenas")
@@ -139,74 +157,75 @@ tableroBlanco:pieza[][] =
 
       //piezas del tablero 
 
-  //negras
+    //negras
 
-  this.peonNegro0 = {"col":this.columna[(this.blanco*7)+(0*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*1)+6*this.negro].toString() + "%", "img": "./assets/ajedrez/peon_negro.png", "color":-1};
-  this.peonNegro1 = {"col":this.columna[(this.blanco*6)+1*this.negro].toString() + "%", "fil":this.fila[(this.blanco*1)+6*this.negro].toString() + "%", "img": "./assets/ajedrez/peon_negro.png", "color":-1};
-  this.peonNegro2 = {"col":this.columna[(this.blanco*5)+2*this.negro].toString() + "%", "fil":this.fila[(this.blanco*1)+6*this.negro].toString() + "%", "img": "./assets/ajedrez/peon_negro.png", "color":-1};
-  this.peonNegro3 = {"col":this.columna[(this.blanco*4)+3*this.negro].toString() + "%", "fil":this.fila[(this.blanco*1)+6*this.negro].toString() + "%", "img": "./assets/ajedrez/peon_negro.png", "color":-1};
-  this.peonNegro4 = {"col":this.columna[(this.blanco*3)+4*this.negro].toString() + "%", "fil":this.fila[(this.blanco*1)+6*this.negro].toString() + "%", "img": "./assets/ajedrez/peon_negro.png", "color":-1};
-  this.peonNegro5 = {"col":this.columna[(this.blanco*2)+5*this.negro].toString() + "%", "fil":this.fila[(this.blanco*1)+6*this.negro].toString() + "%", "img": "./assets/ajedrez/peon_negro.png", "color":-1};
-  this.peonNegro6 = {"col":this.columna[(this.blanco*1)+6*this.negro].toString() + "%", "fil":this.fila[(this.blanco*1)+6*this.negro].toString() + "%", "img": "./assets/ajedrez/peon_negro.png", "color":-1};
-  this.peonNegro7 = {"col":this.columna[(this.blanco*0)+7*this.negro].toString() + "%", "fil":this.fila[(this.blanco*1)+6*this.negro].toString() + "%", "img": "./assets/ajedrez/peon_negro.png", "color":-1};
-  
-  this.alfilNegro0 = {"col":this.columna[(this.blanco*5)+(2*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*0)+(7*this.negro)].toString() + "%", "img": "./assets/ajedrez/alfil_negro.png", "color":-1};
-  this.alfilNegro1 = {"col":this.columna[(this.blanco*2)+(5*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*0)+(7*this.negro)].toString() + "%", "img": "./assets/ajedrez/alfil_negro.png", "color":-1};
- 
-  this.caballoNegro0 = {"col":this.columna[(this.blanco*6)+(1*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*0)+(7*this.negro)].toString() + "%", "img": "./assets/ajedrez/caballo_negro.png", "color":-1};
-  this.caballoNegro1 = {"col":this.columna[(this.blanco*1)+(6*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*0)+(7*this.negro)].toString() + "%", "img": "./assets/ajedrez/caballo_negro.png", "color":-1};
-  
-  this.torreNegra0 = {"col":this.columna[(this.blanco*7)+(0*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*0)+(7*this.negro)].toString() + "%", "img": "./assets/ajedrez/torre_negra.png", "color":-1};
-  this.torreNegra1 = {"col":this.columna[(this.blanco*0)+(7*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*0)+(7*this.negro)].toString() + "%", "img": "./assets/ajedrez/torre_negra.png", "color":-1};
-  
-  this.reinaNegra = {"col":this.columna[(this.blanco*3)+(4*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*0)+(7*this.negro)].toString() + "%", "img": "./assets/ajedrez/reina_negra.png", "color":-1};
-  this.reyNegro = {"col":this.columna[(this.blanco*4)+(3*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*0)+(7*this.negro)].toString() + "%", "img": "./assets/ajedrez/rey_negro.png", "color":-1};
-
-  //blancas
-  this.peonBlanco0 = {"col":this.columna[(this.blanco*0)+(7*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*6)+(1*this.negro)].toString() + "%", "img": "./assets/ajedrez/peon_blanco.png", "color":1};
-  this.peonBlanco1 = {"col":this.columna[(this.blanco*1)+(6*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*6)+(1*this.negro)].toString() + "%", "img": "./assets/ajedrez/peon_blanco.png", "color":1};
-  this.peonBlanco2 = {"col":this.columna[(this.blanco*2)+(5*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*6)+(1*this.negro)].toString() + "%", "img": "./assets/ajedrez/peon_blanco.png", "color":1};
-  this.peonBlanco3 = {"col":this.columna[(this.blanco*3)+(4*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*6)+(1*this.negro)].toString() + "%", "img": "./assets/ajedrez/peon_blanco.png", "color":1};
-  this.peonBlanco4 = {"col":this.columna[(this.blanco*4)+(3*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*6)+(1*this.negro)].toString() + "%", "img": "./assets/ajedrez/peon_blanco.png", "color":1};
-  this.peonBlanco5 = {"col":this.columna[(this.blanco*5)+(2*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*6)+(1*this.negro)].toString() + "%", "img": "./assets/ajedrez/peon_blanco.png", "color":1};
-  this.peonBlanco6 = {"col":this.columna[(this.blanco*6)+(1*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*6)+(1*this.negro)].toString() + "%", "img": "./assets/ajedrez/peon_blanco.png", "color":1};
-  this.peonBlanco7 = {"col":this.columna[(this.blanco*7)+(0*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*6)+(1*this.negro)].toString() + "%", "img": "./assets/ajedrez/peon_blanco.png", "color":1};
- 
-  this.alfilBlanco0 = {"col":this.columna[(this.blanco*2)+(5*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*7)+(0*this.negro)].toString() + "%", "img": "./assets/ajedrez/alfil_blanco.png", "color":1};
-  this.alfilBlanco1 = {"col":this.columna[(this.blanco*5)+(2*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*7)+(0*this.negro)].toString() + "%", "img": "./assets/ajedrez/alfil_blanco.png", "color":1};
- 
-  this.caballoBlanco0 = {"col":this.columna[(this.blanco*1)+(6*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*7)+(0*this.negro)].toString() + "%", "img": "./assets/ajedrez/caballo_blanco.png", "color":1};
-  this.caballoBlanco1 = {"col":this.columna[(this.blanco*6)+(1*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*7)+(0*this.negro)].toString() + "%", "img": "./assets/ajedrez/caballo_blanco.png", "color":1};
- 
-  this.torreBlanca0 = {"col":this.columna[(this.blanco*0)+(7*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*7)+(0*this.negro)].toString() + "%", "img": "./assets/ajedrez/torre_blanca.png", "color":1};
-  this.torreBlanca1 = {"col":this.columna[(this.blanco*7)+(0*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*7)+(0*this.negro)].toString() + "%", "img": "./assets/ajedrez/torre_blanca.png", "color":1};
-  
-  this.reinaBlanca = {"col":this.columna[(this.blanco*3)+(4*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*7)+(0*this.negro)].toString() + "%", "img": "./assets/ajedrez/reina_blanca.png", "color":1};
-  this.reyBlanco = {"col":this.columna[(this.blanco*4)+(3*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*7)+(0*this.negro)].toString() + "%", "img": "./assets/ajedrez/rey_blanco.png", "color":1};
-  if(blanco) {
-    this.tablero = [
-      [this.torreNegra1, this.caballoNegro1, this.alfilNegro1, this.reinaNegra, this.reyNegro, this.alfilNegro0, this.caballoNegro0, this.torreNegra0],
-      [this.peonNegro7, this.peonNegro6, this.peonNegro5, this.peonNegro4, this.peonNegro3, this.peonNegro2, this.peonNegro1, this.peonNegro0],
-      [this.v, this.v, this.v, this.v, this.v, this.v, this.v, this.v],
-      [this.v, this.v, this.v, this.v, this.v, this.v, this.v, this.v],
-      [this.v, this.v, this.v, this.v, this.v, this.v, this.v, this.v],
-      [this.v, this.v, this.v, this.v, this.v, this.v, this.v, this.v],
-      [this.peonBlanco0, this.peonBlanco1, this.peonBlanco2, this.peonBlanco3, this.peonBlanco4, this.peonBlanco5, this.peonBlanco6, this.peonBlanco7],
-      [this.torreBlanca0, this.caballoBlanco0, this.alfilBlanco0, this.reinaBlanca, this.reyBlanco, this.alfilBlanco1, this.caballoBlanco1, this.torreBlanca1]
+    this.peonNegro0 = {"col":this.columna[(this.blanco*7)+(0*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*1)+6*this.negro].toString() + "%", "img": "./assets/ajedrez/peon_negro.png", "color":-1};
+    this.peonNegro1 = {"col":this.columna[(this.blanco*6)+1*this.negro].toString() + "%", "fil":this.fila[(this.blanco*1)+6*this.negro].toString() + "%", "img": "./assets/ajedrez/peon_negro.png", "color":-1};
+    this.peonNegro2 = {"col":this.columna[(this.blanco*5)+2*this.negro].toString() + "%", "fil":this.fila[(this.blanco*1)+6*this.negro].toString() + "%", "img": "./assets/ajedrez/peon_negro.png", "color":-1};
+    this.peonNegro3 = {"col":this.columna[(this.blanco*4)+3*this.negro].toString() + "%", "fil":this.fila[(this.blanco*1)+6*this.negro].toString() + "%", "img": "./assets/ajedrez/peon_negro.png", "color":-1};
+    this.peonNegro4 = {"col":this.columna[(this.blanco*3)+4*this.negro].toString() + "%", "fil":this.fila[(this.blanco*1)+6*this.negro].toString() + "%", "img": "./assets/ajedrez/peon_negro.png", "color":-1};
+    this.peonNegro5 = {"col":this.columna[(this.blanco*2)+5*this.negro].toString() + "%", "fil":this.fila[(this.blanco*1)+6*this.negro].toString() + "%", "img": "./assets/ajedrez/peon_negro.png", "color":-1};
+    this.peonNegro6 = {"col":this.columna[(this.blanco*1)+6*this.negro].toString() + "%", "fil":this.fila[(this.blanco*1)+6*this.negro].toString() + "%", "img": "./assets/ajedrez/peon_negro.png", "color":-1};
+    this.peonNegro7 = {"col":this.columna[(this.blanco*0)+7*this.negro].toString() + "%", "fil":this.fila[(this.blanco*1)+6*this.negro].toString() + "%", "img": "./assets/ajedrez/peon_negro.png", "color":-1};
     
+    this.alfilNegro0 = {"col":this.columna[(this.blanco*5)+(2*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*0)+(7*this.negro)].toString() + "%", "img": "./assets/ajedrez/alfil_negro.png", "color":-1};
+    this.alfilNegro1 = {"col":this.columna[(this.blanco*2)+(5*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*0)+(7*this.negro)].toString() + "%", "img": "./assets/ajedrez/alfil_negro.png", "color":-1};
+  
+    this.caballoNegro0 = {"col":this.columna[(this.blanco*6)+(1*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*0)+(7*this.negro)].toString() + "%", "img": "./assets/ajedrez/caballo_negro.png", "color":-1};
+    this.caballoNegro1 = {"col":this.columna[(this.blanco*1)+(6*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*0)+(7*this.negro)].toString() + "%", "img": "./assets/ajedrez/caballo_negro.png", "color":-1};
+    
+    this.torreNegra0 = {"col":this.columna[(this.blanco*7)+(0*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*0)+(7*this.negro)].toString() + "%", "img": "./assets/ajedrez/torre_negra.png", "color":-1};
+    this.torreNegra1 = {"col":this.columna[(this.blanco*0)+(7*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*0)+(7*this.negro)].toString() + "%", "img": "./assets/ajedrez/torre_negra.png", "color":-1};
+    
+    this.reinaNegra = {"col":this.columna[(this.blanco*3)+(4*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*0)+(7*this.negro)].toString() + "%", "img": "./assets/ajedrez/reina_negra.png", "color":-1};
+    this.reyNegro = {"col":this.columna[(this.blanco*4)+(3*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*0)+(7*this.negro)].toString() + "%", "img": "./assets/ajedrez/rey_negro.png", "color":-1};
+
+    //blancas
+    this.peonBlanco0 = {"col":this.columna[(this.blanco*0)+(7*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*6)+(1*this.negro)].toString() + "%", "img": "./assets/ajedrez/peon_blanco.png", "color":1};
+    this.peonBlanco1 = {"col":this.columna[(this.blanco*1)+(6*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*6)+(1*this.negro)].toString() + "%", "img": "./assets/ajedrez/peon_blanco.png", "color":1};
+    this.peonBlanco2 = {"col":this.columna[(this.blanco*2)+(5*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*6)+(1*this.negro)].toString() + "%", "img": "./assets/ajedrez/peon_blanco.png", "color":1};
+    this.peonBlanco3 = {"col":this.columna[(this.blanco*3)+(4*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*6)+(1*this.negro)].toString() + "%", "img": "./assets/ajedrez/peon_blanco.png", "color":1};
+    this.peonBlanco4 = {"col":this.columna[(this.blanco*4)+(3*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*6)+(1*this.negro)].toString() + "%", "img": "./assets/ajedrez/peon_blanco.png", "color":1};
+    this.peonBlanco5 = {"col":this.columna[(this.blanco*5)+(2*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*6)+(1*this.negro)].toString() + "%", "img": "./assets/ajedrez/peon_blanco.png", "color":1};
+    this.peonBlanco6 = {"col":this.columna[(this.blanco*6)+(1*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*6)+(1*this.negro)].toString() + "%", "img": "./assets/ajedrez/peon_blanco.png", "color":1};
+    this.peonBlanco7 = {"col":this.columna[(this.blanco*7)+(0*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*6)+(1*this.negro)].toString() + "%", "img": "./assets/ajedrez/peon_blanco.png", "color":1};
+  
+    this.alfilBlanco0 = {"col":this.columna[(this.blanco*2)+(5*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*7)+(0*this.negro)].toString() + "%", "img": "./assets/ajedrez/alfil_blanco.png", "color":1};
+    this.alfilBlanco1 = {"col":this.columna[(this.blanco*5)+(2*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*7)+(0*this.negro)].toString() + "%", "img": "./assets/ajedrez/alfil_blanco.png", "color":1};
+  
+    this.caballoBlanco0 = {"col":this.columna[(this.blanco*1)+(6*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*7)+(0*this.negro)].toString() + "%", "img": "./assets/ajedrez/caballo_blanco.png", "color":1};
+    this.caballoBlanco1 = {"col":this.columna[(this.blanco*6)+(1*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*7)+(0*this.negro)].toString() + "%", "img": "./assets/ajedrez/caballo_blanco.png", "color":1};
+  
+    this.torreBlanca0 = {"col":this.columna[(this.blanco*0)+(7*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*7)+(0*this.negro)].toString() + "%", "img": "./assets/ajedrez/torre_blanca.png", "color":1};
+    this.torreBlanca1 = {"col":this.columna[(this.blanco*7)+(0*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*7)+(0*this.negro)].toString() + "%", "img": "./assets/ajedrez/torre_blanca.png", "color":1};
+    
+    this.reinaBlanca = {"col":this.columna[(this.blanco*3)+(4*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*7)+(0*this.negro)].toString() + "%", "img": "./assets/ajedrez/reina_blanca.png", "color":1};
+    this.reyBlanco = {"col":this.columna[(this.blanco*4)+(3*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*7)+(0*this.negro)].toString() + "%", "img": "./assets/ajedrez/rey_blanco.png", "color":1};
+    if(blanco) {
+      this.tablero = [
+        [this.torreNegra1, this.caballoNegro1, this.alfilNegro1, this.reinaNegra, this.reyNegro, this.alfilNegro0, this.caballoNegro0, this.torreNegra0],
+        [this.peonNegro7, this.peonNegro6, this.peonNegro5, this.peonNegro4, this.peonNegro3, this.peonNegro2, this.peonNegro1, this.peonNegro0],
+        [this.v, this.v, this.v, this.v, this.v, this.v, this.v, this.v],
+        [this.v, this.v, this.v, this.v, this.v, this.v, this.v, this.v],
+        [this.v, this.v, this.v, this.v, this.v, this.v, this.v, this.v],
+        [this.v, this.v, this.v, this.v, this.v, this.v, this.v, this.v],
+        [this.peonBlanco0, this.peonBlanco1, this.peonBlanco2, this.peonBlanco3, this.peonBlanco4, this.peonBlanco5, this.peonBlanco6, this.peonBlanco7],
+        [this.torreBlanca0, this.caballoBlanco0, this.alfilBlanco0, this.reinaBlanca, this.reyBlanco, this.alfilBlanco1, this.caballoBlanco1, this.torreBlanca1]
+      
+      ]
+    } else {
+      this.tablero =   [
+        [this.torreBlanca1, this.caballoBlanco1, this.alfilBlanco1, this.reyBlanco, this.reinaBlanca, this.alfilBlanco0, this.caballoBlanco0, this.torreBlanca0],
+        [this.peonBlanco7, this.peonBlanco6, this.peonBlanco5, this.peonBlanco4, this.peonBlanco3, this.peonBlanco2, this.peonBlanco1, this.peonBlanco0],
+        [this.v, this.v, this.v, this.v, this.v, this.v, this.v, this.v],
+        [this.v, this.v, this.v, this.v, this.v, this.v, this.v, this.v],
+        [this.v, this.v, this.v, this.v, this.v, this.v, this.v, this.v],
+        [this.v, this.v, this.v, this.v, this.v, this.v, this.v, this.v],
+        [this.peonNegro0, this.peonNegro1, this.peonNegro2, this.peonNegro3, this.peonNegro4, this.peonNegro5, this.peonNegro6, this.peonNegro7],
+        [this.torreNegra0, this.caballoNegro0, this.alfilNegro0, this.reyNegro, this.reinaNegra, this.alfilNegro1, this.caballoNegro1, this.torreNegra1]
     ]
-  } else {
-    this.tablero =   [
-      [this.torreBlanca1, this.caballoBlanco1, this.alfilBlanco1, this.reyBlanco, this.reinaBlanca, this.alfilBlanco0, this.caballoBlanco0, this.torreBlanca0],
-      [this.peonBlanco7, this.peonBlanco6, this.peonBlanco5, this.peonBlanco4, this.peonBlanco3, this.peonBlanco2, this.peonBlanco1, this.peonBlanco0],
-      [this.v, this.v, this.v, this.v, this.v, this.v, this.v, this.v],
-      [this.v, this.v, this.v, this.v, this.v, this.v, this.v, this.v],
-      [this.v, this.v, this.v, this.v, this.v, this.v, this.v, this.v],
-      [this.v, this.v, this.v, this.v, this.v, this.v, this.v, this.v],
-      [this.peonNegro0, this.peonNegro1, this.peonNegro2, this.peonNegro3, this.peonNegro4, this.peonNegro5, this.peonNegro6, this.peonNegro7],
-      [this.torreNegra0, this.caballoNegro0, this.alfilNegro0, this.reyNegro, this.reinaNegra, this.alfilNegro1, this.caballoNegro1, this.torreNegra1]
-  ]
-  }
+    }
+  this.reset()
   }
 
   peon():boolean {
@@ -245,6 +264,14 @@ tableroBlanco:pieza[][] =
 
   }
 
+  rey():boolean {
+    if((this.pieza == "reyNegro") || (this.pieza == "reyBlanco")){
+      return true
+    } else{
+      return false
+    }
+  }
+
   getPosition(event:MouseEvent){
 
     this.clickX = event.clientX/this.w;
@@ -264,120 +291,141 @@ tableroBlanco:pieza[][] =
     this.filaIni = Math.trunc(this.clickY)
   }
 
+  seleccion(p:string, event:MouseEvent) {
+    this.seleccionada = !this.seleccionada;
+    this.pieza = p;
+    this.getPosition(event);
+  }
+
   seleccionar(p:string, event:MouseEvent) {
     
     if(!this.seleccionada) {
-      if(p == "peonNegro0") {
-        this.peonNegro0.img = "./assets/ajedrez/peon_azul.png"
-      }
-      else if(p == "peonNegro1") {
-        this.peonNegro1.img = "./assets/ajedrez/peon_azul.png"
-      }  
-      else if(p == "peonNegro2") {
-        this.peonNegro2.img = "./assets/ajedrez/peon_azul.png"
-      }
-      else if(p == "peonNegro3") {
-        this.peonNegro3.img = "./assets/ajedrez/peon_azul.png"
-      } 
-      else if(p == "peonNegro4") {
-        this.peonNegro4.img = "./assets/ajedrez/peon_azul.png"
-      } 
-      else if(p == "peonNegro5") {
-        this.peonNegro5.img = "./assets/ajedrez/peon_azul.png"
-      }
-      else if(p == "peonNegro6") {
-        this.peonNegro6.img = "./assets/ajedrez/peon_azul.png"
-      }  
-      else if(p == "peonNegro7") {
-        this.peonNegro7.img = "./assets/ajedrez/peon_azul.png"
-      }
+      //negras
+      if(!this.turno) {
+        if(p == "peonNegro0") {
+          this.peonNegro0.img = "./assets/ajedrez/peon_azul.png"; this.seleccion(p, event)
+        }
+        else if(p == "peonNegro1") {
+          this.peonNegro1.img = "./assets/ajedrez/peon_azul.png"; this.seleccion(p, event)
+        }  
+        else if(p == "peonNegro2") {
+          this.peonNegro2.img = "./assets/ajedrez/peon_azul.png"; this.seleccion(p, event)
+        }
+        else if(p == "peonNegro3") {
+          this.peonNegro3.img = "./assets/ajedrez/peon_azul.png"; this.seleccion(p, event)
+        } 
+        else if(p == "peonNegro4") {
+          this.peonNegro4.img = "./assets/ajedrez/peon_azul.png"; this.seleccion(p, event)
+        } 
+        else if(p == "peonNegro5") {
+          this.peonNegro5.img = "./assets/ajedrez/peon_azul.png"; this.seleccion(p, event)
+        }
+        else if(p == "peonNegro6") {
+          this.peonNegro6.img = "./assets/ajedrez/peon_azul.png"; this.seleccion(p, event)
+        }  
+        else if(p == "peonNegro7") {
+          this.peonNegro7.img = "./assets/ajedrez/peon_azul.png"; this.seleccion(p, event)
+        }
 
-      if(p == "peonBlanco0") {
-        this.peonBlanco0.img = "./assets/ajedrez/peon_azul.png"
-      }
-      else if(p == "peonBlanco1") {
-        this.peonBlanco1.img = "./assets/ajedrez/peon_azul.png"
-      }  
-      else if(p == "peonBlanco2") {
-        this.peonBlanco2.img = "./assets/ajedrez/peon_azul.png"
-      }
-      else if(p == "peonBlanco3") {
-        this.peonBlanco3.img = "./assets/ajedrez/peon_azul.png"
-      } 
-      else if(p == "peonBlanco4") {
-        this.peonBlanco4.img = "./assets/ajedrez/peon_azul.png"
-      } 
-      else if(p == "peonBlanco5") {
-        this.peonBlanco5.img = "./assets/ajedrez/peon_azul.png"
-      }
-      else if(p == "peonBlanco6") {
-        this.peonBlanco6.img = "./assets/ajedrez/peon_azul.png"
-      }  
-      else if(p == "peonBlanco7") {
-        this.peonBlanco7.img = "./assets/ajedrez/peon_azul.png"
-      }
+        //alfil
+        else if(p == "alfilNegro0") {
+          this.alfilNegro0.img = "./assets/ajedrez/alfil_azul.png"; this.seleccion(p, event)
+        }
+        else if(p == "alfilNegro1") {
+          this.alfilNegro1.img = "./assets/ajedrez/alfil_azul.png"; this.seleccion(p, event)
+        }
 
-      //alfil
-      else if(p == "alfilNegro0") {
-        this.alfilNegro0.img = "./assets/ajedrez/alfil_azul.png"
-      }
-      else if(p == "alfilNegro1") {
-        this.alfilNegro1.img = "./assets/ajedrez/alfil_azul.png"
-      }
+        //caballo
+        else if(p == "caballoNegro0") {
+          this.caballoNegro0.img = "./assets/ajedrez/caballo_azul.png"; this.seleccion(p, event)
+        }
+        else if(p == "caballoNegro1") {
+          this.caballoNegro1.img = "./assets/ajedrez/caballo_azul.png"; this.seleccion(p, event)
+        }
 
-      else if(p == "alfilBlanco0") {
-        this.alfilBlanco0.img = "./assets/ajedrez/alfil_azul.png"
-      }
-      else if(p == "alfilBlanco1") {
-        this.alfilBlanco1.img = "./assets/ajedrez/alfil_azul.png"
-      }
+        //torres
+        else if(p == "torreNegra0") {
+          this.torreNegra0.img = "./assets/ajedrez/torre_azul.png"; this.seleccion(p, event)
+        }
+        else if(p == "torreNegra1") {
+          this.torreNegra1.img = "./assets/ajedrez/torre_azul.png"; this.seleccion(p, event)
+        }
 
-      //caballo
-      else if(p == "caballoNegro0") {
-        this.caballoNegro0.img = "./assets/ajedrez/caballo_azul.png"
-      }
-      else if(p == "caballoNegro1") {
-        this.caballoNegro1.img = "./assets/ajedrez/caballo_azul.png"
-      }
-      else if(p == "caballoBlanco0") {
-        this.caballoBlanco0.img = "./assets/ajedrez/caballo_azul.png"
-      }
-      else if(p == "caballoBlanco1") {
-        this.caballoBlanco1.img = "./assets/ajedrez/caballo_azul.png"
-      }
-      //torres
-      else if(p == "torreNegra0") {
-        this.torreNegra0.img = "./assets/ajedrez/torre_azul.png"
-      }
-      else if(p == "torreNegra1") {
-        this.torreNegra1.img = "./assets/ajedrez/torre_azul.png"
-      }
-      else if(p == "torreBlanca0") {
-        this.torreBlanca0.img = "./assets/ajedrez/torre_azul.png"
-      }
-      else if(p == "torreBlanca1") {
-        this.torreBlanca1.img = "./assets/ajedrez/torre_azul.png"
-      }
-      //reina
-      else if(p == "reinaNegra") {
-        this.reinaNegra.img = "./assets/ajedrez/reina_azul.png"
-      }
-      else if(p == "reinaBlanca") {
-        this.reinaBlanca.img = "./assets/ajedrez/reina_azul.png"
-      }
-      //rey
-      else if(p == "reyNegro") {
-        this.reyNegro.img = "./assets/ajedrez/rey_azul.png"
-      } 
-      else if(p == "reyBlanco") {
-        this.reyBlanco.img = "./assets/ajedrez/rey_azul.png"
-      } 
+        //reina
+        else if(p == "reinaNegra") {
+          this.reinaNegra.img = "./assets/ajedrez/reina_azul.png"; this.seleccion(p, event)
+        }
+        //rey
+        else if(p == "reyNegro") {
+          this.reyNegro.img = "./assets/ajedrez/rey_azul.png"; this.seleccion(p, event)
+        } 
 
-      this.seleccionada = !this.seleccionada;
-      this.pieza = p;
-      this.getPosition(event);
+      }
+      //blancass
+      else if(this.turno){
       
-    } else if(p == this.pieza){
+        //peones
+        if(p == "peonBlanco0") {
+          this.peonBlanco0.img = "./assets/ajedrez/peon_azul.png"; this.seleccion(p, event)
+        }
+        else if(p == "peonBlanco1") {
+          this.peonBlanco1.img = "./assets/ajedrez/peon_azul.png"; this.seleccion(p, event)
+        }  
+        else if(p == "peonBlanco2") {
+          this.peonBlanco2.img = "./assets/ajedrez/peon_azul.png"; this.seleccion(p, event)
+        }
+        else if(p == "peonBlanco3") {
+          this.peonBlanco3.img = "./assets/ajedrez/peon_azul.png"; this.seleccion(p, event)
+        } 
+        else if(p == "peonBlanco4") {
+          this.peonBlanco4.img = "./assets/ajedrez/peon_azul.png"; this.seleccion(p, event)
+        } 
+        else if(p == "peonBlanco5") {
+          this.peonBlanco5.img = "./assets/ajedrez/peon_azul.png"; this.seleccion(p, event)
+        }
+        else if(p == "peonBlanco6") {
+          this.peonBlanco6.img = "./assets/ajedrez/peon_azul.png"; this.seleccion(p, event)
+        }  
+        else if(p == "peonBlanco7") {
+          this.peonBlanco7.img = "./assets/ajedrez/peon_azul.png"; this.seleccion(p, event)
+        }
+
+
+        //alfil
+        else if(p == "alfilBlanco0") {
+          this.alfilBlanco0.img = "./assets/ajedrez/alfil_azul.png"; this.seleccion(p, event)
+        }
+        else if(p == "alfilBlanco1") {
+          this.alfilBlanco1.img = "./assets/ajedrez/alfil_azul.png"; this.seleccion(p, event)
+        }
+
+        //caballo
+        else if(p == "caballoBlanco0") {
+          this.caballoBlanco0.img = "./assets/ajedrez/caballo_azul.png"; this.seleccion(p, event)
+        }
+        else if(p == "caballoBlanco1") {
+          this.caballoBlanco1.img = "./assets/ajedrez/caballo_azul.png"; this.seleccion(p, event)
+        }
+        //torres
+        else if(p == "torreBlanca0") {
+          this.torreBlanca0.img = "./assets/ajedrez/torre_azul.png"; this.seleccion(p, event)
+        }
+        else if(p == "torreBlanca1") {
+          this.torreBlanca1.img = "./assets/ajedrez/torre_azul.png"; this.seleccion(p, event)
+        }
+        //reina
+        else if(p == "reinaBlanca") {
+          this.reinaBlanca.img = "./assets/ajedrez/reina_azul.png"; this.seleccion(p, event)
+        }
+        //rey
+        else if(p == "reyBlanco") {
+          this.reyBlanco.img = "./assets/ajedrez/rey_azul.png"; this.seleccion(p, event)
+        } 
+      }
+      
+    } 
+    
+    else if(p == this.pieza){
       if(p == "peonNegro0") {
         this.peonNegro0.img = "./assets/ajedrez/peon_negro.png"
         this.seleccionada = !this.seleccionada;
@@ -541,8 +589,24 @@ tableroBlanco:pieza[][] =
 
   comprobarJugada(pieza:string){
     if(this.peon()){
-      this.puedeMover = (((this.filaIni - this.filaFin  == 1) || (this.filaIni - this.filaFin  == 2) && this.filaIni == 6) 
-                        && (this.columnFin == this.columnIni))                
+      //if blanco y pblanca entonces resta = 1
+      //if blanco y pnegra entonces resta = -1       ini -fin
+      //if negro y pblanca entonces resta = -1
+      //if negro y pnegra entonces resta = 1
+      //negro * color + blanco * -color
+      if(this.blanco == 1 && this.tablero[this.filaIni][this.columnIni].color == -1) {
+        this.puedeMover = ((this.filaIni - this.filaFin == -1) && (this.columnFin == this.columnIni) || ((this.filaIni - this.filaFin == -2) && this.filaIni == 1))
+      } 
+      else if(this.blanco == 1 && this.tablero[this.filaIni][this.columnIni].color == 1) {
+        this.puedeMover = ((this.filaIni - this.filaFin == 1) && (this.columnFin == this.columnIni) || ((this.filaIni - this.filaFin == 2) && this.filaIni == 6))
+      } 
+      else if(this.negro == 1 && this.tablero[this.filaIni][this.columnIni].color == -1) {
+        this.puedeMover = ((this.filaIni - this.filaFin == 1) && (this.columnFin == this.columnIni) || ((this.filaIni - this.filaFin == 2) && this.filaIni == 6))
+      } 
+      else if(this.negro == 1 && this.tablero[this.filaIni][this.columnIni].color == 1){
+        this.puedeMover = ((this.filaIni - this.filaFin == -1) && (this.columnFin == this.columnIni) || ((this.filaIni - this.filaFin == -2) && this.filaIni == 1))
+      }              
+
 
     }
     else if(this.alfil()) {
@@ -567,7 +631,7 @@ tableroBlanco:pieza[][] =
 
   }
 
-  libre(){
+  libre():boolean{
     var auxFila = this.filaIni
     var auxColumna = this.columnIni
 
@@ -581,7 +645,7 @@ tableroBlanco:pieza[][] =
     }
 
     if(this.alfil()  ||
-      (this.pieza == "reinaNegra") || (this.pieza == "reinaBlanca")){
+      (this.pieza == "reinaNegra") || (this.pieza == "reinaBlanca") || (this.pieza == "reyNegro") || (this.pieza == "reyBlanco")){
       if(this.columnFin > auxColumna && this.filaFin > auxFila) {
         auxFila++
         auxColumna++
@@ -630,7 +694,7 @@ tableroBlanco:pieza[][] =
     }
 
     //torres
-    if(this.torre() || (this.pieza == "reinaNegra") || (this.pieza == "reinaBlanca")) {
+    if(this.torre() || (this.pieza == "reinaNegra") || (this.pieza == "reinaBlanca") || (this.pieza == "reyNegro") || (this.pieza == "reyBlanco")) {
       if(auxFila == this.filaFin) {
         if(this.columnFin > auxColumna){
           auxColumna++
@@ -644,7 +708,7 @@ tableroBlanco:pieza[][] =
             this.puedeMover = (this.tablero[auxFila][auxColumna] == this.v)
             auxColumna--
           }
-        }
+        } 
       }
       else{
         if(this.filaFin > auxFila){
@@ -663,7 +727,42 @@ tableroBlanco:pieza[][] =
       }
 
     }
+
+    return this.puedeMover
   }
+
+  coronar(){
+    if(this.peon()) {
+      //tablero blanco -- pieza blanca
+      if(this.blanco == 1 && this.filaFin == 0) {
+        this.reinaBlanca0.col = this.columna[this.columnFin] + "%";
+        this.reinaBlanca0.fil = this.fila[this.filaFin] + "%";
+        this.reinaBlanca0.color = 1;
+        this.reinaBlanca0.img = "./assets/ajedrez/reina_blanca.png";
+        this.tablero[this.filaFin][this.columnFin].color = 0;
+        this.tablero[this.filaFin][this.columnFin] = this.reinaBlanca0
+
+     
+
+      }
+      //tablero blanco -- pieza negra
+      else if(this.blanco == 1 && this.filaFin == 6) {
+
+      }
+
+      //tablero negro -- pieza blanca
+      else if(this.negro == 1 && this.filaFin == 6) {
+
+
+      }
+      //tablero negro -- pieza negra
+      else if(this.negro == 1 && this.filaFin == 1) {
+
+      }
+    }
+  }
+
+
 
   mover(event:MouseEvent) {
     this.w = window.innerWidth;
@@ -678,21 +777,242 @@ tableroBlanco:pieza[][] =
 
       } 
 
-      //caso peon
+      //caso peon     pieza y tabler = -1, no coinciden 1
       else if(this.peon() && (this.tablero[this.filaIni][this.columnIni].color == (this.tablero[this.filaFin][this.columnFin].color * -1))){
-          this.puedeMover = ((this.filaIni - this.filaFin == 1) && (this.columnIni + 1 == this.columnFin)) || ((this.filaIni - this.filaFin == 1) && (this.columnIni - 1 == this.columnFin))
-          if(this.puedeMover)
+          
+        if(this.blanco == 1 && this.tablero[this.filaIni][this.columnIni].color == -1) {
+          this.puedeMover = ((this.filaIni - this.filaFin == -1) && ((this.columnIni + 1 == this.columnFin) || (this.columnIni - 1 == this.columnFin)))
+        } 
+        else if(this.blanco == 1 && this.tablero[this.filaIni][this.columnIni].color == 1) {
+          this.puedeMover = ((this.filaIni - this.filaFin == 1) && ((this.columnIni + 1 == this.columnFin) || (this.columnIni - 1 == this.columnFin)))
+        } 
+        else if(this.negro == 1 && this.tablero[this.filaIni][this.columnIni].color == -1) {
+          this.puedeMover = ((this.filaIni - this.filaFin == 1) && ((this.columnIni + 1 == this.columnFin) || (this.columnIni - 1 == this.columnFin)))
+        } 
+        else if(this.negro == 1 && this.tablero[this.filaIni][this.columnIni].color == 1){
+          this.puedeMover = ((this.filaIni - this.filaFin == -1) && ((this.columnIni + 1 == this.columnFin) || (this.columnIni - 1 == this.columnFin)))
+        }   
+        
+        if(this.puedeMover)
             {this.tablero[this.filaFin][this.columnFin].color = 0 
           //this.puedeMover = true;
-          console.log("hi")}
+            }
       }
+
+      else if(this.rey() && (this.tablero[this.filaIni][this.columnIni].color == this.tablero[this.filaFin][this.columnFin].color)){
+       
+        //rey blanco
+        if ((this.tablero[this.filaIni][this.columnIni] == this.reyBlanco) 
+         && (this.tablero[this.filaFin][this.columnFin] == this.torreBlanca0) 
+         && this.enroqueBlanco0 && (this.blanco == 1)) {
+            if ((this.tablero[this.filaFin][1] == this.tablero[this.filaFin][2]) 
+            && (this.tablero[this.filaFin][2] == this.tablero[this.filaFin][3]) 
+            && (this.tablero[this.filaFin][3] == this.v)) {
+
+              this.tablero[this.filaFin][this.columnFin] = this.v
+              this.tablero[this.filaIni][this.columnIni] = this.v
+              this.tablero[this.filaFin][2] = this.reyBlanco
+              this.reyBlanco.col = this.columna[2] + "%"
+              this.reyBlanco.img  = "./assets/ajedrez/rey_blanco.png"
+              
+              this.tablero[this.filaIni][3] = this.torreBlanca0
+              this.torreBlanca0.col = this.columna[3] + "%"
+
+              this.seleccionada = !this.seleccionada
+              this.puedeMover = false;
+              this.turno = !this.turno
+
+              this.enroqueBlanco0 = false
+              this.enroqueBlanco1 = false
+
+            }
+         }
+
+         if ((this.tablero[this.filaIni][this.columnIni] == this.reyBlanco) 
+         && (this.tablero[this.filaFin][this.columnFin] == this.torreBlanca1) 
+         && this.enroqueBlanco1 && (this.blanco == 1)) {
+            if((this.tablero[this.filaFin][6] == this.tablero[this.filaFin][5]) && (this.tablero[this.filaFin][5] == this.v)) {
+              
+              this.tablero[this.filaFin][this.columnFin] = this.v
+              this.tablero[this.filaIni][this.columnIni] = this.v
+              this.tablero[this.filaFin][6] = this.reyBlanco
+              this.reyBlanco.col = this.columna[6] + "%"
+              this.reyBlanco.img  = "./assets/ajedrez/rey_blanco.png"
+
+              this.tablero[this.filaIni][5] = this.torreBlanca1
+              this.torreBlanca1.col = this.columna[5] + "%"
+
+              this.seleccionada = !this.seleccionada
+              this.puedeMover = false;
+              this.turno = !this.turno
+              
+              this.enroqueBlanco0 = false
+              this.enroqueBlanco1 = false
+
+            }
+         }
+
+         if ((this.tablero[this.filaIni][this.columnIni] == this.reyBlanco) 
+         && (this.tablero[this.filaFin][this.columnFin] == this.torreBlanca0) 
+         && this.enroqueBlanco0 && (this.negro == 1)) {
+            if ((this.tablero[this.filaFin][4] == this.tablero[this.filaFin][5]) 
+            && (this.tablero[this.filaFin][5] == this.tablero[this.filaFin][6]) 
+            && (this.tablero[this.filaFin][6] == this.v)) {
+
+              this.tablero[this.filaFin][this.columnFin] = this.v
+              this.tablero[this.filaIni][this.columnIni] = this.v
+              this.tablero[this.filaFin][5] = this.reyBlanco
+              this.reyBlanco.col = this.columna[5] + "%"
+              this.reyBlanco.img  = "./assets/ajedrez/rey_blanco.png"
+
+              this.tablero[this.filaIni][4] = this.torreBlanca0
+              this.torreBlanca0.col = this.columna[4] + "%"
+
+              this.seleccionada = !this.seleccionada
+              this.puedeMover = false;
+              this.turno = !this.turno
+
+              this.enroqueBlanco0 = false
+              this.enroqueBlanco1 = false
+
+            }
+         }
+
+         if ((this.tablero[this.filaIni][this.columnIni] == this.reyBlanco) 
+         && (this.tablero[this.filaFin][this.columnFin] == this.torreBlanca1) 
+         && this.enroqueBlanco1 && (this.negro == 1)) {
+            if ((this.tablero[this.filaFin][1] == this.tablero[this.filaFin][2]) 
+            && (this.tablero[this.filaFin][2] ==  this.v)) {
+
+              this.tablero[this.filaFin][this.columnFin] = this.v
+              this.tablero[this.filaIni][this.columnIni] = this.v
+              this.tablero[this.filaFin][1] = this.reyBlanco
+              this.reyBlanco.col = this.columna[1] + "%"
+              this.reyBlanco.img  = "./assets/ajedrez/rey_blanco.png"
+
+              this.tablero[this.filaIni][2] = this.torreBlanca1
+              this.torreBlanca1.col = this.columna[2] + "%"
+
+              this.seleccionada = !this.seleccionada
+              this.puedeMover = false;
+              this.turno = !this.turno
+
+              this.enroqueBlanco0 = false
+              this.enroqueBlanco1 = false
+
+            }
+         }
+
+        //rey negro
+
+        if ((this.tablero[this.filaIni][this.columnIni] == this.reyNegro) 
+        && (this.tablero[this.filaFin][this.columnFin] == this.torreNegra0) 
+        && this.enroqueNegro0 && (this.blanco == 1)) {
+            if((this.tablero[this.filaFin][6] == this.tablero[this.filaFin][5]) && (this.tablero[this.filaFin][5] == this.v)) {
+              
+              this.tablero[this.filaFin][this.columnFin] = this.v
+              this.tablero[this.filaIni][this.columnIni] = this.v
+              this.tablero[this.filaFin][6] = this.reyNegro
+              this.reyNegro.col = this.columna[6] + "%"
+              this.reyNegro.img  = "./assets/ajedrez/rey_negro.png"
+
+              this.tablero[this.filaIni][5] = this.torreNegra0
+              this.torreNegra0.col = this.columna[5] + "%"
+
+              this.seleccionada = !this.seleccionada
+              this.puedeMover = false;
+              this.turno = !this.turno
+
+              this.enroqueNegro0 = false
+              this.enroqueNegro1 = false
+
+            }
+        }
+
+        if ((this.tablero[this.filaIni][this.columnIni] == this.reyNegro) 
+        && (this.tablero[this.filaFin][this.columnFin] == this.torreNegra1) 
+        && this.enroqueNegro1 && (this.blanco == 1)) {
+            if ((this.tablero[this.filaFin][1] == this.tablero[this.filaFin][2]) 
+            && (this.tablero[this.filaFin][2] == this.tablero[this.filaFin][3]) 
+            && (this.tablero[this.filaFin][3] == this.v)) {
+              
+              this.tablero[this.filaFin][this.columnFin] = this.v
+              this.tablero[this.filaIni][this.columnIni] = this.v
+              this.tablero[this.filaFin][2] = this.reyNegro
+              this.reyNegro.col = this.columna[2] + "%"
+              this.reyNegro.img  = "./assets/ajedrez/rey_negro.png"
+
+              this.tablero[this.filaIni][3] = this.torreNegra1
+              this.torreNegra1.col = this.columna[3] + "%"
+
+              this.seleccionada = !this.seleccionada
+              this.puedeMover = false;
+              this.turno = !this.turno
+
+              this.enroqueNegro0 = false
+              this.enroqueNegro1 = false
+
+            }
+        }
+
+        if ((this.tablero[this.filaIni][this.columnIni] == this.reyNegro) 
+        && (this.tablero[this.filaFin][this.columnFin] == this.torreNegra0) 
+        && this.enroqueNegro0 && (this.negro == 1)) {
+            if ((this.tablero[this.filaFin][1] == this.tablero[this.filaFin][2]) 
+            && (this.tablero[this.filaFin][2] ==  this.v)) {
+
+              this.tablero[this.filaFin][this.columnFin] = this.v
+              this.tablero[this.filaIni][this.columnIni] = this.v
+              this.tablero[this.filaFin][1] = this.reyNegro
+              this.reyNegro.col = this.columna[1] + "%"
+              this.reyNegro.img  = "./assets/ajedrez/rey_negro.png"
+
+              this.tablero[this.filaIni][2] = this.torreNegra0
+              this.torreNegra0.col = this.columna[2] + "%"
+
+              this.seleccionada = !this.seleccionada
+              this.puedeMover = false;
+              this.turno = !this.turno
+
+              this.enroqueNegro0 = false
+              this.enroqueNegro1 = false
+
+            }
+        }
+
+        if ((this.tablero[this.filaIni][this.columnIni] == this.reyNegro) 
+        && (this.tablero[this.filaFin][this.columnFin] == this.torreNegra1) 
+        && this.enroqueNegro1 && (this.negro == 1)) {
+            if ((this.tablero[this.filaFin][4] == this.tablero[this.filaFin][5]) 
+            && (this.tablero[this.filaFin][5] == this.tablero[this.filaFin][6]) 
+            && (this.tablero[this.filaFin][6] == this.v)) {
+
+              this.tablero[this.filaFin][this.columnFin] = this.v
+              this.tablero[this.filaIni][this.columnIni] = this.v
+              this.tablero[this.filaFin][5] = this.reyNegro
+              this.reyNegro.col = this.columna[5] + "%"
+              this.reyNegro.img  = "./assets/ajedrez/rey_negro.png"
+
+              this.tablero[this.filaIni][4] = this.torreNegra1
+              this.torreNegra1.col = this.columna[4] + "%"
+
+              this.seleccionada = !this.seleccionada
+              this.puedeMover = false;
+              this.turno = !this.turno
+
+              this.enroqueNegro0 = false
+              this.enroqueNegro1 = false
+
+            }
+        }
+
+      }
+
       else if(this.tablero[this.filaIni][this.columnIni].color == (this.tablero[this.filaFin][this.columnFin].color * -1)){
-        console.log("he")
         //comer
         this.comprobarJugada(this.pieza)
         this.libre()
         if(this.puedeMover) {
-        console.log("hu")
           this.tablero[this.filaFin][this.columnFin].color = 0 }  
       }
       else {
@@ -848,21 +1168,25 @@ tableroBlanco:pieza[][] =
           this.torreNegra0.img  = "./assets/ajedrez/torre_negra.png"
           this.torreNegra0.fil = this.auxY.toString() + "%"
           this.torreNegra0.col =  this.auxX.toString() + "%" 
+          this.enroqueNegro0 = false
         }
         if(this.pieza == "torreNegra1") {
           this.torreNegra1.img  = "./assets/ajedrez/torre_negra.png"
           this.torreNegra1.fil = this.auxY.toString() + "%"
           this.torreNegra1.col =  this.auxX.toString() + "%" 
+          this.enroqueNegro1 = false
         }
         if(this.pieza == "torreBlanca0") {
           this.torreBlanca0.img  = "./assets/ajedrez/torre_blanca.png"
           this.torreBlanca0.fil = this.auxY.toString() + "%"
           this.torreBlanca0.col =  this.auxX.toString() + "%" 
+          this.enroqueBlanco0 = false
         }
         if(this.pieza == "torreBlanca1") {
           this.torreBlanca1.img  = "./assets/ajedrez/torre_blanca.png"
           this.torreBlanca1.fil = this.auxY.toString() + "%"
           this.torreBlanca1.col =  this.auxX.toString() + "%" 
+          this.enroqueBlanco1 = false
         }
         //reina
         if(this.pieza == "reinaNegra") {
@@ -881,15 +1205,21 @@ tableroBlanco:pieza[][] =
           this.reyNegro.img  = "./assets/ajedrez/rey_negro.png"
           this.reyNegro.fil = this.auxY.toString() + "%"
           this.reyNegro.col =  this.auxX.toString() + "%" 
+          this.enroqueNegro1 = false
+          this.enroqueNegro0 = false
         }
         if(this.pieza == "reyBlanco") {
           this.reyBlanco.img  = "./assets/ajedrez/rey_blanco.png"
           this.reyBlanco.fil = this.auxY.toString() + "%"
           this.reyBlanco.col =  this.auxX.toString() + "%" 
+          this.enroqueBlanco1 = false
+          this.enroqueBlanco0 = false
         }
         
+        this.coronar()
         this.seleccionada = !this.seleccionada
         this.puedeMover = false;
+        this.turno = !this.turno
         
       }
     }
