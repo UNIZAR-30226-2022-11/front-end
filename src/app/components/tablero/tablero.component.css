@@ -90,6 +90,12 @@ body {
 .piece-box.white-box {
     background: #eee;
 }
+
+.piece-box img {
+    width: 40px;
+    height: 40px;
+}
+
 .piece-box.black-box {
     background: #aaa;
 }

@@ -99,3 +99,24 @@ export const piecesImages: {[index:string]: string} = {
 
 */
 
+export type pieceInfo = {
+    white: boolean; //1 blanca, 0 negra
+    text: string;
+    img: string;
+};
+
+export const piecesInfo:  {[index:string]: pieceInfo} = {
+    'white_pawn': {white: true, text:'♙', img:"./assets/ajedrez/peon_blanco.png"},
+    'white_rook': {white: true, text:'♖', img:"./assets/ajedrez/torre_blanca.png"},
+    'white_knight': {white: true, text:'♘', img:"./assets/ajedrez/caballo_blanco.png"},
+    'white_bishop': {white: true, text:'♗', img:"./assets/ajedrez/alfil_blanco.png"},
+    'white_king': {white: true, text:'♔', img:"./assets/ajedrez/rey_blanco.png"},
+    'white_queen': {white: true, text:'♕', img:"./assets/ajedrez/reina_blanca.png"},
+    'black_pawn': {white: false, text:'♟', img:"./assets/ajedrez/peon_negro.png"},
+    'black_rook': {white: false, text:'♜', img:"./assets/ajedrez/torre_negra.png"},
+    'black_knight': {white: false, text:'♞', img:"./assets/ajedrez/caballo_negro.png"},
+    'black_bishop': {white: false, text:'♝', img:"./assets/ajedrez/alfil_negro.png"},
+    'black_king': {white: false, text:'♚', img:"./assets/ajedrez/rey_negro.png"},
+    'black_queen': {white: false, text:'♛', img:"./assets/ajedrez/reina_negra.png"},
+};
+
