@@ -39,3 +39,28 @@ body {
     .sidenav {padding-top: 15px;}
     .sidenav a {font-size: 18px;}
   }
+
+button {
+    border:white; border-width:10px; border-style:solid;
+    padding: 6px 6px 6px 0px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #f1f1f1;
+    display: block;
+    text-align: center;
+    margin-top:200px;
+    position:absolute;
+    cursor: pointer;
+    color:white;
+    width:100px;
+    z-index: 1;
+  }
+
+  .selector1{
+    right:100px;
+  }
+
+  .selector2{
+    right:0px;
+  }
+

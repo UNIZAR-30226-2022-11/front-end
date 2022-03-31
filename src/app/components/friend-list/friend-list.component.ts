@@ -8,7 +8,10 @@ import { friend } from 'src/app/other/interfaces';
 })
 export class FriendListComponent implements OnInit {
 
+  showFriendList : boolean = false;
   friendList: friend[]= [ {name:"Gueorgui Alexandrovitch", points:1000, img:"gfsa"},  {name:"Ernesto Bielsa", points:1012, img:"gfsa"}];
+  friendRequests: friend[] = [{name:"Gueorgui Alexandrovitch2", points:1000, img:"gfsa"},  {name:"Ernesto Bielsa2", points:1012, img:"gfsa"}]
+
 
   constructor() {}
 

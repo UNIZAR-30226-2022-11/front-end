@@ -1,5 +1,12 @@
-<div class="sidenav">
+<button class="selector1" (click)="showFriendList = true">Friends2</button>
+<button class="selector2" (click)="showFriendList = false">Requests2</button>
+<div *ngIf="showFriendList" class="sidenav">
     <p *ngFor="let friend of friendList">
+        {{friend.name}} ({{friend.points}})
+    </p>
+</div>
+<div *ngIf="!showFriendList" class="sidenav">
+    <p *ngFor="let friend of friendRequests">
         {{friend.name}} ({{friend.points}})
     </p>
 </div>
