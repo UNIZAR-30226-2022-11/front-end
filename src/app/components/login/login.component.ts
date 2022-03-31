@@ -14,7 +14,7 @@ export class LoginComponent implements OnInit {
 
   signupForm: FormGroup
 
-  logged: boolean = true;
+  logged: boolean = false;
   user: user = {name: "Ernesto Bielsa", points:1042, img:"gfasfa", coins:124,friendList: []}
 
   constructor(

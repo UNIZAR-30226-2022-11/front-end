@@ -12,13 +12,14 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { FriendListComponent } from './components/friend-list/friend-list.component';
 import { NavigationBarComponent } from './components/navigation-bar/navigation-bar.component';
 import { PlayComponent } from './components/play/play.component';
+import { AddFriendComponent } from './components/add-friend/add-friend.component';
 
 
 const rutas: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo:'login'
+    redirectTo: 'play'
   },
   {
     path: 'juego',
@@ -49,6 +50,7 @@ const rutas: Routes = [
     FriendListComponent,
     NavigationBarComponent,
     PlayComponent,
+    AddFriendComponent,
   ],
   imports: [
     BrowserModule,

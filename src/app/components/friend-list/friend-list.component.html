@@ -1,12 +1,32 @@
+<!--
+<div class="sidenav">
 <button class="selector1" (click)="showFriendList = true">Friends2</button>
 <button class="selector2" (click)="showFriendList = false">Requests2</button>
-<div *ngIf="showFriendList" class="sidenav">
+<div *ngIf="showFriendList">
     <p *ngFor="let friend of friendList">
         {{friend.name}} ({{friend.points}})
     </p>
 </div>
-<div *ngIf="!showFriendList" class="sidenav">
+<div *ngIf="!showFriendList">
     <p *ngFor="let friend of friendRequests">
         {{friend.name}} ({{friend.points}})
     </p>
+</div>
+</div>-->
+
+<div class="selector">
+    <button id="friendSelector" class="selector1" (click)="modifyButtonsClasses($event)">Friends</button>
+    <button id="requestSelector" class="selector2" (click)="modifyButtonsClasses($event)">Requests</button>
+</div>
+<div class="sidenav">
+    <div *ngIf="showFriendList">
+        <a *ngFor="let friend of friendList">
+            {{friend.name}} ({{friend.points}})
+        </a>
+    </div>
+    <div *ngIf="!showFriendList">
+        <a *ngFor="let friend of friendRequests">
+            {{friend.name}} ({{friend.points}})
+        </a>
+    </div>
 </div>

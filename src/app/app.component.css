@@ -3,3 +3,9 @@
     margin-right: 200px;/* Same as the width of the sidenav */
   }
   
+body {
+  background-image:url('../assets/ajedrez/wallpaper.jpg');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: 100% 100%;
+}
