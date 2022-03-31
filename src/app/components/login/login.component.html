@@ -1,7 +1,6 @@
-<html>
-<body>
+<div *ngIf="!logged">
 <!-- Button to open the modal login form -->
-<button onclick="document.getElementById('id01').style.display='block'">Login</button>
+<button class="login" onclick="document.getElementById('id01').style.display='block'">Login</button>
 
 <!-- The Modal -->
 <div id="id01" class="modal">
@@ -58,5 +57,7 @@
       }
     }
 </script>
-</body>
-</html>
+</div>
+<div class="loggedUser" *ngIf="logged">
+    {{user.name}} ({{user.points}})
+</div>

@@ -9,13 +9,16 @@ import { HeaderComponent } from './components/header/header.component';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { FriendListComponent } from './components/friend-list/friend-list.component';
+import { NavigationBarComponent } from './components/navigation-bar/navigation-bar.component';
+import { PlayComponent } from './components/play/play.component';
 
 
 const rutas: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: 'home'
+    redirectTo:'login'
   },
   {
     path: 'juego',
@@ -23,11 +26,15 @@ const rutas: Routes = [
   },
   {
     path: 'login',
-    component: LoginComponent
+    component: LoginComponent,
   },
   {
     path: 'home',
     component: HomeComponent
+  },
+  {
+    path: 'play',
+    component: PlayComponent
   },
 ]
 
@@ -39,6 +46,9 @@ const rutas: Routes = [
     LoginComponent,
     HeaderComponent,
     HomeComponent,
+    FriendListComponent,
+    NavigationBarComponent,
+    PlayComponent,
   ],
   imports: [
     BrowserModule,

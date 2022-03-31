@@ -120,3 +120,16 @@ export const piecesInfo:  {[index:string]: pieceInfo} = {
     'black_queen': {white: false, text:'♛', img:"./assets/ajedrez/reina_negra.png"},
 };
 
+export type friend = {
+    name:string;
+    points:number;
+    img:string;
+}
+
+export type user = {
+    name:string;
+    points:number;
+    img:string;
+    coins:number;
+    friendList: friend[];
+}

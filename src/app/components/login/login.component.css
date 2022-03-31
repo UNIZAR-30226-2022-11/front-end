@@ -14,18 +14,20 @@ input[type=text], input[type=password], .advertencia {
 }
 
 /* Set a style for all buttons */
-button {
+button{
     background-color: #04AA6D;
     color: white;
     padding: 14px 20px;
-    margin: 8px 0;
+     
     border: none;
     cursor: pointer;
     width: 100%;
 }
 
+
 .loginButton {
     border-radius: 20px;
+    margin: 8px 0;
 }
 
 /* Add a hover effect for buttons */
@@ -139,4 +141,29 @@ button:hover {
     color: white;
     border-color: red;
     background-color: rgb(221, 114, 114);
+}
+
+.login{
+    height:100px;
+    width: 200px;
+    position: fixed;
+    top: 0;
+    right: 0;
+    overflow-x: hidden;
+    font-size: 2em;
+}
+
+.loggedUser{
+    height: 72px;
+    width: 200px;
+    position: fixed;
+    top: 0;
+    right: 0;
+    font-size: 2em;
+    background-color: pink;
+    text-align: center;
+    color: black;
+    border: none;
+    padding: 14px  0px;
+ 
 }

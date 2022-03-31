@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { user } from 'src/app/other/interfaces';
 
 @Component({
   selector: 'app-login',
@@ -13,6 +14,8 @@ export class LoginComponent implements OnInit {
 
   signupForm: FormGroup
 
+  logged: boolean = true;
+  user: user = {name: "Ernesto Bielsa", points:1042, img:"gfasfa", coins:124,friendList: []}
 
   constructor(
     private router: Router,
