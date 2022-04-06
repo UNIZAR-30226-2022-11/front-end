@@ -13,6 +13,7 @@ import { FriendListComponent } from './components/friend-list/friend-list.compon
 import { NavigationBarComponent } from './components/navigation-bar/navigation-bar.component';
 import { PlayComponent } from './components/play/play.component';
 import { AddFriendComponent } from './components/add-friend/add-friend.component';
+import { TimerComponent } from './components/timer/timer.component';
 
 
 const rutas: Routes = [
@@ -51,6 +52,7 @@ const rutas: Routes = [
     NavigationBarComponent,
     PlayComponent,
     AddFriendComponent,
+    TimerComponent,
   ],
   imports: [
     BrowserModule,

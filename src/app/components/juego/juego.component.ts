@@ -1,12 +1,31 @@
 import { Component, OnInit } from '@angular/core';
 import { pieza } from 'src/app/other/interfaces';
+import { ViewChild } from '@angular/core';
+import { TimerComponent } from '../timer/timer.component';
 
 @Component({
   selector: 'app-juego',
   templateUrl: './juego.component.html',
   styleUrls: ['./juego.component.css']
 })
-export class JuegoComponent {
+export class JuegoComponent{
+
+  //apartado de timer ///////////////////////////////////////////////////////////////////
+  
+  //variables estaticas del timer
+  static segundos = 10;
+  static minutos = 0;
+  //variable estática de victoria
+  static ganar = false;
+
+  @ViewChild(TimerComponent)
+  timer!: TimerComponent;
+
+  start(){this.timer.start();}
+  start2(){this.timer.start2();}
+
+  //cierra apartado de timer //////////////////////////////////////////////////////////////
+  
 
   //posiciones de las piezas segun su casilla
   columna:number[] =[25.6, 31.87, 38.14, 44.41, 50.68, 56.95, 63.22, 69.5]

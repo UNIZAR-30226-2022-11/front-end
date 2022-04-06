@@ -1,11 +1,14 @@
-<head>
-  <style>
+<app-timer></app-timer>
 
-  </style>
+<div style="position: absolute; left: 18%; top:10%">
+  <button  (click)="start()">EmpezarJ</button>
+  </div>
 
-</head>
+  <div style="position: absolute; left: 18%; top:80%">
+    <button  (click)="start2()">EmpezarJ2</button>
+    </div>
 
-<body>
+<body class="container-fluid position-absolute" style="background:rgb(48, 48, 48); height: 100%; width: 100%;">
   <!--<app-header></app-header>-->
   <div class="tablero">
     <img style="height:100%; width: 50%; top:0%; left: 25%; right: 25%; position: absolute;" (click)="mover($event)" src="./assets/ajedrez/tablero.png">
@@ -213,16 +216,7 @@
   </div>
 </body>
 
-<p>{{pieza}}</p>
-<p>{{seleccionada}}</p>
-<p>{{puedeMover}}</p>
-<p>{{filaIni}} Fila inicial</p>
-<p>{{columnIni}} Col inicial</p>
-<br>
-<p>{{filaFin}} Fila Final</p>
-<p>{{columnFin}} Col Final</p>
-
-<div style="position: absolute; left: 85%; top: 15%;">
+<div style="position: absolute; left: 76%; top: 15%;">
   <button (click)="elegirLado(true)" style="width: 120px; height: 60px;"><strong>Blanco</strong></button>
   <br><br>
   <button (click)="elegirLado(false)" style="width: 120px; height: 60px; background-color: rgb(37, 37, 37); color: whitesmoke;"><strong>Negro</strong></button>
