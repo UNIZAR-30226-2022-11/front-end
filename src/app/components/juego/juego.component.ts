@@ -11,18 +11,50 @@ import { TimerComponent } from '../timer/timer.component';
 export class JuegoComponent{
 
   //apartado de timer ///////////////////////////////////////////////////////////////////
-  
+
   //variables estaticas del timer
-  static segundos = 10;
+  static segundos = 0;
   static minutos = 0;
   //variable estática de victoria
-  static ganar = false;
+  static finTiempo = false;
 
   @ViewChild(TimerComponent)
   timer!: TimerComponent;
 
-  start(){this.timer.start();}
-  start2(){this.timer.start2();}
+  start(){this.timer.start();}  //timer 1 es de las blancas
+  start2(){this.timer.start2();}  //timer 2 es de las negras
+
+  tiempoAcabado():boolean{
+    if(JuegoComponent.minutos == 0 && JuegoComponent.segundos==0) {return true}
+    return false
+  }
+
+  //paramos el timer antes de pasar el turno
+  cambiarTimer(){
+    if(this.tiempoAcabado()) {return}
+    if(this.turno) {
+      this.timer.stop();
+      this.timer.start2();
+    } 
+    else {
+      this.timer.stop2();
+      this.timer.start();
+    }
+  }
+
+  cambiarPosicionTimer(){
+    this.timer.blancas = this.blanco*80+10;
+    this.timer.negras = this.negro*80+10;
+  }
+
+  resetTimer(){
+    this.cambiarPosicionTimer()
+
+    this.timer.stop();
+    this.timer.stop2();
+
+    this.timer.resetTimer();
+  }
 
   //cierra apartado de timer //////////////////////////////////////////////////////////////
   
@@ -158,6 +190,7 @@ tableroBlanco:pieza[][] =
     this.enroqueBlanco1 = true;
     this.seleccionada = false
     this.turno = true
+    this.resetTimer()
   }
 
   elegirLado(blanco:boolean){
@@ -317,7 +350,8 @@ tableroBlanco:pieza[][] =
   }
 
   seleccionar(p:string, event:MouseEvent) {
-    
+    if(JuegoComponent.finTiempo) {return;} //se acabo el tiempo
+
     if(!this.seleccionada) {
       //negras
       if(!this.turno) {
@@ -784,6 +818,7 @@ tableroBlanco:pieza[][] =
 
 
   mover(event:MouseEvent) {
+    if(JuegoComponent.finTiempo) {return;} //se acabo el tiempo
     this.w = window.innerWidth;
     this.h = window.innerHeight;
     if(this.seleccionada) {
@@ -1238,6 +1273,7 @@ tableroBlanco:pieza[][] =
         this.coronar()
         this.seleccionada = !this.seleccionada
         this.puedeMover = false;
+        this.cambiarTimer();
         this.turno = !this.turno
         
       }

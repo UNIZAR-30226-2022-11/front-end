@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { JuegoComponent } from '../juego/juego.component';
 
 @Component({
   selector: 'app-play',
@@ -10,6 +11,10 @@ export class PlayComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  ponerTiempo(t:number){
+    JuegoComponent.minutos = t;
   }
 
 }

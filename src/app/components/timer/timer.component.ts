@@ -20,6 +20,20 @@ export class TimerComponent {
   private timer2:any;
   private date2 = new Date();
 
+  //posicion en funcion de piezas; timer => blancas || timer2=> negras
+  public blancas:number = 90;
+  public negras:number = 10;
+
+  resetTimer(){
+    this.minutes = JuegoComponent.minutos;
+    this.seconds = JuegoComponent.segundos;
+
+    this.minutes2 = JuegoComponent.minutos;
+    this.seconds2 = JuegoComponent.segundos;
+  }
+
+
+
 
   updateTimer(){
     this.date.setMinutes(this.minutes);
@@ -32,7 +46,7 @@ export class TimerComponent {
 
     if(this.date.getMinutes() === 0 && this.date.getSeconds() ===0 ){
       //stop the count
-      JuegoComponent.ganar = true;
+      JuegoComponent.finTiempo = true;
       clearInterval(TimerComponent.timer);
     }
   }
@@ -48,7 +62,8 @@ export class TimerComponent {
 
     if(this.date2.getMinutes() === 0 && this.date2.getSeconds() ===0 ){
       //stop the count
-      JuegoComponent.ganar = true;
+      JuegoComponent.finTiempo = true;
+      console.log("fin del tiempo")
       clearInterval(this.timer2);
     }
   }
