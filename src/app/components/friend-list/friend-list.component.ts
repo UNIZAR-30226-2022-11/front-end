@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { friend } from 'src/app/other/interfaces';
+import { amigos } from 'src/app/other/interfaces';
+import { ServiceClientService } from '../../services/service-client.service';
 
 @Component({
   selector: 'app-friend-list',
@@ -9,9 +10,11 @@ import { friend } from 'src/app/other/interfaces';
 export class FriendListComponent implements OnInit {
   
   showFriendList : boolean = true;
-  friendList: friend[]= [ {name:"Gueorgui Alexandrovitch", points:1000, img:"gfsa"},  {name:"Ernesto Bielsa", points:1012, img:"gfsa"},{name:"Gueorgui Alexandrovitch", points:1000, img:"gfsa"},  {name:"Ernesto Bielsa", points:1012, img:"gfsa"},{name:"Gueorgui Alexandrovitch", points:1000, img:"gfsa"},  {name:"Ernesto Bielsa", points:1012, img:"gfsa"},{name:"Gueorgui Alexandrovitch", points:1000, img:"gfsa"},  {name:"Ernesto Bielsa", points:1012, img:"gfsa"}];
-  friendRequests: friend[] = [{name:"Gueorgui Alexandrovitch2", points:1000, img:"gfsa"},  {name:"Ernesto Bielsa2", points:1012, img:"gfsa"}]
-
+  friendList: Array<amigos>=[];
+  friendRequests: Array<amigos>=[];
+  //friendRequests: Array<any> = [];
+  //personajes: any=[];
+  //prueba: Array<any>=[];
   modifyButtonsClasses (event:MouseEvent){
     var obj : any = event.target;
     //Quitamos la clase selector de todos los selectores
@@ -34,9 +37,34 @@ export class FriendListComponent implements OnInit {
   }
 
 
-  constructor() {}
+  constructor(private servicioCliente:ServiceClientService
+    ) {}
 
   ngOnInit(): void {
+    //Traer todos los amigos del backend
+    this.servicioCliente.GetFriendList("borrar").subscribe(datos=>{
+      for(let i=0;i<datos;i++){
+        this.friendList.push(datos[i]);
+      }
+    })
+
+    this.servicioCliente.GetFriendRequests("borrar").subscribe(datos=>{
+      for(let i=0;i<datos;i++){
+        this.friendRequests.push(datos[i]);
+      }
+    })
+
+    /*Codigo de prueba que funciona
+    this.servicioCliente.getAllPersonajes().subscribe((datos : any)=>{
+      this.personajes = datos;
+      console.log(this.personajes)
+      for(let i=0;i<datos.results.length;i++){
+        this.prueba.push(datos.results[i]);
+      }
+      console.log(datos.results)
+      console.log(this.prueba);
+    })
+    */
     if (this.showFriendList){
       var element=document.getElementById("friendSelector")
       element?.classList.add('showing')
@@ -45,5 +73,9 @@ export class FriendListComponent implements OnInit {
       element?.classList.add('showing')
     }
   }
+
+  /*deleteFriend(friend){
+    this.servicioCliente.deleteFriend(friend.)
+  }*/
 
 }

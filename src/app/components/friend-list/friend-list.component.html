@@ -21,12 +21,12 @@
 <div class="sidenav">
     <div *ngIf="showFriendList">
         <a *ngFor="let friend of friendList">
-            {{friend.name}} ({{friend.points}})
+            {{friend.USUARIO_Nickname}} ({{friend.valor}})
         </a>
     </div>
     <div *ngIf="!showFriendList">
         <a *ngFor="let friend of friendRequests">
-            {{friend.name}} ({{friend.points}})
+            {{friend.USUARIO_Nickname}} ({{friend.valor}})
         </a>
     </div>
 </div>

@@ -1,63 +1,63 @@
 <div *ngIf="!logged">
-<!-- Button to open the modal login form -->
-<button class="login" onclick="document.getElementById('id01').style.display='block'">Login</button>
-
-<!-- The Modal -->
-<div id="id01" class="modal">
+    <!-- Button to open the modal login form -->
+    <button class="login" onclick="document.getElementById('id01').style.display='block'">Login</button>
     
-    <!-- Modal Content -->
-        <div class="container row modal-content animate bordered-form">
-            <div class="close-container">
-                <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
-                
-              </div>
-          
-            <div class="column">
-                <div class="box" >
-                    <div class="title"><b>Sign In</b></div>
-                    <form action="/action_page.php">
-                        <input type="text" placeholder="Username" name="uname" required>
+    <!-- The Modal -->
+    <div id="id01" class="modal">
+        
+        <!-- Modal Content -->
+            <div class="container row modal-content animate bordered-form">
+                <div class="close-container">
+                    <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
                     
-                        <input type="password" placeholder="Password" name="psw" required>
+                  </div>
+              
+                <div class="column">
+                    <div class="box" >
+                        <div class="title"><b>Sign In</b></div>
+                        <form [formGroup]="signinForm" (ngSubmit)="login(signinForm)">
+                            <input type="text" placeholder="Username" formControlName="user" required>
                         
-                        <button class="loginButton" type="submit">Sign In</button>
-                    </form>
+                            <input type="password" placeholder="Password" formControlName="password" required>
+                            
+                            <button class="loginButton" type="submit" >Sign In</button>
+                        </form>
+                    </div>
                 </div>
-            </div>
-            <div class="column">
-                <div class="box" >
-                    <div class="title"><b>Sign Up</b></div>
-                    <form [formGroup]="signupForm" (ngSubmit)="enviar(signupForm.value)">
-                        <input formControlName="user" type="text" placeholder="Username" name="uname" required>
-
-                        <input formControlName="fullName" type="text" placeholder="Full Name" name="fname" required>
-
-                        <input formControlName="email" type="text" placeholder="Email Address" name="email" required>
-                           <div class="advertencia" *ngIf="signupForm.get('email')!.hasError('email') && signupForm.get('email')!.touched">Email incorrecto</div>
-                        <input formControlName="password" type="password" placeholder="Password" name="psw1" required>
-                    
-                        <input formControlName="passwordConfirm" type="password" placeholder="Confirm Password" name="psw2" required>
-                            <div class="advertencia" *ngIf="signupForm.get('password')!.value != signupForm.get('passwordConfirm')!.value">Las contraseñas son distintas</div>
-                        <button [disabled]="signupForm.invalid" class="loginButton" type="submit">Sign Up</button>
-                    </form>
-                </div>
-            </div>
-
-</div>
-</div>
-
-<script>
-    // Get the modal
-    var modal = document.getElementById('id01');
+                <div class="column">
+                    <div class="box" >
+                        <div class="title"><b>Sign Up</b></div>
+                        <form [formGroup]="signupForm" (ngSubmit)="register(signupForm)">
+                            <input formControlName="user" type="text" placeholder="Username" required>
     
-    // When the user clicks anywhere outside of the modal, close it
-    window.onclick = function(event) {
-      if (event.target == modal) {
-        modal.style.display = "none";
-      }
-    }
-</script>
-</div>
-<div class="loggedUser" *ngIf="logged">
-    {{user.name}} ({{user.points}})
-</div>
+                            <input formControlName="fullName" type="text" placeholder="Full Name" required>
+    
+                            <input formControlName="email" type="text" placeholder="Email Address" required>
+                               <div class="advertencia" *ngIf="signupForm.get('email')!.hasError('email') && signupForm.get('email')!.touched">Email incorrecto</div>
+                            <input formControlName="password" type="password" placeholder="Password" required>
+                        
+                            <input formControlName="passwordConfirm" type="password" placeholder="Confirm Password" required>
+                                <div class="advertencia" *ngIf="signupForm.get('password')!.value != signupForm.get('passwordConfirm')!.value">Las contraseñas son distintas</div>
+                            <button [disabled]="signupForm.invalid" class="loginButton" type="submit">Sign Up</button>
+                        </form>
+                    </div>
+                </div>
+    
+    </div>
+    </div>
+    
+    <script>
+        // Get the modal
+        var modal = document.getElementById('id01');
+        
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+          if (event.target == modal) {
+            modal.style.display = "none";
+          }
+        }
+    </script>
+    </div>
+    <div class="loggedUser" *ngIf="logged">
+        {{user.Nickname}} ({{user.puntos}})
+    </div>

@@ -133,3 +133,39 @@ export type user = {
     coins:number;
     friendList: friend[];
 }
+
+export interface usuario {
+    Nickname: string;
+    contraseña: string;
+    puntos: number;
+    monedas: number;
+    avatar: string;
+    piezas: string;
+    tablero: string;
+}
+
+export interface amigos{
+    valor: string;
+    USUARIO_Nickname: string;
+}
+
+export interface articulo{
+    nombre: string;
+    precio: number;
+    tipo: string;
+}
+
+export interface partida{
+    id: number;
+    ganador: boolean;
+}
+
+export interface juega{
+    USUARIO_Nickname: string;
+    PARTIDA_id: number;
+}
+
+export interface compra{
+    USUARIO_Nickname: string;
+    ARTICULA_nombre: string;
+}
