@@ -32,6 +32,7 @@ export class LoginComponent implements OnInit {
     private _builderSignup: FormBuilder,
     private servicioCliente:ServiceClientService,
     ) { 
+      console.log(servicioCliente)
       this.signinForm = this._builderSignin.group({
         user: ['', Validators.required],
         password: ['', Validators.required]
@@ -59,30 +60,32 @@ export class LoginComponent implements OnInit {
   //Con esto se envia el formulario al back-end
   login(g: FormGroup) {
     //Codigo prueba
-    this.user = {Nickname: g.get('user')!.value, contraseña: g.get('password')!.value, puntos: 0,monedas: 0,avatar: "",piezas: "",tablero: ""}
+    /*this.user = {Nickname: g.get('user')!.value, contraseña: g.get('password')!.value, puntos: 0,monedas: 0,avatar: "",piezas: "",tablero: ""}
     this.logged = true;
-    this.signinForm.reset();
-    /*this.servicioCliente.Login(g.get('user')!.value,g.get('password')!.value).subscribe(resp =>{
+    this.signinForm.reset();*/
+    
+    this.servicioCliente.Login(g.get('user')!.value, g.get('password')!.value).subscribe(resp =>{
       this.signinForm.reset();
       this.logged = true;
       this.user = resp;
     },
     error => {console.error(error)});
-    */
+    
   }
 
   register(g: FormGroup){
     //Codigo prueba
-    this.user = {Nickname: g.get('user')!.value, contraseña: g.get('password')!.value, puntos: 0,monedas: 0,avatar: "",piezas: "",tablero: ""}
+    /*this.user = {Nickname: g.get('user')!.value, contraseña: g.get('password')!.value, puntos: 0,monedas: 0,avatar: "",piezas: "",tablero: ""}
     this.logged = true;
-    this.signinForm.reset();
+    this.signinForm.reset();*/
     //Este deberia ser el codigo bueno
-    /*this.servicioCliente.Register(g.get('user')!.value,g.get('password')!.value).subscribe(resp =>{
+    var prueba:any;
+    this.servicioCliente.Register( g.get('user')!.value,  g.get('password')!.value, g.get('email')!.value).subscribe(resp =>{
       this.signupForm.reset();
       this.logged = true;
     },
     error => {console.error(error)});
-    */
+    
   }
   //Esto va junto a la Opcion A
   /*passwordConfirming(c: AbstractControl): { invalid: boolean } {
