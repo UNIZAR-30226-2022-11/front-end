@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs'
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
@@ -15,15 +15,27 @@ export class ServiceClientService {
   //Devolver lista de amigos con los mismos campos que la BD
   // Enviar { "nickname": "<nombre>" }
   // Devolver { "friendList": [{string}*] } (solo me interesa el nombre de usuario de los amigos)
-  GetFriendList(username: any):Observable<any>{
-      return this.servicio.get('${this.servidor}/getFriendList', username);
+  GetFriendList(nickname:string):Observable<any>{
+    const body = { nickname}
+    const headers = new HttpHeaders(
+      {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*'
+      });
+      return this.servicio.post('${this.servidor}/getFriendList', body, {headers});
   }
 
   //Devolver lista de peticiones con los mismos campos que la BD
   // Enviar { "nickname": "<nombre>" }
   // Devolver { "friendRequests": [{string}*] } (solo me interesa el nombre de usuario de las peticiones)
-  GetFriendRequests(username: any):Observable<any>{
-    return this.servicio.get('${this.servidor}/getFriendRequest', username);
+  GetFriendRequests(nickname: string):Observable<any>{
+    const body = { nickname}
+    const headers = new HttpHeaders(
+      {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*'
+      });
+    return this.servicio.post('${this.servidor}/getFriendRequest',body, {headers});
   }
 
   //Devolver string en los siguientes casos:
@@ -33,8 +45,14 @@ export class ServiceClientService {
   //  "La solicitud se ha mandado correctamente" en caso de exitir
   //  "El usuario no existe" si no existe 
   //  "El usuario existe pero ya es amigo tuyo" en caso de que exista pero sea tu amigo ya
-  SendFriendRequest(peticion: any, respuesta: any): Observable<any>{
-    return this.servicio.post(this.servidor+"/sendFriendRequest", peticion, respuesta);
+  SendFriendRequest(nickname1: string, nickname2:string): Observable<any>{
+    const body = { nickname1, nickname2}
+    const headers = new HttpHeaders(
+      {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*'
+      });
+    return this.servicio.post(this.servidor+"/sendFriendRequest", body, {headers});
   }
 
   //deberia devolver un booleano para saber si ha sido un exito o no
@@ -49,12 +67,19 @@ export class ServiceClientService {
   //                               "piezas": "<piezas>",
   //                               "tablero": "<tablero>"} }
   //Devolver usuario creado con los mismos campos que la BD
-  Register(username:any, password: any):Observable<any>{
-    return this.servicio.post(this.servidor+"/register", username, password);
+  Register(nickname:string, contraseña:string, email:string):Observable<any>{
+    const body = { nickname, contraseña, email }
+    const headers = new HttpHeaders(
+      {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*'
+      });
+    return this.servicio.post(this.servidor+"/register",  body, {headers});
   }
 
   //deberia devolver un booleano para saber si ha sido un exito o no
-  // Enviar { "nickname": "<nickname>" }
+  // Enviar { "nickname": "<nickname>",
+  //          "password": "<password>" }
   // Devolver { "exito":boolean, "user": {
   //                               "nickname": "<nickname>",}
   //                               "puntos": "<puntos>",
@@ -62,8 +87,14 @@ export class ServiceClientService {
   //                               "avatar": "<avatar>",
   //                               "piezas": "<piezas>",
   //                               "tablero": "<tablero>"} }
-  Login(username:any):Observable<any>{
-    return this.servicio.get(this.servidor+"/login", username);
+  Login(nickname:string, password:string):Observable<any>{
+    const body = { nickname, password }
+    const headers = new HttpHeaders(
+      {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*'
+      });
+    return this.servicio.post(this.servidor+"/login",body,{headers});
   }
 
   /*getAllPersonajes(): Observable<any>{
