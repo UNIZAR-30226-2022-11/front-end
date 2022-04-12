@@ -10,7 +10,12 @@ import { TimerComponent } from '../timer/timer.component';
 })
 export class JuegoComponent{
 
-  //apartado de timer ///////////////////////////////////////////////////////////////////
+
+  ////////////////////////////////////////////////////////////
+
+  //TIMER
+
+  ///////////////////////////////////////////////////////////
 
   //variables estaticas del timer
   static segundos = 0;
@@ -191,6 +196,7 @@ tableroBlanco:pieza[][] =
     this.seleccionada = false
     this.turno = true
     this.resetTimer()
+    this.IA()
   }
 
   elegirLado(blanco:boolean){
@@ -322,6 +328,1480 @@ tableroBlanco:pieza[][] =
     } else{
       return false
     }
+  }
+
+  /*        
+  this.puedeMover = ((this.filaIni - this.filaFin == -1) && ((this.columnIni + 1 == this.columnFin) || (this.columnIni - 1 == this.columnFin)))
+  this.puedeMover = ((this.filaIni - this.filaFin == 1) && ((this.columnIni + 1 == this.columnFin) || (this.columnIni - 1 == this.columnFin)))
+  this.puedeMover = ((this.filaIni - this.filaFin == 1) && ((this.columnIni + 1 == this.columnFin) || (this.columnIni - 1 == this.columnFin)))
+  this.puedeMover = ((this.filaIni - this.filaFin == -1) && ((this.columnIni + 1 == this.columnFin) || (this.columnIni - 1 == this.columnFin)))
+    */
+
+  ////////////////////////////////////////////////////////////
+
+  //AMENAZAR PIEZAS
+
+  ///////////////////////////////////////////////////////////
+  amenazar:boolean = false
+
+  //la IA comprueba todos los jaques a las piezas del rival, si uno da != this.v entomces mueve
+
+  IA(){
+    if(this.turno == true){ //turno = true para blancas, busca el jaque a las negras(ia es blanca) 
+      
+      var aux:pieza = this.jaque(this.reyNegro)
+      if(aux != this.v){
+        var filIni:number = this.obtenFila(aux)
+        var colIni:number = this.obtenerColumna(aux)
+        var filFin:number = this.obtenFila(this.reyNegro)
+        var colFin:number = this.obtenerColumna(this.reyNegro)
+
+        //mover la pieza
+        this.tablero[filFin][colFin].color = 0  //borro destino
+        this.tablero[filFin][colFin] = this.tablero[filIni][colIni]   //muevo en la matriz
+        this.tablero[filFin][colFin].col = this.columna[colFin] + "%" //desde la matriz cambio fila y col
+        this.tablero[filFin][colFin].fil = this.fila[filFin] + "%"
+
+        //impiar casilla inicial
+        this.tablero[filIni][colIni] = this.v
+        //cambiar timer
+        this.cambiarTimer()
+        //pasar turno
+        this.turno = !this.turno
+        return
+      }
+      
+      var aux:pieza = this.jaque(this.reinaNegra)
+      if(aux != this.v){
+        var filIni:number = this.obtenFila(aux)
+        var colIni:number = this.obtenerColumna(aux)
+        var filFin:number = this.obtenFila(this.reinaNegra)
+        var colFin:number = this.obtenerColumna(this.reinaNegra)
+
+        //mover la pieza
+        this.tablero[filFin][colFin].color = 0  //borro destino
+        this.tablero[filFin][colFin] = this.tablero[filIni][colIni]   //muevo en la matriz
+        this.tablero[filFin][colFin].col = this.columna[colFin] + "%" //desde la matriz cambio fila y col
+        this.tablero[filFin][colFin].fil = this.fila[filFin] + "%"
+
+        //impiar casilla inicial
+        this.tablero[filIni][colIni] = this.v
+        //cambiar timer
+        this.cambiarTimer()
+        //pasar turno
+        this.turno = !this.turno
+        return
+      }
+
+      var aux:pieza = this.jaque(this.torreNegra0)
+      if(aux != this.v){
+        var filIni:number = this.obtenFila(aux)
+        var colIni:number = this.obtenerColumna(aux)
+        var filFin:number = this.obtenFila(this.torreNegra0)
+        var colFin:number = this.obtenerColumna(this.torreNegra0)
+
+        //mover la pieza
+        this.tablero[filFin][colFin].color = 0  //borro destino
+        this.tablero[filFin][colFin] = this.tablero[filIni][colIni]   //muevo en la matriz
+        this.tablero[filFin][colFin].col = this.columna[colFin] + "%" //desde la matriz cambio fila y col
+        this.tablero[filFin][colFin].fil = this.fila[filFin] + "%"
+
+        //impiar casilla inicial
+        this.tablero[filIni][colIni] = this.v
+        //cambiar timer
+        this.cambiarTimer()
+        //pasar turno
+        this.turno = !this.turno
+        return
+      }
+      var aux:pieza = this.jaque(this.torreNegra1)
+      if(aux != this.v){
+        var filIni:number = this.obtenFila(aux)
+        var colIni:number = this.obtenerColumna(aux)
+        var filFin:number = this.obtenFila(this.torreNegra1)
+        var colFin:number = this.obtenerColumna(this.torreNegra1)
+
+        //mover la pieza
+        this.tablero[filFin][colFin].color = 0  //borro destino
+        this.tablero[filFin][colFin] = this.tablero[filIni][colIni]   //muevo en la matriz
+        this.tablero[filFin][colFin].col = this.columna[colFin] + "%" //desde la matriz cambio fila y col
+        this.tablero[filFin][colFin].fil = this.fila[filFin] + "%"
+
+        //impiar casilla inicial
+        this.tablero[filIni][colIni] = this.v
+        //cambiar timer
+        this.cambiarTimer()
+        //pasar turno
+        this.turno = !this.turno
+        return
+      }
+
+      var aux:pieza = this.jaque(this.caballoNegro0)
+      if(aux != this.v){
+        var filIni:number = this.obtenFila(aux)
+        var colIni:number = this.obtenerColumna(aux)
+        var filFin:number = this.obtenFila(this.caballoNegro0)
+        var colFin:number = this.obtenerColumna(this.caballoNegro0)
+
+        //mover la pieza
+        this.tablero[filFin][colFin].color = 0  //borro destino
+        this.tablero[filFin][colFin] = this.tablero[filIni][colIni]   //muevo en la matriz
+        this.tablero[filFin][colFin].col = this.columna[colFin] + "%" //desde la matriz cambio fila y col
+        this.tablero[filFin][colFin].fil = this.fila[filFin] + "%"
+
+        //impiar casilla inicial
+        this.tablero[filIni][colIni] = this.v
+        //cambiar timer
+        this.cambiarTimer()
+        //pasar turno
+        this.turno = !this.turno
+        return
+      }
+      var aux:pieza = this.jaque(this.caballoNegro1)
+      if(aux != this.v){
+        var filIni:number = this.obtenFila(aux)
+        var colIni:number = this.obtenerColumna(aux)
+        var filFin:number = this.obtenFila(this.caballoNegro1)
+        var colFin:number = this.obtenerColumna(this.caballoNegro1)
+
+        //mover la pieza
+        this.tablero[filFin][colFin].color = 0  //borro destino
+        this.tablero[filFin][colFin] = this.tablero[filIni][colIni]   //muevo en la matriz
+        this.tablero[filFin][colFin].col = this.columna[colFin] + "%" //desde la matriz cambio fila y col
+        this.tablero[filFin][colFin].fil = this.fila[filFin] + "%"
+
+        //impiar casilla inicial
+        this.tablero[filIni][colIni] = this.v
+        //cambiar timer
+        this.cambiarTimer()
+        //pasar turno
+        this.turno = !this.turno
+        return
+      }
+
+      var aux:pieza = this.jaque(this.alfilNegro0)
+      if(aux != this.v){
+        var filIni:number = this.obtenFila(aux)
+        var colIni:number = this.obtenerColumna(aux)
+        var filFin:number = this.obtenFila(this.alfilNegro0)
+        var colFin:number = this.obtenerColumna(this.alfilNegro0)
+
+        //mover la pieza
+        this.tablero[filFin][colFin].color = 0  //borro destino
+        this.tablero[filFin][colFin] = this.tablero[filIni][colIni]   //muevo en la matriz
+        this.tablero[filFin][colFin].col = this.columna[colFin] + "%" //desde la matriz cambio fila y col
+        this.tablero[filFin][colFin].fil = this.fila[filFin] + "%"
+
+        //impiar casilla inicial
+        this.tablero[filIni][colIni] = this.v
+        //cambiar timer
+        this.cambiarTimer()
+        //pasar turno
+        this.turno = !this.turno
+        return
+      }
+      var aux:pieza = this.jaque(this.alfilNegro1)
+      if(aux != this.v){
+        var filIni:number = this.obtenFila(aux)
+        var colIni:number = this.obtenerColumna(aux)
+        var filFin:number = this.obtenFila(this.alfilNegro1)
+        var colFin:number = this.obtenerColumna(this.alfilNegro1)
+
+        //mover la pieza
+        this.tablero[filFin][colFin].color = 0  //borro destino
+        this.tablero[filFin][colFin] = this.tablero[filIni][colIni]   //muevo en la matriz
+        this.tablero[filFin][colFin].col = this.columna[colFin] + "%" //desde la matriz cambio fila y col
+        this.tablero[filFin][colFin].fil = this.fila[filFin] + "%"
+
+        //impiar casilla inicial
+        this.tablero[filIni][colIni] = this.v
+        //cambiar timer
+        this.cambiarTimer()
+        //pasar turno
+        this.turno = !this.turno
+        return
+      }
+
+      var aux:pieza = this.jaque(this.peonNegro0)
+      if(aux != this.v){
+        var filIni:number = this.obtenFila(aux)
+        var colIni:number = this.obtenerColumna(aux)
+        var filFin:number = this.obtenFila(this.peonNegro0)
+        var colFin:number = this.obtenerColumna(this.peonNegro0)
+
+        //mover la pieza
+        this.tablero[filFin][colFin].color = 0  //borro destino
+        this.tablero[filFin][colFin] = this.tablero[filIni][colIni]   //muevo en la matriz
+        this.tablero[filFin][colFin].col = this.columna[colFin] + "%" //desde la matriz cambio fila y col
+        this.tablero[filFin][colFin].fil = this.fila[filFin] + "%"
+
+        //impiar casilla inicial
+        this.tablero[filIni][colIni] = this.v
+        //cambiar timer
+        this.cambiarTimer()
+        //pasar turno
+        this.turno = !this.turno
+        return
+      }
+      var aux:pieza = this.jaque(this.peonNegro1)
+      if(aux != this.v){
+        var filIni:number = this.obtenFila(aux)
+        var colIni:number = this.obtenerColumna(aux)
+        var filFin:number = this.obtenFila(this.peonNegro1)
+        var colFin:number = this.obtenerColumna(this.peonNegro1)
+
+        //mover la pieza
+        this.tablero[filFin][colFin].color = 0  //borro destino
+        this.tablero[filFin][colFin] = this.tablero[filIni][colIni]   //muevo en la matriz
+        this.tablero[filFin][colFin].col = this.columna[colFin] + "%" //desde la matriz cambio fila y col
+        this.tablero[filFin][colFin].fil = this.fila[filFin] + "%"
+
+        //impiar casilla inicial
+        this.tablero[filIni][colIni] = this.v
+        //cambiar timer
+        this.cambiarTimer()
+        //pasar turno
+        this.turno = !this.turno
+        return
+      }
+      var aux:pieza = this.jaque(this.peonNegro2)
+      if(aux != this.v){
+        var filIni:number = this.obtenFila(aux)
+        var colIni:number = this.obtenerColumna(aux)
+        var filFin:number = this.obtenFila(this.peonNegro2)
+        var colFin:number = this.obtenerColumna(this.peonNegro2)
+
+        //mover la pieza
+        this.tablero[filFin][colFin].color = 0  //borro destino
+        this.tablero[filFin][colFin] = this.tablero[filIni][colIni]   //muevo en la matriz
+        this.tablero[filFin][colFin].col = this.columna[colFin] + "%" //desde la matriz cambio fila y col
+        this.tablero[filFin][colFin].fil = this.fila[filFin] + "%"
+
+        //impiar casilla inicial
+        this.tablero[filIni][colIni] = this.v
+        //cambiar timer
+        this.cambiarTimer()
+        //pasar turno
+        this.turno = !this.turno
+        return
+      }
+      var aux:pieza = this.jaque(this.peonNegro3)
+      if(aux != this.v){
+        var filIni:number = this.obtenFila(aux)
+        var colIni:number = this.obtenerColumna(aux)
+        var filFin:number = this.obtenFila(this.peonNegro3)
+        var colFin:number = this.obtenerColumna(this.peonNegro3)
+
+        //mover la pieza
+        this.tablero[filFin][colFin].color = 0  //borro destino
+        this.tablero[filFin][colFin] = this.tablero[filIni][colIni]   //muevo en la matriz
+        this.tablero[filFin][colFin].col = this.columna[colFin] + "%" //desde la matriz cambio fila y col
+        this.tablero[filFin][colFin].fil = this.fila[filFin] + "%"
+
+        //impiar casilla inicial
+        this.tablero[filIni][colIni] = this.v
+        //cambiar timer
+        this.cambiarTimer()
+        //pasar turno
+        this.turno = !this.turno
+        return
+      }
+      var aux:pieza = this.jaque(this.peonNegro4)
+      if(aux != this.v){
+        var filIni:number = this.obtenFila(aux)
+        var colIni:number = this.obtenerColumna(aux)
+        var filFin:number = this.obtenFila(this.peonNegro4)
+        var colFin:number = this.obtenerColumna(this.peonNegro4)
+
+        //mover la pieza
+        this.tablero[filFin][colFin].color = 0  //borro destino
+        this.tablero[filFin][colFin] = this.tablero[filIni][colIni]   //muevo en la matriz
+        this.tablero[filFin][colFin].col = this.columna[colFin] + "%" //desde la matriz cambio fila y col
+        this.tablero[filFin][colFin].fil = this.fila[filFin] + "%"
+
+        //impiar casilla inicial
+        this.tablero[filIni][colIni] = this.v
+        //cambiar timer
+        this.cambiarTimer()
+        //pasar turno
+        this.turno = !this.turno
+        return
+      }
+      var aux:pieza = this.jaque(this.peonNegro5)
+      if(aux != this.v){
+        var filIni:number = this.obtenFila(aux)
+        var colIni:number = this.obtenerColumna(aux)
+        var filFin:number = this.obtenFila(this.peonNegro5)
+        var colFin:number = this.obtenerColumna(this.peonNegro5)
+
+        //mover la pieza
+        this.tablero[filFin][colFin].color = 0  //borro destino
+        this.tablero[filFin][colFin] = this.tablero[filIni][colIni]   //muevo en la matriz
+        this.tablero[filFin][colFin].col = this.columna[colFin] + "%" //desde la matriz cambio fila y col
+        this.tablero[filFin][colFin].fil = this.fila[filFin] + "%"
+
+        //impiar casilla inicial
+        this.tablero[filIni][colIni] = this.v
+        //cambiar timer
+        this.cambiarTimer()
+        //pasar turno
+        this.turno = !this.turno
+        return
+      }
+      var aux:pieza = this.jaque(this.peonNegro6)
+      if(aux != this.v){
+        var filIni:number = this.obtenFila(aux)
+        var colIni:number = this.obtenerColumna(aux)
+        var filFin:number = this.obtenFila(this.peonNegro6)
+        var colFin:number = this.obtenerColumna(this.peonNegro6)
+
+        //mover la pieza
+        this.tablero[filFin][colFin].color = 0  //borro destino
+        this.tablero[filFin][colFin] = this.tablero[filIni][colIni]   //muevo en la matriz
+        this.tablero[filFin][colFin].col = this.columna[colFin] + "%" //desde la matriz cambio fila y col
+        this.tablero[filFin][colFin].fil = this.fila[filFin] + "%"
+
+        //impiar casilla inicial
+        this.tablero[filIni][colIni] = this.v
+        //cambiar timer
+        this.cambiarTimer()
+        //pasar turno
+        this.turno = !this.turno
+        return
+      }
+      var aux:pieza = this.jaque(this.peonNegro7)
+      if(aux != this.v){
+        var filIni:number = this.obtenFila(aux)
+        var colIni:number = this.obtenerColumna(aux)
+        var filFin:number = this.obtenFila(this.peonNegro7)
+        var colFin:number = this.obtenerColumna(this.peonNegro7)
+
+        //mover la pieza
+        this.tablero[filFin][colFin].color = 0  //borro destino
+        this.tablero[filFin][colFin] = this.tablero[filIni][colIni]   //muevo en la matriz
+        this.tablero[filFin][colFin].col = this.columna[colFin] + "%" //desde la matriz cambio fila y col
+        this.tablero[filFin][colFin].fil = this.fila[filFin] + "%"
+
+        //impiar casilla inicial
+        this.tablero[filIni][colIni] = this.v
+        //cambiar timer
+        this.cambiarTimer()
+        //pasar turno
+        this.turno = !this.turno
+        return
+      }
+
+      //////////////////////////////////////
+      //NO PUEDE COMER
+      /////////////////////////////////////
+
+      //seleccionar una pieza blanca
+      var piezaMover:pieza = this.getBlanca()
+      while(!this.moverPieza(piezaMover)){
+        piezaMover = this.getBlanca()
+      }
+      this.turno = !this.turno
+      this.cambiarTimer()
+      return
+    } 
+    else {
+
+    }
+
+    this.cambiarTimer()
+    this.turno != this.turno
+    return
+  }
+///////////////////////////////////////////////
+///////////////////////////////////////
+//FUNCIONES PARA LA IA
+randomInt(min:number, max:number) {
+  return Math.floor(Math.random() * (max - min)) + min;
+}
+
+getBlanca():pieza{
+  var vector:pieza[] = [this.peonBlanco0, this.peonBlanco1, this.peonBlanco2, this.peonBlanco3, this.peonBlanco4, this.peonBlanco5,
+                    this.peonBlanco6, this.peonBlanco7, this.alfilBlanco0, this.alfilBlanco1, this.caballoBlanco0, this.caballoBlanco1,
+                    this.torreBlanca0, this.torreBlanca1, this.reinaBlanca]
+ 
+  var num:number = this.randomInt(0, 14);
+
+  while(vector[num].color == 0) {
+    num = this.randomInt(0, 14);
+  }
+  return vector[num];
+}
+
+getNegra():pieza{
+var vector:pieza[] = [this.peonNegro0, this.peonNegro1, this.peonNegro2, this.peonNegro3, this.peonNegro4, this.peonNegro5,
+    this.peonNegro6, this.peonNegro7, this.alfilNegro0, this.alfilNegro1, this.caballoNegro0, this.caballoNegro1,
+    this.torreNegra0, this.torreNegra1, this.reinaNegra]
+
+var num:number = this.randomInt(0, 14);
+
+while(vector[num].color == 0) {
+num = this.randomInt(0, 14);
+}
+return vector[num];
+}
+
+moverPieza(pieza:pieza):boolean{
+  //diferenciar pieza
+  this.pieza = this.piezaToString(pieza);
+  if(this.peon()){
+    //asignar filaFin y colFin
+    this.filaFin = this.obtenFila(pieza)
+    this.columnFin = this.obtenerColumna(pieza)
+    if(pieza.color == 1){ //peones blancos
+      if(this.blanco == 1){
+        if(this.tablero[this.filaFin - 1][this.columnFin] == this.v){
+          //console.log("dentro0")
+          this.filaFin--
+        }
+        else {
+          return false;
+        }
+      }
+      else {
+        if(this.tablero[this.filaFin + 1][this.columnFin] == this.v){
+          //console.log("dentro0")
+          this.filaFin++
+        }
+        else {
+          return false;
+        }
+      }
+    }
+    else  //peones negros
+    {
+      if(this.blanco){
+        if(this.tablero[this.filaFin + 1][this.columnFin] == this.v){
+          //console.log("dentro0")
+          this.filaFin++
+        }
+        else {
+          return false;
+        }
+      }
+      else
+      {
+        if(this.tablero[this.filaFin + 1][this.columnFin] == this.v){
+          //console.log("dentro0")
+          this.filaFin--
+        }
+        else {
+          return false;
+        }
+      }
+    }
+    this.tablero[this.filaFin][this.columnFin] = this.tablero[this.obtenFila(pieza)][this.obtenerColumna(pieza)]
+    this.tablero[this.obtenFila(pieza)][this.obtenerColumna(pieza)] = this.v
+    this.tablero[this.filaFin][this.columnFin].fil = this.fila[this.filaFin].toString() + "%"
+    this.tablero[this.filaFin][this.columnFin].col = this.columna[this.columnFin].toString() + "%"
+    aux = 5;
+    return true
+  }
+  else if(this.alfil()){
+    var aux = this.randomInt(0, 3);
+    var cont = 0
+    while(cont < 4) {
+      //asignar filaFin y colFin
+      this.filaFin = this.obtenFila(pieza)
+      this.columnFin = this.obtenerColumna(pieza)
+      if(aux == 0){
+        console.log("ini0")
+        while(this.filaFin + 1 <= 7 && this.columnFin + 1 <= 7) {
+          if(this.tablero[this.filaFin + 1][this.columnFin + 1] == this.v){
+            //console.log("dentro0")
+            this.filaFin++
+            this.columnFin++
+          }
+          else {
+            //console.log("0")
+            break
+          }
+        }
+        if(this.filaFin == this.obtenFila(pieza) && this.columnFin == this.obtenerColumna(pieza)){
+          //no se puede mover
+          //console.log("igual0")
+          aux++
+          cont++
+        }
+        else {
+          //console.log("aqui0")
+          this.tablero[this.filaFin][this.columnFin] = this.tablero[this.obtenFila(pieza)][this.obtenerColumna(pieza)]
+          this.tablero[this.obtenFila(pieza)][this.obtenerColumna(pieza)] = this.v
+          this.tablero[this.filaFin][this.columnFin].fil = this.fila[this.filaFin].toString() + "%"
+          this.tablero[this.filaFin][this.columnFin].col = this.columna[this.columnFin].toString() + "%"
+          aux = 5;
+          return true
+        }
+      }
+      else if(aux == 1){
+        console.log("ini1")
+        while(this.filaFin - 1 >= 0 && this.columnFin + 1 <= 7) {
+          if(this.tablero[this.filaFin - 1][this.columnFin + 1] == this.v){
+            //console.log("dentro1")
+            this.filaFin--
+            this.columnFin++
+          }
+          else {
+            //console.log("1")
+            break
+          }
+        }
+        if(this.filaFin == this.obtenFila(pieza) && this.columnFin == this.obtenerColumna(pieza)){
+          //no se puede mover
+          //console.log("igual1")
+          aux++
+          cont++
+        }
+        else {
+          //console.log("aqui1")
+          this.tablero[this.filaFin][this.columnFin] = this.tablero[this.obtenFila(pieza)][this.obtenerColumna(pieza)]
+          this.tablero[this.obtenFila(pieza)][this.obtenerColumna(pieza)] = this.v
+          this.tablero[this.filaFin][this.columnFin].fil = this.fila[this.filaFin].toString() + "%"
+          this.tablero[this.filaFin][this.columnFin].col = this.columna[this.columnFin].toString() + "%"
+          aux = 5;
+          return true
+        }
+      }
+      else if(aux == 2){
+        console.log("ini2")
+        while(this.filaFin + 1 <= 7 && this.columnFin - 1 >= 0) {
+          if(this.tablero[this.filaFin + 1][this.columnFin - 1] == this.v){
+            //console.log("dentro2")
+            this.filaFin++
+            this.columnFin--
+          }
+          else {
+            //console.log("2")
+            break
+          }
+        }
+        if(this.filaFin == this.obtenFila(pieza) && this.columnFin == this.obtenerColumna(pieza)){
+          //no se puede mover
+          //console.log("igual2")
+          aux++
+          cont++
+        }
+        else {
+          //console.log("aqui2")
+          this.tablero[this.filaFin][this.columnFin] = this.tablero[this.obtenFila(pieza)][this.obtenerColumna(pieza)]
+          this.tablero[this.obtenFila(pieza)][this.obtenerColumna(pieza)] = this.v
+          this.tablero[this.filaFin][this.columnFin].fil = this.fila[this.filaFin].toString() + "%"
+          this.tablero[this.filaFin][this.columnFin].col = this.columna[this.columnFin].toString() + "%"
+          aux = 5;
+          return true
+        }
+      }
+      else if(aux == 3){
+        console.log("ini3")
+        while(this.filaFin - 1 >= 0 && this.columnFin - 1 >= 0) {
+          if(this.tablero[this.filaFin - 1][this.columnFin - 1] == this.v){
+            //console.log("dentro3")
+            this.filaFin--
+            this.columnFin--
+          }
+          else {
+            //console.log("3")
+            break
+          }
+        }
+        if(this.filaFin == this.obtenFila(pieza) && this.columnFin == this.obtenerColumna(pieza)){
+          //no se puede mover
+          //console.log("igual3")
+          aux = 0
+          cont++
+        }
+        else {
+          //console.log("aqui3")
+          this.tablero[this.filaFin][this.columnFin] = this.tablero[this.obtenFila(pieza)][this.obtenerColumna(pieza)]
+          this.tablero[this.obtenFila(pieza)][this.obtenerColumna(pieza)] = this.v
+          this.tablero[this.filaFin][this.columnFin].fil = this.fila[this.filaFin].toString() + "%"
+          this.tablero[this.filaFin][this.columnFin].col = this.columna[this.columnFin].toString() + "%"
+          aux = 5;
+          return true
+        }
+      }
+
+    }
+  }
+  else if(this.caballo())
+  {
+    var aux = this.randomInt(0, 7);
+    //console.log(aux)
+    var cont = 0
+    while(cont < 8) {
+      console.log("cont")
+      console.log(cont)
+      //asignar filaFin y colFin
+      this.filaFin = this.obtenFila(pieza)
+      this.columnFin = this.obtenerColumna(pieza)
+      if(aux == 0){
+        console.log("ini0")
+        if(this.filaFin + 1 <= 7 && this.columnFin + 2 <= 7) {
+          if(this.tablero[this.filaFin + 1][this.columnFin + 2] == this.v){
+            //console.log("dentro0")
+            this.filaFin++
+            this.columnFin += 2
+          }
+          else {
+            //console.log("0")
+            //break
+          }
+        }
+        if(this.filaFin == this.obtenFila(pieza) && this.columnFin == this.obtenerColumna(pieza)){
+          //no se puede mover
+          //console.log("igual0")
+          aux++
+          cont++
+        }
+        else {
+          //console.log("aqui0")
+          this.tablero[this.filaFin][this.columnFin] = this.tablero[this.obtenFila(pieza)][this.obtenerColumna(pieza)]
+          this.tablero[this.obtenFila(pieza)][this.obtenerColumna(pieza)] = this.v
+          this.tablero[this.filaFin][this.columnFin].fil = this.fila[this.filaFin].toString() + "%"
+          this.tablero[this.filaFin][this.columnFin].col = this.columna[this.columnFin].toString() + "%"
+          aux = 10;
+          return true
+        }
+      }
+      else if(aux == 1){
+        console.log("ini1")
+        if(this.filaFin - 1 >= 0 && this.columnFin + 2 <= 7) {
+          if(this.tablero[this.filaFin - 1][this.columnFin + 2] == this.v){
+            //console.log("dentro1")
+            this.filaFin--
+            this.columnFin += 2
+          }
+          else {
+            //console.log("1")
+            //break
+          }
+        }
+        if(this.filaFin == this.obtenFila(pieza) && this.columnFin == this.obtenerColumna(pieza)){
+          //no se puede mover
+          //console.log("igual1")
+          aux++
+          cont++
+        }
+        else {
+          //console.log("aqui1")
+          this.tablero[this.filaFin][this.columnFin] = this.tablero[this.obtenFila(pieza)][this.obtenerColumna(pieza)]
+          this.tablero[this.obtenFila(pieza)][this.obtenerColumna(pieza)] = this.v
+          this.tablero[this.filaFin][this.columnFin].fil = this.fila[this.filaFin].toString() + "%"
+          this.tablero[this.filaFin][this.columnFin].col = this.columna[this.columnFin].toString() + "%"
+          aux = 10;
+          return true
+        }
+      }
+      else if(aux == 2){
+        console.log("ini2")
+        if(this.filaFin + 1 <= 7 && this.columnFin - 2 >= 0) {
+          if(this.tablero[this.filaFin + 1][this.columnFin - 2] == this.v){
+            //console.log("dentro2")
+            this.filaFin++
+            this.columnFin -= 2
+          }
+          else {
+            //console.log("2")
+            //break
+          }
+        }
+        if(this.filaFin == this.obtenFila(pieza) && this.columnFin == this.obtenerColumna(pieza)){
+          //no se puede mover
+          //console.log("igual2")
+          aux++
+          cont++
+        }
+        else {
+          //console.log("aqui2")
+          this.tablero[this.filaFin][this.columnFin] = this.tablero[this.obtenFila(pieza)][this.obtenerColumna(pieza)]
+          this.tablero[this.obtenFila(pieza)][this.obtenerColumna(pieza)] = this.v
+          this.tablero[this.filaFin][this.columnFin].fil = this.fila[this.filaFin].toString() + "%"
+          this.tablero[this.filaFin][this.columnFin].col = this.columna[this.columnFin].toString() + "%"
+          aux = 10;
+          return true
+        }
+      }
+      else if(aux == 3){
+        console.log("ini3")
+        if(this.filaFin - 1 >= 0 && this.columnFin - 2 >= 0) {
+          if(this.tablero[this.filaFin - 1][this.columnFin - 2] == this.v){
+            //console.log("dentro3")
+            this.filaFin--
+            this.columnFin -= 2
+          }
+          else {
+            //console.log("3")
+            //break
+          }
+        }
+        if(this.filaFin == this.obtenFila(pieza) && this.columnFin == this.obtenerColumna(pieza)){
+          //no se puede mover
+          //console.log("igual3")
+          aux++
+          cont++
+        }
+        else {
+          //console.log("aqui3")
+          this.tablero[this.filaFin][this.columnFin] = this.tablero[this.obtenFila(pieza)][this.obtenerColumna(pieza)]
+          this.tablero[this.obtenFila(pieza)][this.obtenerColumna(pieza)] = this.v
+          this.tablero[this.filaFin][this.columnFin].fil = this.fila[this.filaFin].toString() + "%"
+          this.tablero[this.filaFin][this.columnFin].col = this.columna[this.columnFin].toString() + "%"
+          aux = 10;
+          return true
+        }
+      }
+      else if(aux == 4){
+        console.log("ini4")
+        if(this.filaFin + 2 <= 7 && this.columnFin + 1 <= 7) {
+          if(this.tablero[this.filaFin + 2][this.columnFin+1] == this.v){
+            //console.log("dentro0")
+            this.filaFin += 2
+            this.columnFin++
+          }
+          else {
+            //console.log("0")
+            //break
+          }
+        }
+        if(this.filaFin == this.obtenFila(pieza) && this.columnFin == this.obtenerColumna(pieza)){
+          //no se puede mover
+          //console.log("igual0")
+          aux++
+          cont++
+        }
+        else {
+          //console.log("aqui0")
+          this.tablero[this.filaFin][this.columnFin] = this.tablero[this.obtenFila(pieza)][this.obtenerColumna(pieza)]
+          this.tablero[this.obtenFila(pieza)][this.obtenerColumna(pieza)] = this.v
+          this.tablero[this.filaFin][this.columnFin].fil = this.fila[this.filaFin].toString() + "%"
+          this.tablero[this.filaFin][this.columnFin].col = this.columna[this.columnFin].toString() + "%"
+          aux = 10;
+          return true
+        }
+      }
+      else if(aux == 5){
+        console.log("ini5")
+        if(this.filaFin + 2 <= 7 && this.columnFin - 1 >= 0 ) {
+          if(this.tablero[this.filaFin + 2][this.columnFin - 1] == this.v){
+            //console.log("dentro1")
+            this.filaFin += 2
+            this.columnFin--
+          }
+          else {
+            //console.log("1")
+            //break
+          }
+        }
+        if(this.filaFin == this.obtenFila(pieza) && this.columnFin == this.obtenerColumna(pieza)){
+          //no se puede mover
+          //console.log("igual1")
+          aux++
+          cont++
+        }
+        else {
+          //console.log("aqui1")
+          this.tablero[this.filaFin][this.columnFin] = this.tablero[this.obtenFila(pieza)][this.obtenerColumna(pieza)]
+          this.tablero[this.obtenFila(pieza)][this.obtenerColumna(pieza)] = this.v
+          this.tablero[this.filaFin][this.columnFin].fil = this.fila[this.filaFin].toString() + "%"
+          this.tablero[this.filaFin][this.columnFin].col = this.columna[this.columnFin].toString() + "%"
+          aux = 10;
+          return true
+        }
+      }
+      else if(aux == 6){
+        console.log("ini6")
+        if(this.filaFin - 2 >= 0 && this.columnFin + 1 <= 7) {
+          if(this.tablero[this.filaFin - 2][this.columnFin + 1] == this.v){
+            //console.log("dentro2")
+            this.filaFin -= 2
+            this.columnFin++
+          }
+          else {
+            //console.log("2")
+            //break
+          }
+        }
+        if(this.filaFin == this.obtenFila(pieza) && this.columnFin == this.obtenerColumna(pieza)){
+          //no se puede mover
+          //console.log("igual2")
+          aux++
+          cont++
+        }
+        else {
+          //console.log("aqui2")
+          this.tablero[this.filaFin][this.columnFin] = this.tablero[this.obtenFila(pieza)][this.obtenerColumna(pieza)]
+          this.tablero[this.obtenFila(pieza)][this.obtenerColumna(pieza)] = this.v
+          this.tablero[this.filaFin][this.columnFin].fil = this.fila[this.filaFin].toString() + "%"
+          this.tablero[this.filaFin][this.columnFin].col = this.columna[this.columnFin].toString() + "%"
+          aux = 10;
+          return true
+        }
+      }
+      else if(aux == 7){
+        console.log("ini7")
+        if(this.filaFin - 2 >= 0 && this.columnFin - 1 >= 0) {
+          if(this.tablero[this.filaFin - 2][this.columnFin - 1] == this.v){
+            //console.log("dentro3")
+            this.filaFin -= 2
+            this.columnFin--
+          }
+          else {
+            //console.log("3")
+            //break
+          }
+        }
+        if(this.filaFin == this.obtenFila(pieza) && this.columnFin == this.obtenerColumna(pieza)){
+          //no se puede mover
+          //console.log("igual3")
+          aux = 0
+          cont++
+        }
+        else {
+          //console.log("aqui3")
+          this.tablero[this.filaFin][this.columnFin] = this.tablero[this.obtenFila(pieza)][this.obtenerColumna(pieza)]
+          this.tablero[this.obtenFila(pieza)][this.obtenerColumna(pieza)] = this.v
+          this.tablero[this.filaFin][this.columnFin].fil = this.fila[this.filaFin].toString() + "%"
+          this.tablero[this.filaFin][this.columnFin].col = this.columna[this.columnFin].toString() + "%"
+          aux = 10;
+          return true
+        }
+      }
+
+    }
+  }
+  
+  else if(this.torre()){
+    
+    var aux = this.randomInt(0, 3);
+    var cont = 0
+    while(cont < 4) {
+      //asignar filaFin y colFin
+      this.filaFin = this.obtenFila(pieza)
+      this.columnFin = this.obtenerColumna(pieza)
+      if(aux == 0){
+        console.log("ini0")
+        while(this.filaFin + 1 <= 7) {
+          if(this.tablero[this.filaFin + 1][this.columnFin] == this.v){
+            //console.log("dentro0")
+            this.filaFin++
+          }
+          else {
+            //console.log("0")
+            break
+          }
+        }
+        if(this.filaFin == this.obtenFila(pieza) && this.columnFin == this.obtenerColumna(pieza)){
+          //no se puede mover
+          //console.log("igual0")
+          aux++
+          cont++
+        }
+        else {
+          //console.log("aqui0")
+          this.tablero[this.filaFin][this.columnFin] = this.tablero[this.obtenFila(pieza)][this.obtenerColumna(pieza)]
+          this.tablero[this.obtenFila(pieza)][this.obtenerColumna(pieza)] = this.v
+          this.tablero[this.filaFin][this.columnFin].fil = this.fila[this.filaFin].toString() + "%"
+          this.tablero[this.filaFin][this.columnFin].col = this.columna[this.columnFin].toString() + "%"
+          aux = 5;
+          return true
+        }
+      }
+      else if(aux == 1){
+        console.log("ini1")
+        while(this.filaFin - 1 >= 0 ) {
+          if(this.tablero[this.filaFin - 1][this.columnFin] == this.v){
+            //console.log("dentro1")
+            this.filaFin--
+          }
+          else {
+            //console.log("1")
+            break
+          }
+        }
+        if(this.filaFin == this.obtenFila(pieza) && this.columnFin == this.obtenerColumna(pieza)){
+          //no se puede mover
+          //console.log("igual1")
+          aux++
+          cont++
+        }
+        else {
+          //console.log("aqui1")
+          this.tablero[this.filaFin][this.columnFin] = this.tablero[this.obtenFila(pieza)][this.obtenerColumna(pieza)]
+          this.tablero[this.obtenFila(pieza)][this.obtenerColumna(pieza)] = this.v
+          this.tablero[this.filaFin][this.columnFin].fil = this.fila[this.filaFin].toString() + "%"
+          this.tablero[this.filaFin][this.columnFin].col = this.columna[this.columnFin].toString() + "%"
+          aux = 5;
+          return true
+        }
+      }
+      else if(aux == 2){
+        console.log("ini2")
+        while(this.columnFin + 1 <= 7) {
+          if(this.tablero[this.filaFin][this.columnFin + 1] == this.v){
+            //console.log("dentro2")
+            this.columnFin++
+          }
+          else {
+            //console.log("2")
+            break
+          }
+        }
+        if(this.filaFin == this.obtenFila(pieza) && this.columnFin == this.obtenerColumna(pieza)){
+          //no se puede mover
+          //console.log("igual2")
+          aux++
+          cont++
+        }
+        else {
+          //console.log("aqui2")
+          this.tablero[this.filaFin][this.columnFin] = this.tablero[this.obtenFila(pieza)][this.obtenerColumna(pieza)]
+          this.tablero[this.obtenFila(pieza)][this.obtenerColumna(pieza)] = this.v
+          this.tablero[this.filaFin][this.columnFin].fil = this.fila[this.filaFin].toString() + "%"
+          this.tablero[this.filaFin][this.columnFin].col = this.columna[this.columnFin].toString() + "%"
+          aux = 5;
+          return true
+        }
+      }
+      else if(aux == 3){
+        console.log("ini3")
+        while(this.columnFin - 1 >= 0) {
+          if(this.tablero[this.filaFin][this.columnFin - 1] == this.v){
+            //console.log("dentro3")
+            this.columnFin--
+          }
+          else {
+            //console.log("3")
+            break
+          }
+        }
+        if(this.filaFin == this.obtenFila(pieza) && this.columnFin == this.obtenerColumna(pieza)){
+          //no se puede mover
+          //console.log("igual3")
+          aux = 0
+          cont++
+        }
+        else {
+          //console.log("aqui3")
+          this.tablero[this.filaFin][this.columnFin] = this.tablero[this.obtenFila(pieza)][this.obtenerColumna(pieza)]
+          this.tablero[this.obtenFila(pieza)][this.obtenerColumna(pieza)] = this.v
+          this.tablero[this.filaFin][this.columnFin].fil = this.fila[this.filaFin].toString() + "%"
+          this.tablero[this.filaFin][this.columnFin].col = this.columna[this.columnFin].toString() + "%"
+          aux = 5;
+          return true
+        }
+      }
+    }
+
+  }else if(pieza == this.reinaBlanca || pieza == this.reinaNegra) {
+    
+    var aux = this.randomInt(0, 7);
+    var cont = 0
+    while(cont < 8) {
+      //asignar filaFin y colFin
+      this.filaFin = this.obtenFila(pieza)
+      this.columnFin = this.obtenerColumna(pieza)
+      if(aux == 0){
+        console.log("ini0")
+        while(this.filaFin + 1 <= 7 && this.columnFin + 1 <= 7) {
+          if(this.tablero[this.filaFin + 1][this.columnFin + 1] == this.v){
+            //console.log("dentro0")
+            this.filaFin++
+            this.columnFin++
+          }
+          else {
+            //console.log("0")
+            break
+          }
+        }
+        if(this.filaFin == this.obtenFila(pieza) && this.columnFin == this.obtenerColumna(pieza)){
+          //no se puede mover
+          //console.log("igual0")
+          aux++
+          cont++
+        }
+        else {
+          //console.log("aqui0")
+          this.tablero[this.filaFin][this.columnFin] = this.tablero[this.obtenFila(pieza)][this.obtenerColumna(pieza)]
+          this.tablero[this.obtenFila(pieza)][this.obtenerColumna(pieza)] = this.v
+          this.tablero[this.filaFin][this.columnFin].fil = this.fila[this.filaFin].toString() + "%"
+          this.tablero[this.filaFin][this.columnFin].col = this.columna[this.columnFin].toString() + "%"
+          aux = 10;
+          return true
+        }
+      }
+      else if(aux == 1){
+        console.log("ini1")
+        while(this.filaFin - 1 >= 0 && this.columnFin + 1 <= 7) {
+          if(this.tablero[this.filaFin - 1][this.columnFin + 1] == this.v){
+            //console.log("dentro1")
+            this.filaFin--
+            this.columnFin++
+          }
+          else {
+            //console.log("1")
+            break
+          }
+        }
+        if(this.filaFin == this.obtenFila(pieza) && this.columnFin == this.obtenerColumna(pieza)){
+          //no se puede mover
+          //console.log("igual1")
+          aux++
+          cont++
+        }
+        else {
+          //console.log("aqui1")
+          this.tablero[this.filaFin][this.columnFin] = this.tablero[this.obtenFila(pieza)][this.obtenerColumna(pieza)]
+          this.tablero[this.obtenFila(pieza)][this.obtenerColumna(pieza)] = this.v
+          this.tablero[this.filaFin][this.columnFin].fil = this.fila[this.filaFin].toString() + "%"
+          this.tablero[this.filaFin][this.columnFin].col = this.columna[this.columnFin].toString() + "%"
+          aux = 10;
+          return true
+        }
+      }
+      else if(aux == 2){
+        console.log("ini2")
+        while(this.filaFin + 1 <= 7 && this.columnFin - 1 >= 0) {
+          if(this.tablero[this.filaFin + 1][this.columnFin - 1] == this.v){
+            //console.log("dentro2")
+            this.filaFin++
+            this.columnFin--
+          }
+          else {
+            //console.log("2")
+            break
+          }
+        }
+        if(this.filaFin == this.obtenFila(pieza) && this.columnFin == this.obtenerColumna(pieza)){
+          //no se puede mover
+          //console.log("igual2")
+          aux++
+          cont++
+        }
+        else {
+          //console.log("aqui2")
+          this.tablero[this.filaFin][this.columnFin] = this.tablero[this.obtenFila(pieza)][this.obtenerColumna(pieza)]
+          this.tablero[this.obtenFila(pieza)][this.obtenerColumna(pieza)] = this.v
+          this.tablero[this.filaFin][this.columnFin].fil = this.fila[this.filaFin].toString() + "%"
+          this.tablero[this.filaFin][this.columnFin].col = this.columna[this.columnFin].toString() + "%"
+          aux = 10;
+          return true
+        }
+      }
+      else if(aux == 3){
+        console.log("ini3")
+        while(this.filaFin - 1 >= 0 && this.columnFin - 1 >= 0) {
+          if(this.tablero[this.filaFin - 1][this.columnFin - 1] == this.v){
+            //console.log("dentro3")
+            this.filaFin--
+            this.columnFin--
+          }
+          else {
+            //console.log("3")
+            break
+          }
+        }
+        if(this.filaFin == this.obtenFila(pieza) && this.columnFin == this.obtenerColumna(pieza)){
+          //no se puede mover
+          //console.log("igual3")
+          aux++
+          cont++
+        }
+        else {
+          //console.log("aqui3")
+          this.tablero[this.filaFin][this.columnFin] = this.tablero[this.obtenFila(pieza)][this.obtenerColumna(pieza)]
+          this.tablero[this.obtenFila(pieza)][this.obtenerColumna(pieza)] = this.v
+          this.tablero[this.filaFin][this.columnFin].fil = this.fila[this.filaFin].toString() + "%"
+          this.tablero[this.filaFin][this.columnFin].col = this.columna[this.columnFin].toString() + "%"
+          aux = 10;
+          return true
+        }
+      }
+      else if(aux == 4){
+        console.log("ini4")
+        while(this.filaFin + 1 <= 7) {
+          if(this.tablero[this.filaFin + 1][this.columnFin] == this.v){
+            //console.log("dentro0")
+            this.filaFin++
+          }
+          else {
+            //console.log("0")
+            break
+          }
+        }
+        if(this.filaFin == this.obtenFila(pieza) && this.columnFin == this.obtenerColumna(pieza)){
+          //no se puede mover
+          //console.log("igual0")
+          aux++
+          cont++
+        }
+        else {
+          //console.log("aqui0")
+          this.tablero[this.filaFin][this.columnFin] = this.tablero[this.obtenFila(pieza)][this.obtenerColumna(pieza)]
+          this.tablero[this.obtenFila(pieza)][this.obtenerColumna(pieza)] = this.v
+          this.tablero[this.filaFin][this.columnFin].fil = this.fila[this.filaFin].toString() + "%"
+          this.tablero[this.filaFin][this.columnFin].col = this.columna[this.columnFin].toString() + "%"
+          aux = 10;
+          return true
+        }
+      }
+      else if(aux == 5){
+        console.log("ini5")
+        while(this.filaFin - 1 >= 0 ) {
+          if(this.tablero[this.filaFin - 1][this.columnFin] == this.v){
+            //console.log("dentro1")
+            this.filaFin--
+          }
+          else {
+            //console.log("1")
+            break
+          }
+        }
+        if(this.filaFin == this.obtenFila(pieza) && this.columnFin == this.obtenerColumna(pieza)){
+          //no se puede mover
+          //console.log("igual1")
+          aux++
+          cont++
+        }
+        else {
+          //console.log("aqui1")
+          this.tablero[this.filaFin][this.columnFin] = this.tablero[this.obtenFila(pieza)][this.obtenerColumna(pieza)]
+          this.tablero[this.obtenFila(pieza)][this.obtenerColumna(pieza)] = this.v
+          this.tablero[this.filaFin][this.columnFin].fil = this.fila[this.filaFin].toString() + "%"
+          this.tablero[this.filaFin][this.columnFin].col = this.columna[this.columnFin].toString() + "%"
+          aux = 10;
+          return true
+        }
+      }
+      else if(aux == 6){
+        console.log("ini6")
+        while(this.columnFin + 1 <= 7) {
+          if(this.tablero[this.filaFin][this.columnFin + 1] == this.v){
+            //console.log("dentro2")
+            this.columnFin++
+          }
+          else {
+            //console.log("2")
+            break
+          }
+        }
+        if(this.filaFin == this.obtenFila(pieza) && this.columnFin == this.obtenerColumna(pieza)){
+          //no se puede mover
+          //console.log("igual2")
+          aux++
+          cont++
+        }
+        else {
+          //console.log("aqui2")
+          this.tablero[this.filaFin][this.columnFin] = this.tablero[this.obtenFila(pieza)][this.obtenerColumna(pieza)]
+          this.tablero[this.obtenFila(pieza)][this.obtenerColumna(pieza)] = this.v
+          this.tablero[this.filaFin][this.columnFin].fil = this.fila[this.filaFin].toString() + "%"
+          this.tablero[this.filaFin][this.columnFin].col = this.columna[this.columnFin].toString() + "%"
+          aux = 10;
+          return true
+        }
+      }
+      else if(aux == 7){
+        console.log("ini7")
+        while(this.columnFin - 1 >= 0) {
+          if(this.tablero[this.filaFin][this.columnFin - 1] == this.v){
+            //console.log("dentro3")
+            this.columnFin--
+          }
+          else {
+            //console.log("3")
+            break
+          }
+        }
+        if(this.filaFin == this.obtenFila(pieza) && this.columnFin == this.obtenerColumna(pieza)){
+          //no se puede mover
+          //console.log("igual3")
+          aux = 0
+          cont++
+        }
+        else {
+          //console.log("aqui3")
+          this.tablero[this.filaFin][this.columnFin] = this.tablero[this.obtenFila(pieza)][this.obtenerColumna(pieza)]
+          this.tablero[this.obtenFila(pieza)][this.obtenerColumna(pieza)] = this.v
+          this.tablero[this.filaFin][this.columnFin].fil = this.fila[this.filaFin].toString() + "%"
+          this.tablero[this.filaFin][this.columnFin].col = this.columna[this.columnFin].toString() + "%"
+          aux = 10;
+          return true
+        }
+      }
+
+    }
+
+  }
+
+  return false
+}
+
+////////////////////////////////////////  
+/////////////////////////////////////////////////////
+
+  //dado una pieza obtener la fila donde esta en la matriz
+  obtenFila(pieza:pieza):number{
+    var i:number = 0
+    for (i=0; i < 9; i++){
+      if(pieza.fil == this.fila[i].toString() + "%"){
+        return i
+      }
+    }
+
+    return -1
+  }
+
+  //dado una pieza obtener la columna donde esta en la matriz
+  obtenerColumna(pieza:pieza):number{
+    var i:number = 0
+    for (i=0; i < 9; i++){
+      if(pieza.col == this.columna[i].toString() + "%"){
+        return i
+      }
+    }
+    return -1
+  }
+
+  //devuelve la pieza amenaza al parametro
+  jaque(pieza:pieza):pieza {
+
+    if(pieza.color == 1){  //la pieza es blanca, amenezan negras
+      if(this.amenazaPieza(this.peonNegro0, pieza)) {
+        return this.peonNegro0
+      }
+      else if(this.amenazaPieza(this.peonNegro1, pieza)) {
+        return this.peonNegro1
+      }
+      else if(this.amenazaPieza(this.peonNegro2, pieza)) {
+        return this.peonNegro2
+      }
+      else if(this.amenazaPieza(this.peonNegro3, pieza)) {
+        return this.peonNegro3
+      }
+      else if(this.amenazaPieza(this.peonNegro4, pieza)) {
+        return this.peonNegro4
+      }
+      else if(this.amenazaPieza(this.peonNegro5, pieza)) {
+        return this.peonNegro5
+      }
+      else if(this.amenazaPieza(this.peonNegro6, pieza)) {
+        return this.peonNegro6
+      }
+      else if(this.amenazaPieza(this.peonNegro7, pieza)) {
+        return this.peonNegro7
+      }
+      else if(this.amenazaPieza(this.alfilNegro0, pieza)) {
+        return this.alfilNegro0
+      }
+      else if(this.amenazaPieza(this.alfilNegro1, pieza)) {
+        return this.alfilNegro1
+      }
+      else if(this.amenazaPieza(this.caballoNegro0, pieza)) {
+        return this.caballoNegro0
+      }
+      else if(this.amenazaPieza(this.caballoNegro1, pieza)) {
+        return this.caballoNegro1
+      }
+      else if(this.amenazaPieza(this.torreNegra0, pieza)) {
+        return this.torreNegra0
+      }
+      else if(this.amenazaPieza(this.torreNegra1, pieza)) {
+        return this.torreNegra1
+      }
+      else if(this.amenazaPieza(this.reinaNegra, pieza)) {
+        return this.reinaNegra
+      }
+    }
+    else if(pieza.color == -1) {      //la pieza es negra, amenazan blancas
+      if(this.amenazaPieza(this.peonBlanco0, pieza)) {
+        return this.peonBlanco0
+      }
+      else if(this.amenazaPieza(this.peonBlanco1, pieza)) {
+        return this.peonBlanco1
+      }
+      else if(this.amenazaPieza(this.peonBlanco2, pieza)) {
+        return this.peonBlanco2
+      }
+      else if(this.amenazaPieza(this.peonBlanco3, pieza)) {
+        return this.peonBlanco3
+      }
+      else if(this.amenazaPieza(this.peonBlanco4, pieza)) {
+        return this.peonBlanco4
+      }
+      else if(this.amenazaPieza(this.peonBlanco5, pieza)) {
+        return this.peonBlanco5
+      }
+      else if(this.amenazaPieza(this.peonBlanco6, pieza)) {
+        return this.peonBlanco6
+      }
+      else if(this.amenazaPieza(this.peonBlanco7, pieza)) {
+        return this.peonBlanco7
+      }
+      else if(this.amenazaPieza(this.alfilBlanco0, pieza)) {
+        return this.alfilBlanco0
+      }
+      else if(this.amenazaPieza(this.alfilBlanco1, pieza)) {
+        return this.alfilBlanco1
+      }
+      else if(this.amenazaPieza(this.caballoBlanco0, pieza)) {
+        return this.caballoBlanco0
+      }
+      else if(this.amenazaPieza(this.caballoBlanco1, pieza)) {
+        return this.caballoBlanco1
+      }
+      else if(this.amenazaPieza(this.torreBlanca0, pieza)) {
+        return this.torreBlanca0
+      }
+      else if(this.amenazaPieza(this.torreBlanca1, pieza)) {
+        return this.torreBlanca1
+      }
+      else if(this.amenazaPieza(this.reinaBlanca, pieza)) {
+        return this.reinaBlanca
+      }
+    }
+    
+    return this.v
+  }
+
+
+  //primer parametro pieza que amenaza, segundo parametro, pieza amenazada
+  //comporbar si esta pieza(parametros) esta en amenaza, es decir, es la posicion final
+  amenazaPieza(piezaIni:pieza, piezaFin:pieza):boolean{
+
+    var i:number
+    for (i=0; i < 9; i++){
+      if(piezaIni.col == this.columna[i].toString() + "%"){
+        break
+      }
+    }
+    const colIni:number = i
+    for (i=0; i < 9; i++){
+      if(piezaIni.fil == this.fila[i].toString() + "%"){
+        break
+      }
+    }
+    const filIni:number = i
+
+    for (i=0; i < 9; i++){
+      if(piezaFin.col == this.columna[i].toString() + "%"){
+        break
+      }
+    }
+    const colFin:number = i
+
+    for (i=0; i < 9; i++){
+      if(piezaFin.fil == this.fila[i].toString() + "%"){
+        break
+      }
+    }
+    const filFin:number = i
+
+    if(piezaIni.color != 0)
+      {
+        if((piezaIni == this.peonNegro0) || (piezaIni == this.peonNegro1) || (piezaIni == this.peonNegro2)
+        || (piezaIni == this.peonNegro3) || (piezaIni == this.peonNegro4) || (piezaIni == this.peonNegro5)
+        || (piezaIni == this.peonNegro6) || (piezaIni == this.peonNegro7)
+        || (piezaIni == this.peonBlanco0) || (piezaIni == this.peonBlanco1) || (piezaIni == this.peonBlanco2) 
+        || (piezaIni == this.peonBlanco3) || (piezaIni == this.peonBlanco4) || (piezaIni == this.peonBlanco5)
+        || (piezaIni == this.peonBlanco6) || (piezaIni == this.peonBlanco7))
+        {
+          this.amenazaPeon(colIni, filIni, colFin, filFin);
+        }
+        else {this.amenaza(colIni, filIni, colFin, filFin);}
+      }
+
+      return this.amenazar
+  }
+
+
+  amenazaPeon(colIni: number, filIni: number, colFin: number, filFin: number):boolean {
+    if(this.blanco == 1 && this.tablero[filIni][colIni].color == -1) { // tablero blanco con peon blanco
+      this.amenazar = ((filIni - filFin == -1) && ((colIni + 1 == colFin) || (colIni - 1 == colFin)))
+      } 
+    else if(this.blanco == 1 && this.tablero[filIni][colIni].color == 1) { // tablero blanco con peon blanco
+      console.log("aqui amigo")
+      this.amenazar = ((filIni - filFin == 1) && ((colIni + 1 == colFin) || (colIni - 1 == colFin)))
+      } 
+    else if(this.negro == 1 && this.tablero[filIni][colIni].color == -1) { // tablero blanco con peon blanco
+      this.amenazar = ((filIni - filFin == 1) && ((colIni + 1 == colFin) || (colIni - 1 == colFin)))
+    } 
+    else if(this.negro == 1 && this.tablero[filIni][colFin].color == 1){ // tablero blanco con peon blanco
+      this.amenazar = ((filIni - filFin == -1) && ((colIni + 1 == colFin) || (colIni - 1 == colFin)))
+    } 
+    return this.amenazar 
+  }
+  //parametros son la posicion inicial        posicion final
+  amenaza(colIni:number, filIni:number, colFin:number, filFin:number):boolean{
+    const filIniAux:number = this.filaIni
+    const colIniAux:number =  this.columnIni
+
+    const filFinAux:number = this.filaFin
+    const colFinAux:number = this.columnFin
+
+    //console.log(colFin)
+    //console.log(filFin)
+    //amenaza
+    this.filaIni = filIni
+    this.columnIni = colIni
+
+    //amenazada
+    this.filaFin = filFin
+    this.columnFin = colFin
+    const name:string = this.pieza
+
+    this.pieza = this.piezaToString(this.tablero[filIni][colIni]);
+
+    this.comprobarJugada()
+    this.libre()
+    //console.log("aqui")
+
+    //amenaza
+    this.filaIni = filIniAux
+    this.columnIni = colIniAux
+
+
+    //amenazada
+    this.filaFin = filFinAux
+    this.columnFin = colFinAux
+
+    this.pieza = name
+
+    this.amenazar = this.puedeMover;
+    const sol = this.puedeMover
+    this.puedeMover = false
+    return sol
+
+  }
+
+  piezaToString(pieza:pieza):string{
+    if((pieza == this.peonNegro0) || (pieza == this.peonNegro1) || (pieza == this.peonNegro2)
+    || (pieza == this.peonNegro3) || (pieza == this.peonNegro4) || (pieza == this.peonNegro5)
+    || (pieza == this.peonNegro6) || (pieza == this.peonNegro7)
+    || (pieza == this.peonBlanco0) || (pieza == this.peonBlanco1) || (pieza == this.peonBlanco2) 
+    || (pieza == this.peonBlanco3) || (pieza == this.peonBlanco4) || (pieza == this.peonBlanco5)
+    || (pieza == this.peonBlanco6) || (pieza == this.peonBlanco7)){
+      if(pieza.color == 1) {return "peonBlanco0"}
+      else {return "peonNegro0"}
+    }
+    
+    if((pieza == this.alfilBlanco0) || (pieza == this.alfilBlanco1) || (pieza == this.alfilNegro0)
+    || (pieza == this.alfilNegro1)) {return "alfilNegro0"}
+    
+    if((pieza == this.caballoBlanco0) || (pieza == this.caballoBlanco1) || (pieza == this.caballoNegro0)
+    || (pieza == this.caballoNegro1)){return "caballoNegro0"}
+    
+    if((pieza == this.torreBlanca0) || (pieza == this.torreBlanca1) || (pieza == this.torreNegra0)
+    || (pieza == this.torreNegra1)) {return "torreNegra0"}
+    
+    if(pieza == this.reinaBlanca || pieza == this.reinaNegra) {return "reinaNegra"}
+    
+    if(pieza == this.reyBlanco || pieza == this.reyNegro) {return "reyNegro"}
+    
+    return ""
   }
 
   getPosition(event:MouseEvent){
@@ -640,7 +2120,7 @@ tableroBlanco:pieza[][] =
   }
 
 
-  comprobarJugada(pieza:string){
+  comprobarJugada(){
     if(this.peon()){
       //if blanco y pblanca entonces resta = 1
       //if blanco y pnegra entonces resta = -1       ini -fin
@@ -815,8 +2295,6 @@ tableroBlanco:pieza[][] =
     }
   }
 
-
-
   mover(event:MouseEvent) {
     if(JuegoComponent.finTiempo) {return;} //se acabo el tiempo
     this.w = window.innerWidth;
@@ -825,9 +2303,8 @@ tableroBlanco:pieza[][] =
       
       this.casilla(event)
       if(this.tablero[this.filaFin][this.columnFin] == this.v) {
-        this.comprobarJugada(this.pieza)
+        this.comprobarJugada()
         this.libre()
-        console.log("h0")
 
       } 
 
@@ -1064,7 +2541,7 @@ tableroBlanco:pieza[][] =
 
       else if(this.tablero[this.filaIni][this.columnIni].color == (this.tablero[this.filaFin][this.columnFin].color * -1)){
         //comer
-        this.comprobarJugada(this.pieza)
+        this.comprobarJugada()
         this.libre()
         if(this.puedeMover) {
           this.tablero[this.filaFin][this.columnFin].color = 0 }  
@@ -1275,7 +2752,11 @@ tableroBlanco:pieza[][] =
         this.puedeMover = false;
         this.cambiarTimer();
         this.turno = !this.turno
-        
+        //console.log(this.jaque(this.reyBlanco))
+        this.IA()
+        //console.log(this.randomInt(0,3))
+        //var aux:Boolean = this.moverPieza(this.peonBlanco3)
+        //console.log(this.randomInt(2,2))
       }
     }
   }
