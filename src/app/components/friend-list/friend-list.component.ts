@@ -38,21 +38,21 @@ export class FriendListComponent implements OnInit {
 
 
   constructor(private servicioCliente:ServiceClientService
-    ) {}
+    ) {console.log(servicioCliente)}
 
   ngOnInit(): void {
     //Traer todos los amigos del backend
-    this.servicioCliente.GetFriendList("borrar").subscribe(datos=>{
+    this.servicioCliente.GetFriendList("QWER").subscribe(datos=>{
       for(let i=0;i<datos;i++){
         this.friendList.push(datos[i]);
       }
     })
-
+/*
     this.servicioCliente.GetFriendRequests("borrar").subscribe(datos=>{
       for(let i=0;i<datos;i++){
         this.friendRequests.push(datos[i]);
       }
-    })
+    })*/
 
     /*Codigo de prueba que funciona
     this.servicioCliente.getAllPersonajes().subscribe((datos : any)=>{
