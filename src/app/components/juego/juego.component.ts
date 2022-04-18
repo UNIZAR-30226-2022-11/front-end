@@ -201,13 +201,13 @@ tableroBlanco:pieza[][] =
 
   elegirLado(blanco:boolean){
     if(blanco) {
-      console.log("buenas")
+      //console.log("buenas")
       this.tablero = this.tableroBlanco;
       this.blanco = 1
       this.negro = 0
     }
     else {
-      console.log("malas")
+      //console.log("malas")
       //this.tablero = this.tableroNegro;
       this.blanco = 0
       this.negro = 1
@@ -700,14 +700,13 @@ tableroBlanco:pieza[][] =
       while(!this.moverPieza(piezaMover)){
         piezaMover = this.getBlanca()
       }
-      this.turno = !this.turno
       this.cambiarTimer()
+      this.turno = !this.turno
       return
     } 
     else {
 
     }
-
     this.cambiarTimer()
     this.turno != this.turno
     return
@@ -809,7 +808,7 @@ moverPieza(pieza:pieza):boolean{
       this.filaFin = this.obtenFila(pieza)
       this.columnFin = this.obtenerColumna(pieza)
       if(aux == 0){
-        console.log("ini0")
+        ////console.log("ini0")
         while(this.filaFin + 1 <= 7 && this.columnFin + 1 <= 7) {
           if(this.tablero[this.filaFin + 1][this.columnFin + 1] == this.v){
             //console.log("dentro0")
@@ -838,7 +837,7 @@ moverPieza(pieza:pieza):boolean{
         }
       }
       else if(aux == 1){
-        console.log("ini1")
+        //console.log("ini1")
         while(this.filaFin - 1 >= 0 && this.columnFin + 1 <= 7) {
           if(this.tablero[this.filaFin - 1][this.columnFin + 1] == this.v){
             //console.log("dentro1")
@@ -867,7 +866,7 @@ moverPieza(pieza:pieza):boolean{
         }
       }
       else if(aux == 2){
-        console.log("ini2")
+        //console.log("ini2")
         while(this.filaFin + 1 <= 7 && this.columnFin - 1 >= 0) {
           if(this.tablero[this.filaFin + 1][this.columnFin - 1] == this.v){
             //console.log("dentro2")
@@ -896,7 +895,7 @@ moverPieza(pieza:pieza):boolean{
         }
       }
       else if(aux == 3){
-        console.log("ini3")
+        //console.log("ini3")
         while(this.filaFin - 1 >= 0 && this.columnFin - 1 >= 0) {
           if(this.tablero[this.filaFin - 1][this.columnFin - 1] == this.v){
             //console.log("dentro3")
@@ -933,13 +932,13 @@ moverPieza(pieza:pieza):boolean{
     //console.log(aux)
     var cont = 0
     while(cont < 8) {
-      console.log("cont")
-      console.log(cont)
+      //console.log("cont")
+      //console.log(cont)
       //asignar filaFin y colFin
       this.filaFin = this.obtenFila(pieza)
       this.columnFin = this.obtenerColumna(pieza)
       if(aux == 0){
-        console.log("ini0")
+        //console.log("ini0")
         if(this.filaFin + 1 <= 7 && this.columnFin + 2 <= 7) {
           if(this.tablero[this.filaFin + 1][this.columnFin + 2] == this.v){
             //console.log("dentro0")
@@ -968,7 +967,7 @@ moverPieza(pieza:pieza):boolean{
         }
       }
       else if(aux == 1){
-        console.log("ini1")
+        //console.log("ini1")
         if(this.filaFin - 1 >= 0 && this.columnFin + 2 <= 7) {
           if(this.tablero[this.filaFin - 1][this.columnFin + 2] == this.v){
             //console.log("dentro1")
@@ -997,7 +996,7 @@ moverPieza(pieza:pieza):boolean{
         }
       }
       else if(aux == 2){
-        console.log("ini2")
+        //console.log("ini2")
         if(this.filaFin + 1 <= 7 && this.columnFin - 2 >= 0) {
           if(this.tablero[this.filaFin + 1][this.columnFin - 2] == this.v){
             //console.log("dentro2")
@@ -1026,7 +1025,7 @@ moverPieza(pieza:pieza):boolean{
         }
       }
       else if(aux == 3){
-        console.log("ini3")
+        //console.log("ini3")
         if(this.filaFin - 1 >= 0 && this.columnFin - 2 >= 0) {
           if(this.tablero[this.filaFin - 1][this.columnFin - 2] == this.v){
             //console.log("dentro3")
@@ -1055,7 +1054,7 @@ moverPieza(pieza:pieza):boolean{
         }
       }
       else if(aux == 4){
-        console.log("ini4")
+        //console.log("ini4")
         if(this.filaFin + 2 <= 7 && this.columnFin + 1 <= 7) {
           if(this.tablero[this.filaFin + 2][this.columnFin+1] == this.v){
             //console.log("dentro0")
@@ -1084,7 +1083,7 @@ moverPieza(pieza:pieza):boolean{
         }
       }
       else if(aux == 5){
-        console.log("ini5")
+        //console.log("ini5")
         if(this.filaFin + 2 <= 7 && this.columnFin - 1 >= 0 ) {
           if(this.tablero[this.filaFin + 2][this.columnFin - 1] == this.v){
             //console.log("dentro1")
@@ -1113,7 +1112,7 @@ moverPieza(pieza:pieza):boolean{
         }
       }
       else if(aux == 6){
-        console.log("ini6")
+        //console.log("ini6")
         if(this.filaFin - 2 >= 0 && this.columnFin + 1 <= 7) {
           if(this.tablero[this.filaFin - 2][this.columnFin + 1] == this.v){
             //console.log("dentro2")
@@ -1142,7 +1141,7 @@ moverPieza(pieza:pieza):boolean{
         }
       }
       else if(aux == 7){
-        console.log("ini7")
+        //console.log("ini7")
         if(this.filaFin - 2 >= 0 && this.columnFin - 1 >= 0) {
           if(this.tablero[this.filaFin - 2][this.columnFin - 1] == this.v){
             //console.log("dentro3")
@@ -1183,7 +1182,7 @@ moverPieza(pieza:pieza):boolean{
       this.filaFin = this.obtenFila(pieza)
       this.columnFin = this.obtenerColumna(pieza)
       if(aux == 0){
-        console.log("ini0")
+        //console.log("ini0")
         while(this.filaFin + 1 <= 7) {
           if(this.tablero[this.filaFin + 1][this.columnFin] == this.v){
             //console.log("dentro0")
@@ -1211,7 +1210,7 @@ moverPieza(pieza:pieza):boolean{
         }
       }
       else if(aux == 1){
-        console.log("ini1")
+        //console.log("ini1")
         while(this.filaFin - 1 >= 0 ) {
           if(this.tablero[this.filaFin - 1][this.columnFin] == this.v){
             //console.log("dentro1")
@@ -1239,7 +1238,7 @@ moverPieza(pieza:pieza):boolean{
         }
       }
       else if(aux == 2){
-        console.log("ini2")
+        //console.log("ini2")
         while(this.columnFin + 1 <= 7) {
           if(this.tablero[this.filaFin][this.columnFin + 1] == this.v){
             //console.log("dentro2")
@@ -1267,7 +1266,7 @@ moverPieza(pieza:pieza):boolean{
         }
       }
       else if(aux == 3){
-        console.log("ini3")
+        //console.log("ini3")
         while(this.columnFin - 1 >= 0) {
           if(this.tablero[this.filaFin][this.columnFin - 1] == this.v){
             //console.log("dentro3")
@@ -1305,7 +1304,7 @@ moverPieza(pieza:pieza):boolean{
       this.filaFin = this.obtenFila(pieza)
       this.columnFin = this.obtenerColumna(pieza)
       if(aux == 0){
-        console.log("ini0")
+        //console.log("ini0")
         while(this.filaFin + 1 <= 7 && this.columnFin + 1 <= 7) {
           if(this.tablero[this.filaFin + 1][this.columnFin + 1] == this.v){
             //console.log("dentro0")
@@ -1334,7 +1333,7 @@ moverPieza(pieza:pieza):boolean{
         }
       }
       else if(aux == 1){
-        console.log("ini1")
+        //console.log("ini1")
         while(this.filaFin - 1 >= 0 && this.columnFin + 1 <= 7) {
           if(this.tablero[this.filaFin - 1][this.columnFin + 1] == this.v){
             //console.log("dentro1")
@@ -1363,7 +1362,7 @@ moverPieza(pieza:pieza):boolean{
         }
       }
       else if(aux == 2){
-        console.log("ini2")
+        //console.log("ini2")
         while(this.filaFin + 1 <= 7 && this.columnFin - 1 >= 0) {
           if(this.tablero[this.filaFin + 1][this.columnFin - 1] == this.v){
             //console.log("dentro2")
@@ -1392,7 +1391,7 @@ moverPieza(pieza:pieza):boolean{
         }
       }
       else if(aux == 3){
-        console.log("ini3")
+        //console.log("ini3")
         while(this.filaFin - 1 >= 0 && this.columnFin - 1 >= 0) {
           if(this.tablero[this.filaFin - 1][this.columnFin - 1] == this.v){
             //console.log("dentro3")
@@ -1421,7 +1420,7 @@ moverPieza(pieza:pieza):boolean{
         }
       }
       else if(aux == 4){
-        console.log("ini4")
+        //console.log("ini4")
         while(this.filaFin + 1 <= 7) {
           if(this.tablero[this.filaFin + 1][this.columnFin] == this.v){
             //console.log("dentro0")
@@ -1449,7 +1448,7 @@ moverPieza(pieza:pieza):boolean{
         }
       }
       else if(aux == 5){
-        console.log("ini5")
+        //console.log("ini5")
         while(this.filaFin - 1 >= 0 ) {
           if(this.tablero[this.filaFin - 1][this.columnFin] == this.v){
             //console.log("dentro1")
@@ -1477,7 +1476,7 @@ moverPieza(pieza:pieza):boolean{
         }
       }
       else if(aux == 6){
-        console.log("ini6")
+        //console.log("ini6")
         while(this.columnFin + 1 <= 7) {
           if(this.tablero[this.filaFin][this.columnFin + 1] == this.v){
             //console.log("dentro2")
@@ -1505,7 +1504,7 @@ moverPieza(pieza:pieza):boolean{
         }
       }
       else if(aux == 7){
-        console.log("ini7")
+        //console.log("ini7")
         while(this.columnFin - 1 >= 0) {
           if(this.tablero[this.filaFin][this.columnFin - 1] == this.v){
             //console.log("dentro3")
@@ -1723,7 +1722,7 @@ moverPieza(pieza:pieza):boolean{
       this.amenazar = ((filIni - filFin == -1) && ((colIni + 1 == colFin) || (colIni - 1 == colFin)))
       } 
     else if(this.blanco == 1 && this.tablero[filIni][colIni].color == 1) { // tablero blanco con peon blanco
-      console.log("aqui amigo")
+      //console.log("aqui amigo")
       this.amenazar = ((filIni - filFin == 1) && ((colIni + 1 == colFin) || (colIni - 1 == colFin)))
       } 
     else if(this.negro == 1 && this.tablero[filIni][colIni].color == -1) { // tablero blanco con peon blanco

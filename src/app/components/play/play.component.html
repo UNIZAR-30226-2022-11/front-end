@@ -9,10 +9,10 @@
       </div>
       <div class="column" style="background-color:#bbb;">
         <h2>PLAY AGAINST IA</h2>
-        <a routerLink="/juego">3 mins</a>
-        <a routerLink="/juego">5 mins</a>
-        <a routerLink="/juego">10 mins</a>
-        <a routerLink="/juego">No time</a>
+        <a (click)="ponerTiempo(3)" routerLink="/juego">3 mins</a>
+        <a (click)="ponerTiempo(5)" routerLink="/juego">5 mins</a>
+        <a (click)="ponerTiempo(10)" routerLink="/juego">10 mins</a>
+        <a (click)="ponerTiempo(0)" routerLink="/juego">No time</a>
       </div>
       <div class="column" style="background-color:#ccc;">
         <h2>TOURNAMENTS</h2>
