@@ -15,6 +15,14 @@ export class PlayComponent implements OnInit {
 
   ponerTiempo(t:number){
     JuegoComponent.minutos = t;
+    JuegoComponent.ia = false;
   }
+
+  ponerTiempoIA(t:number){
+    JuegoComponent.minutos = t;
+    JuegoComponent.ia = true;
+  }
+
+
 
 }

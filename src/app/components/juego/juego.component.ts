@@ -23,6 +23,8 @@ export class JuegoComponent{
   //variable estática de victoria
   static finTiempo = false;
 
+  static ia:boolean = false;
+
   @ViewChild(TimerComponent)
   timer!: TimerComponent;
 
@@ -196,7 +198,8 @@ tableroBlanco:pieza[][] =
     this.seleccionada = false
     this.turno = true
     this.resetTimer()
-    this.IA()
+    if(JuegoComponent.ia)
+      this.IA()
   }
 
   elegirLado(blanco:boolean){
@@ -347,7 +350,7 @@ tableroBlanco:pieza[][] =
   //la IA comprueba todos los jaques a las piezas del rival, si uno da != this.v entomces mueve
 
   IA(){
-    if(this.turno == true){ //turno = true para blancas, busca el jaque a las negras(ia es blanca) 
+    if(this.turno == true && this.negro == 1){ //turno = true para blancas, busca el jaque a las negras(ia es blanca) 
       
       var aux:pieza = this.jaque(this.reyNegro)
       if(aux != this.v){
@@ -704,11 +707,370 @@ tableroBlanco:pieza[][] =
       this.turno = !this.turno
       return
     } 
-    else {
+      //////////////////////////////////////
+      //TURNO DE LAS NEGRAS
+      /////////////////////////////////////
+    else if (this.turno == false && this.blanco == 1){
+      //turno = true para blancas, busca el jaque a las negras(ia es blanca) 
+            
+      var aux:pieza = this.jaque(this.reyBlanco)
+      if(aux != this.v){
+        var filIni:number = this.obtenFila(aux)
+        var colIni:number = this.obtenerColumna(aux)
+        var filFin:number = this.obtenFila(this.reyBlanco)
+        var colFin:number = this.obtenerColumna(this.reyBlanco)
 
+        //mover la pieza
+        this.tablero[filFin][colFin].color = 0  //borro destino
+        this.tablero[filFin][colFin] = this.tablero[filIni][colIni]   //muevo en la matriz
+        this.tablero[filFin][colFin].col = this.columna[colFin] + "%" //desde la matriz cambio fila y col
+        this.tablero[filFin][colFin].fil = this.fila[filFin] + "%"
+
+        //impiar casilla inicial
+        this.tablero[filIni][colIni] = this.v
+        //cambiar timer
+        this.cambiarTimer()
+        //pasar turno
+        this.turno = !this.turno
+        return
+      }
+      
+      var aux:pieza = this.jaque(this.reinaBlanca)
+      if(aux != this.v){
+        var filIni:number = this.obtenFila(aux)
+        var colIni:number = this.obtenerColumna(aux)
+        var filFin:number = this.obtenFila(this.reinaBlanca)
+        var colFin:number = this.obtenerColumna(this.reinaBlanca)
+
+        //mover la pieza
+        this.tablero[filFin][colFin].color = 0  //borro destino
+        this.tablero[filFin][colFin] = this.tablero[filIni][colIni]   //muevo en la matriz
+        this.tablero[filFin][colFin].col = this.columna[colFin] + "%" //desde la matriz cambio fila y col
+        this.tablero[filFin][colFin].fil = this.fila[filFin] + "%"
+
+        //impiar casilla inicial
+        this.tablero[filIni][colIni] = this.v
+        //cambiar timer
+        this.cambiarTimer()
+        //pasar turno
+        this.turno = !this.turno
+        return
+      }
+
+      var aux:pieza = this.jaque(this.torreBlanca0)
+      if(aux != this.v){
+        var filIni:number = this.obtenFila(aux)
+        var colIni:number = this.obtenerColumna(aux)
+        var filFin:number = this.obtenFila(this.torreBlanca0)
+        var colFin:number = this.obtenerColumna(this.torreBlanca0)
+
+        //mover la pieza
+        this.tablero[filFin][colFin].color = 0  //borro destino
+        this.tablero[filFin][colFin] = this.tablero[filIni][colIni]   //muevo en la matriz
+        this.tablero[filFin][colFin].col = this.columna[colFin] + "%" //desde la matriz cambio fila y col
+        this.tablero[filFin][colFin].fil = this.fila[filFin] + "%"
+
+        //impiar casilla inicial
+        this.tablero[filIni][colIni] = this.v
+        //cambiar timer
+        this.cambiarTimer()
+        //pasar turno
+        this.turno = !this.turno
+        return
+      }
+      var aux:pieza = this.jaque(this.torreBlanca1)
+      if(aux != this.v){
+        var filIni:number = this.obtenFila(aux)
+        var colIni:number = this.obtenerColumna(aux)
+        var filFin:number = this.obtenFila(this.torreBlanca1)
+        var colFin:number = this.obtenerColumna(this.torreBlanca1)
+
+        //mover la pieza
+        this.tablero[filFin][colFin].color = 0  //borro destino
+        this.tablero[filFin][colFin] = this.tablero[filIni][colIni]   //muevo en la matriz
+        this.tablero[filFin][colFin].col = this.columna[colFin] + "%" //desde la matriz cambio fila y col
+        this.tablero[filFin][colFin].fil = this.fila[filFin] + "%"
+
+        //impiar casilla inicial
+        this.tablero[filIni][colIni] = this.v
+        //cambiar timer
+        this.cambiarTimer()
+        //pasar turno
+        this.turno = !this.turno
+        return
+      }
+
+      var aux:pieza = this.jaque(this.caballoBlanco0)
+      if(aux != this.v){
+        var filIni:number = this.obtenFila(aux)
+        var colIni:number = this.obtenerColumna(aux)
+        var filFin:number = this.obtenFila(this.caballoBlanco0)
+        var colFin:number = this.obtenerColumna(this.caballoBlanco0)
+
+        //mover la pieza
+        this.tablero[filFin][colFin].color = 0  //borro destino
+        this.tablero[filFin][colFin] = this.tablero[filIni][colIni]   //muevo en la matriz
+        this.tablero[filFin][colFin].col = this.columna[colFin] + "%" //desde la matriz cambio fila y col
+        this.tablero[filFin][colFin].fil = this.fila[filFin] + "%"
+
+        //impiar casilla inicial
+        this.tablero[filIni][colIni] = this.v
+        //cambiar timer
+        this.cambiarTimer()
+        //pasar turno
+        this.turno = !this.turno
+        return
+      }
+      var aux:pieza = this.jaque(this.caballoBlanco1)
+      if(aux != this.v){
+        var filIni:number = this.obtenFila(aux)
+        var colIni:number = this.obtenerColumna(aux)
+        var filFin:number = this.obtenFila(this.caballoBlanco1)
+        var colFin:number = this.obtenerColumna(this.caballoBlanco1)
+
+        //mover la pieza
+        this.tablero[filFin][colFin].color = 0  //borro destino
+        this.tablero[filFin][colFin] = this.tablero[filIni][colIni]   //muevo en la matriz
+        this.tablero[filFin][colFin].col = this.columna[colFin] + "%" //desde la matriz cambio fila y col
+        this.tablero[filFin][colFin].fil = this.fila[filFin] + "%"
+
+        //impiar casilla inicial
+        this.tablero[filIni][colIni] = this.v
+        //cambiar timer
+        this.cambiarTimer()
+        //pasar turno
+        this.turno = !this.turno
+        return
+      }
+
+      var aux:pieza = this.jaque(this.alfilBlanco0)
+      if(aux != this.v){
+        var filIni:number = this.obtenFila(aux)
+        var colIni:number = this.obtenerColumna(aux)
+        var filFin:number = this.obtenFila(this.alfilBlanco0)
+        var colFin:number = this.obtenerColumna(this.alfilBlanco0)
+
+        //mover la pieza
+        this.tablero[filFin][colFin].color = 0  //borro destino
+        this.tablero[filFin][colFin] = this.tablero[filIni][colIni]   //muevo en la matriz
+        this.tablero[filFin][colFin].col = this.columna[colFin] + "%" //desde la matriz cambio fila y col
+        this.tablero[filFin][colFin].fil = this.fila[filFin] + "%"
+
+        //impiar casilla inicial
+        this.tablero[filIni][colIni] = this.v
+        //cambiar timer
+        this.cambiarTimer()
+        //pasar turno
+        this.turno = !this.turno
+        return
+      }
+      var aux:pieza = this.jaque(this.alfilBlanco1)
+      if(aux != this.v){
+        var filIni:number = this.obtenFila(aux)
+        var colIni:number = this.obtenerColumna(aux)
+        var filFin:number = this.obtenFila(this.alfilBlanco1)
+        var colFin:number = this.obtenerColumna(this.alfilBlanco1)
+
+        //mover la pieza
+        this.tablero[filFin][colFin].color = 0  //borro destino
+        this.tablero[filFin][colFin] = this.tablero[filIni][colIni]   //muevo en la matriz
+        this.tablero[filFin][colFin].col = this.columna[colFin] + "%" //desde la matriz cambio fila y col
+        this.tablero[filFin][colFin].fil = this.fila[filFin] + "%"
+
+        //impiar casilla inicial
+        this.tablero[filIni][colIni] = this.v
+        //cambiar timer
+        this.cambiarTimer()
+        //pasar turno
+        this.turno = !this.turno
+        return
+      }
+
+      var aux:pieza = this.jaque(this.peonBlanco0)
+      if(aux != this.v){
+        var filIni:number = this.obtenFila(aux)
+        var colIni:number = this.obtenerColumna(aux)
+        var filFin:number = this.obtenFila(this.peonBlanco0)
+        var colFin:number = this.obtenerColumna(this.peonBlanco0)
+
+        //mover la pieza
+        this.tablero[filFin][colFin].color = 0  //borro destino
+        this.tablero[filFin][colFin] = this.tablero[filIni][colIni]   //muevo en la matriz
+        this.tablero[filFin][colFin].col = this.columna[colFin] + "%" //desde la matriz cambio fila y col
+        this.tablero[filFin][colFin].fil = this.fila[filFin] + "%"
+
+        //impiar casilla inicial
+        this.tablero[filIni][colIni] = this.v
+        //cambiar timer
+        this.cambiarTimer()
+        //pasar turno
+        this.turno = !this.turno
+        return
+      }
+      var aux:pieza = this.jaque(this.peonBlanco1)
+      if(aux != this.v){
+        var filIni:number = this.obtenFila(aux)
+        var colIni:number = this.obtenerColumna(aux)
+        var filFin:number = this.obtenFila(this.peonBlanco1)
+        var colFin:number = this.obtenerColumna(this.peonBlanco1)
+
+        //mover la pieza
+        this.tablero[filFin][colFin].color = 0  //borro destino
+        this.tablero[filFin][colFin] = this.tablero[filIni][colIni]   //muevo en la matriz
+        this.tablero[filFin][colFin].col = this.columna[colFin] + "%" //desde la matriz cambio fila y col
+        this.tablero[filFin][colFin].fil = this.fila[filFin] + "%"
+
+        //impiar casilla inicial
+        this.tablero[filIni][colIni] = this.v
+        //cambiar timer
+        this.cambiarTimer()
+        //pasar turno
+        this.turno = !this.turno
+        return
+      }
+      var aux:pieza = this.jaque(this.peonBlanco2)
+      if(aux != this.v){
+        var filIni:number = this.obtenFila(aux)
+        var colIni:number = this.obtenerColumna(aux)
+        var filFin:number = this.obtenFila(this.peonBlanco2)
+        var colFin:number = this.obtenerColumna(this.peonBlanco2)
+
+        //mover la pieza
+        this.tablero[filFin][colFin].color = 0  //borro destino
+        this.tablero[filFin][colFin] = this.tablero[filIni][colIni]   //muevo en la matriz
+        this.tablero[filFin][colFin].col = this.columna[colFin] + "%" //desde la matriz cambio fila y col
+        this.tablero[filFin][colFin].fil = this.fila[filFin] + "%"
+
+        //impiar casilla inicial
+        this.tablero[filIni][colIni] = this.v
+        //cambiar timer
+        this.cambiarTimer()
+        //pasar turno
+        this.turno = !this.turno
+        return
+      }
+      var aux:pieza = this.jaque(this.peonBlanco3)
+      if(aux != this.v){
+        var filIni:number = this.obtenFila(aux)
+        var colIni:number = this.obtenerColumna(aux)
+        var filFin:number = this.obtenFila(this.peonBlanco3)
+        var colFin:number = this.obtenerColumna(this.peonBlanco3)
+
+        //mover la pieza
+        this.tablero[filFin][colFin].color = 0  //borro destino
+        this.tablero[filFin][colFin] = this.tablero[filIni][colIni]   //muevo en la matriz
+        this.tablero[filFin][colFin].col = this.columna[colFin] + "%" //desde la matriz cambio fila y col
+        this.tablero[filFin][colFin].fil = this.fila[filFin] + "%"
+
+        //impiar casilla inicial
+        this.tablero[filIni][colIni] = this.v
+        //cambiar timer
+        this.cambiarTimer()
+        //pasar turno
+        this.turno = !this.turno
+        return
+      }
+      var aux:pieza = this.jaque(this.peonBlanco4)
+      if(aux != this.v){
+        var filIni:number = this.obtenFila(aux)
+        var colIni:number = this.obtenerColumna(aux)
+        var filFin:number = this.obtenFila(this.peonBlanco4)
+        var colFin:number = this.obtenerColumna(this.peonBlanco4)
+
+        //mover la pieza
+        this.tablero[filFin][colFin].color = 0  //borro destino
+        this.tablero[filFin][colFin] = this.tablero[filIni][colIni]   //muevo en la matriz
+        this.tablero[filFin][colFin].col = this.columna[colFin] + "%" //desde la matriz cambio fila y col
+        this.tablero[filFin][colFin].fil = this.fila[filFin] + "%"
+
+        //impiar casilla inicial
+        this.tablero[filIni][colIni] = this.v
+        //cambiar timer
+        this.cambiarTimer()
+        //pasar turno
+        this.turno = !this.turno
+        return
+      }
+      var aux:pieza = this.jaque(this.peonBlanco5)
+      if(aux != this.v){
+        var filIni:number = this.obtenFila(aux)
+        var colIni:number = this.obtenerColumna(aux)
+        var filFin:number = this.obtenFila(this.peonBlanco5)
+        var colFin:number = this.obtenerColumna(this.peonBlanco5)
+
+        //mover la pieza
+        this.tablero[filFin][colFin].color = 0  //borro destino
+        this.tablero[filFin][colFin] = this.tablero[filIni][colIni]   //muevo en la matriz
+        this.tablero[filFin][colFin].col = this.columna[colFin] + "%" //desde la matriz cambio fila y col
+        this.tablero[filFin][colFin].fil = this.fila[filFin] + "%"
+
+        //impiar casilla inicial
+        this.tablero[filIni][colIni] = this.v
+        //cambiar timer
+        this.cambiarTimer()
+        //pasar turno
+        this.turno = !this.turno
+        return
+      }
+      var aux:pieza = this.jaque(this.peonBlanco6)
+      if(aux != this.v){
+        var filIni:number = this.obtenFila(aux)
+        var colIni:number = this.obtenerColumna(aux)
+        var filFin:number = this.obtenFila(this.peonBlanco6)
+        var colFin:number = this.obtenerColumna(this.peonBlanco6)
+
+        //mover la pieza
+        this.tablero[filFin][colFin].color = 0  //borro destino
+        this.tablero[filFin][colFin] = this.tablero[filIni][colIni]   //muevo en la matriz
+        this.tablero[filFin][colFin].col = this.columna[colFin] + "%" //desde la matriz cambio fila y col
+        this.tablero[filFin][colFin].fil = this.fila[filFin] + "%"
+
+        //impiar casilla inicial
+        this.tablero[filIni][colIni] = this.v
+        //cambiar timer
+        this.cambiarTimer()
+        //pasar turno
+        this.turno = !this.turno
+        return
+      }
+      var aux:pieza = this.jaque(this.peonBlanco7)
+      if(aux != this.v){
+        var filIni:number = this.obtenFila(aux)
+        var colIni:number = this.obtenerColumna(aux)
+        var filFin:number = this.obtenFila(this.peonBlanco7)
+        var colFin:number = this.obtenerColumna(this.peonBlanco7)
+
+        //mover la pieza
+        this.tablero[filFin][colFin].color = 0  //borro destino
+        this.tablero[filFin][colFin] = this.tablero[filIni][colIni]   //muevo en la matriz
+        this.tablero[filFin][colFin].col = this.columna[colFin] + "%" //desde la matriz cambio fila y col
+        this.tablero[filFin][colFin].fil = this.fila[filFin] + "%"
+
+        //impiar casilla inicial
+        this.tablero[filIni][colIni] = this.v
+        //cambiar timer
+        this.cambiarTimer()
+        //pasar turno
+        this.turno = !this.turno
+        return
+      }
+
+      //////////////////////////////////////
+      //NO PUEDE COMER
+      /////////////////////////////////////
+
+      //seleccionar una pieza blanca
+      var piezaMover:pieza = this.getNegra()
+      while(!this.moverPieza(piezaMover)){
+        piezaMover = this.getNegra()
+      }
+      this.cambiarTimer()
+      this.turno = !this.turno
+      return
     }
-    this.cambiarTimer()
-    this.turno != this.turno
+    
+    //this.cambiarTimer()
+    //this.turno != this.turno
     return
   }
 ///////////////////////////////////////////////
@@ -2354,6 +2716,9 @@ moverPieza(pieza:pieza):boolean{
 
               this.enroqueBlanco0 = false
               this.enroqueBlanco1 = false
+              
+              if(JuegoComponent.ia)
+              {this.IA()}
 
             }
          }
@@ -2378,6 +2743,9 @@ moverPieza(pieza:pieza):boolean{
               
               this.enroqueBlanco0 = false
               this.enroqueBlanco1 = false
+
+              if(JuegoComponent.ia)
+              {this.IA()}
 
             }
          }
@@ -2405,6 +2773,9 @@ moverPieza(pieza:pieza):boolean{
               this.enroqueBlanco0 = false
               this.enroqueBlanco1 = false
 
+              if(JuegoComponent.ia)
+              {this.IA()}
+
             }
          }
 
@@ -2429,6 +2800,9 @@ moverPieza(pieza:pieza):boolean{
 
               this.enroqueBlanco0 = false
               this.enroqueBlanco1 = false
+
+              if(JuegoComponent.ia)
+              {this.IA()}
 
             }
          }
@@ -2456,6 +2830,9 @@ moverPieza(pieza:pieza):boolean{
               this.enroqueNegro0 = false
               this.enroqueNegro1 = false
 
+              if(JuegoComponent.ia)
+              {this.IA()}
+
             }
         }
 
@@ -2482,6 +2859,9 @@ moverPieza(pieza:pieza):boolean{
               this.enroqueNegro0 = false
               this.enroqueNegro1 = false
 
+              if(JuegoComponent.ia)
+              {this.IA()}
+
             }
         }
 
@@ -2506,6 +2886,9 @@ moverPieza(pieza:pieza):boolean{
 
               this.enroqueNegro0 = false
               this.enroqueNegro1 = false
+
+              if(JuegoComponent.ia)
+              {this.IA()}
 
             }
         }
@@ -2532,6 +2915,9 @@ moverPieza(pieza:pieza):boolean{
 
               this.enroqueNegro0 = false
               this.enroqueNegro1 = false
+
+              if(JuegoComponent.ia)
+              {this.IA()}
 
             }
         }
@@ -2752,7 +3138,8 @@ moverPieza(pieza:pieza):boolean{
         this.cambiarTimer();
         this.turno = !this.turno
         //console.log(this.jaque(this.reyBlanco))
-        this.IA()
+        if(JuegoComponent.ia)
+          this.IA()
         //console.log(this.randomInt(0,3))
         //var aux:Boolean = this.moverPieza(this.peonBlanco3)
         //console.log(this.randomInt(2,2))
