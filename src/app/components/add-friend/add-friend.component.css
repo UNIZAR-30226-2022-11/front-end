@@ -13,6 +13,9 @@
     padding: 14px  0px;
 }
 
+.box form{
+    all: unset;
+}
 .box input{
     padding:10px;
     margin-bottom: 10px;
@@ -22,6 +25,7 @@
     top:200px;
     vertical-align:top;
 }
+
 
 .box button{
     border:none;

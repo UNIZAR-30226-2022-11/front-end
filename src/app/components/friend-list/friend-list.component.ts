@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { amigos } from 'src/app/other/interfaces';
+import { amigos, usuario } from 'src/app/other/interfaces';
 import { ServiceClientService } from '../../services/service-client.service';
-
+import { LoginComponent } from '../login/login.component';
 @Component({
   selector: 'app-friend-list',
   templateUrl: './friend-list.component.html',
@@ -10,8 +10,8 @@ import { ServiceClientService } from '../../services/service-client.service';
 export class FriendListComponent implements OnInit {
   
   showFriendList : boolean = true;
-  friendList: Array<amigos>=[];
-  friendRequests: Array<amigos>=[];
+  friendList: Array<String>=[];
+  friendRequests: Array<String>=[];
   //friendRequests: Array<any> = [];
   //personajes: any=[];
   //prueba: Array<any>=[];
@@ -41,12 +41,16 @@ export class FriendListComponent implements OnInit {
     ) {console.log(servicioCliente)}
 
   ngOnInit(): void {
+    if (LoginComponent.logged) {
+      this.getFriendList();
+      this.getFriendRequests();
+    }
     //Traer todos los amigos del backend
-    this.servicioCliente.GetFriendList("QWER").subscribe(datos=>{
+    /*this.servicioCliente.GetFriendList("QWER").subscribe(datos=>{
       for(let i=0;i<datos;i++){
         this.friendList.push(datos[i]);
       }
-    })
+    })*/
 /*
     this.servicioCliente.GetFriendRequests("borrar").subscribe(datos=>{
       for(let i=0;i<datos;i++){
@@ -73,6 +77,23 @@ export class FriendListComponent implements OnInit {
       element?.classList.add('showing')
     }
   }
+
+  getFriendList (){
+    this.servicioCliente.GetFriendList(LoginComponent.user.nickname).subscribe(datos=>{
+      for(let i=0;i<datos;i++){
+        this.friendList.push(datos.friendList[i]);
+      }
+    })
+  }
+
+  getFriendRequests (){
+    this.servicioCliente.GetFriendRequests(LoginComponent.user.nickname).subscribe(datos=>{
+      for(let i=0;i<datos;i++){
+        this.friendRequests.push(datos.friendRequests[i]);
+      }
+    })
+  }
+
 
   /*deleteFriend(friend){
     this.servicioCliente.deleteFriend(friend.)

@@ -125,23 +125,22 @@ export type friend = {
     points:number;
     img:string;
 }
-
+/*
 export type user = {
     name:string;
     points:number;
     img:string;
     coins:number;
     friendList: friend[];
-}
+}*/
 
 export interface usuario {
-    Nickname: string;
-    contraseña: string;
-    puntos: number;
-    monedas: number;
-    avatar: string;
-    piezas: string;
-    tablero: string;
+    nickname: string,
+    puntos: number,
+    monedas: number,
+    avatar: string,
+    piezas: string,
+    tablero: string
 }
 
 export interface amigos{

@@ -8,8 +8,6 @@ export class ServiceClientService {
 
   servidor1="http://ec2-18-206-137-85.compute-1.amazonaws.com:3001"
   servidor2="http://ec2-18-206-137-85.compute-1.amazonaws.com:3001"
-  //servidor="http://127.0.0.1:3000" 
-  //servidor="https://rickandmortyapi.com/api/character"
 
   constructor(private servicio:HttpClient) { }
 
@@ -17,7 +15,7 @@ export class ServiceClientService {
   // Enviar { "nickname": "<nombre>" }
   // Devolver { "friendList": [{string}*] } (solo me interesa el nombre de usuario de los amigos)
   GetFriendList(nickname:string):Observable<any>{
-    const body = { nickname}
+    //const body = { nickname}
     const headers = new HttpHeaders(
       {
           'Content-Type': 'application/json',
@@ -30,7 +28,7 @@ export class ServiceClientService {
   // Enviar { "nickname": "<nombre>" }
   // Devolver { "friendRequests": [{string}*] } (solo me interesa el nombre de usuario de las peticiones)
   GetFriendRequests(nickname: string):Observable<any>{
-    const body = { nickname}
+    //const body = { nickname}
     const headers = new HttpHeaders(
       {
           'Content-Type': 'application/json',
@@ -90,7 +88,7 @@ export class ServiceClientService {
   //                               "tablero": "<tablero>"} }
   Login(nickname:string, password:string):Observable<any>{
     //bcrypt
-    const body = { nickname, password }
+    //const body = { nickname, password }
     const headers = new HttpHeaders(
       {
           'Content-Type': 'application/json',
@@ -99,11 +97,4 @@ export class ServiceClientService {
     return this.servicio.get(this.servidor1+"/login?nickname="+nickname+"&password="+password,{headers});
   }
 
-  /*getAllPersonajes(): Observable<any>{
-    return this.servicio.get(this.servidor);
-  }
-
-  saveAllPersonajes(personaje:any): Observable<any>{
-    return this.servicio.post(this.servidor, personaje);
-  }*/
 }

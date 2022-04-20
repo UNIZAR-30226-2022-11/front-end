@@ -3,6 +3,10 @@ import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/fo
 import { Router } from '@angular/router';
 import { usuario } from 'src/app/other/interfaces';
 import { ServiceClientService } from '../../services/service-client.service';
+import * as bcrypt from 'bcryptjs';
+import { FriendListComponent } from '../friend-list/friend-list.component';
+const salt = bcrypt.genSaltSync(10);
+
 
 @Component({
   selector: 'app-login',
@@ -15,16 +19,15 @@ export class LoginComponent implements OnInit {
 
   signupForm: FormGroup
 
-  logged: boolean = false;
-  user: usuario = {Nickname: "",
-    contraseña:"",
-    puntos: 0,
-    monedas: 0,
-    avatar: "",
-    piezas: "",
-    tablero: ""}
+  static logged: boolean = false;
+  static user: usuario ={ nickname: "",
+                        puntos: 0,
+                        monedas: 0,
+                        avatar: "",
+                        piezas: "",
+                        tablero: ""
+  }
 
-  message:string="false";
 
   constructor(
     private router: Router,
@@ -59,30 +62,36 @@ export class LoginComponent implements OnInit {
 
   //Con esto se envia el formulario al back-end
   login(g: FormGroup) {
-    //Codigo prueba
-    /*this.user = {Nickname: g.get('user')!.value, contraseña: g.get('password')!.value, puntos: 0,monedas: 0,avatar: "",piezas: "",tablero: ""}
-    this.logged = true;
-    this.signinForm.reset();*/
-    
-    this.servicioCliente.Login(g.get('user')!.value, g.get('password')!.value).subscribe(resp =>{
-      this.signinForm.reset();
-      this.logged = true;
-      this.user = resp;
+    //const salt = bcrypt.genSalt(10);
+    //var pass = bcrypt.hash(g.get('password')!.value, 10);
+    var pass = bcrypt.hashSync(g.get('password')!.value, salt);
+    console.log(pass);
+    this.servicioCliente.Login(g.get('user')!.value, pass).subscribe(resp =>{
+      if (resp.exito == true) {
+        this.signinForm.reset();
+        LoginComponent.logged = true;
+        LoginComponent.user = resp.user;
+       // FriendListComponent.getFriendList();
+      }else{
+        console.log(resp.exito);
+      }
+      
     },
     error => {console.error(error)});
     
   }
 
   register(g: FormGroup){
-    //Codigo prueba
-    /*this.user = {Nickname: g.get('user')!.value, contraseña: g.get('password')!.value, puntos: 0,monedas: 0,avatar: "",piezas: "",tablero: ""}
-    this.logged = true;
-    this.signinForm.reset();*/
     //Este deberia ser el codigo bueno
-    var prueba:any;
-    this.servicioCliente.Register( g.get('user')!.value,  g.get('password')!.value, g.get('email')!.value).subscribe(resp =>{
-      this.signupForm.reset();
-      this.logged = true;
+    var pass = bcrypt.hashSync(g.get('password')!.value, salt);
+    this.servicioCliente.Register( g.get('user')!.value,  pass, g.get('email')!.value).subscribe(resp =>{
+      if (resp.exito == true) {
+        this.signupForm.reset();
+        LoginComponent.logged = true;
+        LoginComponent.user = resp.user;
+      }else{
+        console.log(resp.exito);
+      }
     },
     error => {console.error(error)});
     
@@ -98,4 +107,12 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
   }
 
+
+  get staticUsuario():usuario{
+    return LoginComponent.user;
+  }
+
+  get staticLogged():boolean{
+    return LoginComponent.logged;
+  }
 }
