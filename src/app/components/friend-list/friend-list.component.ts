@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { amigos, usuario } from 'src/app/other/interfaces';
 import { ServiceClientService } from '../../services/service-client.service';
 import { LoginComponent } from '../login/login.component';
 @Component({
@@ -93,10 +92,5 @@ export class FriendListComponent implements OnInit {
       }
     })
   }
-
-
-  /*deleteFriend(friend){
-    this.servicioCliente.deleteFriend(friend.)
-  }*/
 
 }

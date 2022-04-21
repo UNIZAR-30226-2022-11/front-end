@@ -7,7 +7,7 @@ body {
   height: 100%;
   margin: 0;
   z-index: -1;
-  background-image:url('../assets/ajedrez/wallpaper.jpg');
+  background-image:url('../assets/web/wallpaper.jpg');
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;

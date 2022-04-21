@@ -15,7 +15,7 @@ import { PlayComponent } from './components/play/play.component';
 import { AddFriendComponent } from './components/add-friend/add-friend.component';
 import { HttpClientModule } from '@angular/common/http'
 import { TimerComponent } from './components/timer/timer.component';
-
+import { ShopComponent } from './components/shop/shop.component';
 
 const rutas: Routes = [
   {
@@ -39,6 +39,10 @@ const rutas: Routes = [
     path: 'play',
     component: PlayComponent
   },
+  {
+    path: 'shop',
+    component: ShopComponent
+  }
 ]
 
 
@@ -54,6 +58,7 @@ const rutas: Routes = [
     PlayComponent,
     AddFriendComponent,
     TimerComponent,
+    ShopComponent,
   ],
   imports: [
     BrowserModule,
