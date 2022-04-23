@@ -168,3 +168,9 @@ export interface compra{
     USUARIO_Nickname: string;
     ARTICULA_nombre: string;
 }
+
+export const tablePath: {[index:string]: string}= {
+    'standart_table': './assets/articles/tables/tablero.png',
+};
+
+export const piecesPath: {[index:string]: string}= {};

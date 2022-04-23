@@ -12,14 +12,29 @@
         <p>{{userCoins}}</p>
         <img src="./assets/web/coin.png">
     </div>
-    </div>
-<div *ngIf="showTables">
-    <a *ngFor="let item of tablesList">
-        {{item.tipo}}
-    </a>
 </div>
-<div *ngIf="!showTables">
-    <a *ngFor="let item of piecesList">
-        {{item}}
-    </a>
+
+<div class="row">
+    <div *ngIf="showTables">
+        <div *ngFor="let item of tablesList"  class="column">
+            <div class="itemName"> {{item.nombre}}</div>
+            <img src="{{tablePath[item.nombre]}}" alt="{{item.nombre}}">
+            <button class="price" (click)="buyTable($event)">
+                <img src="./assets/web/coin.png">
+                <p>{{item.precio}}</p>
+                
+            </button>
+        </div>
+    </div>
+    <div *ngIf="!showTables">
+        <div *ngFor="let item of piecesList"  class="column">
+            <div class="itemName"> {{item.nombre}}</div>
+            <img src="{{piecesPath[item.nombre]}}" alt="{{item.nombre}}">
+            <button class="price" (click)="buyPieces($event)">
+                <img src="./assets/web/coin.png">
+                <p>{{item.precio}}</p>
+                
+            </button>
+        </div>
+    </div>
 </div>

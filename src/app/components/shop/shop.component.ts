@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginComponent } from '../login/login.component';
-import { articulo } from 'src/app/other/interfaces';
+import { articulo, tablePath, piecesPath } from 'src/app/other/interfaces';
 @Component({
   selector: 'app-shop',
   templateUrl: './shop.component.html',
@@ -8,9 +8,31 @@ import { articulo } from 'src/app/other/interfaces';
 })
 export class ShopComponent implements OnInit {
 
+  tablePath = tablePath;
+  piecesPath = piecesPath;
   showTables : boolean = true;
-  tablesList: Array<articulo>=[];
-  piecesList: Array<articulo>=[];
+  tablesList: Array<articulo>=[
+    {   nombre: "standart_table",
+        precio: 0,
+        tipo: "table"},
+    {   nombre: "standart_table",
+        precio: 120,
+        tipo: "table"},
+    {   nombre: "standart_table",
+        precio: 25,
+        tipo: "table"}
+    ];
+  piecesList: Array<articulo>=[
+    {   nombre: "standart_table",
+        precio: 0,
+        tipo: "table"},
+    {   nombre: "standart_table",
+        precio: 120,
+        tipo: "table"},
+    {   nombre: "standart_table",
+        precio: 25,
+        tipo: "table"}
+    ];
 
   modifyButtonsClasses (event:MouseEvent){
     var obj : any = event.target;
@@ -45,6 +67,14 @@ export class ShopComponent implements OnInit {
       var element=document.getElementById("piecesSelector")
       element?.classList.add('shopping')
     }
+  }
+
+  buyTable(event:MouseEvent){
+    
+  }
+
+  buyPieces(event:MouseEvent){
+
   }
 
 }
