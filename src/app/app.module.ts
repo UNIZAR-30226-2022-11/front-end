@@ -17,6 +17,11 @@ import { HttpClientModule } from '@angular/common/http'
 import { TimerComponent } from './components/timer/timer.component';
 import { ShopComponent } from './components/shop/shop.component';
 
+import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+import { environment } from 'src/environments/environment';
+import { ListComponent } from './components/list/list.component';
+import { InventaryComponent } from './components/inventary/inventary.component';
+
 const rutas: Routes = [
   {
     path: '',
@@ -42,9 +47,19 @@ const rutas: Routes = [
   {
     path: 'shop',
     component: ShopComponent
+  }, 
+  {
+    path: 'inventary',
+    component: InventaryComponent
   }
 ]
 
+const config: SocketIoConfig = {
+	url: environment.socketUrl, // socket server url;
+	options: {
+		transports: ['websocket']
+	}
+}
 
 @NgModule({
   declarations: [
@@ -59,12 +74,15 @@ const rutas: Routes = [
     AddFriendComponent,
     TimerComponent,
     ShopComponent,
+    ListComponent,
+    InventaryComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
     HttpClientModule,
+    SocketIoModule.forRoot(config),
     RouterModule.forRoot(rutas, {
       paramsInheritanceStrategy:'always'
     })

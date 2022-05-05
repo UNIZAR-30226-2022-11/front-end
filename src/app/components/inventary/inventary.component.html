@@ -1,0 +1,29 @@
+<div class="row">
+    <div class="selector" id="tablesSelector">
+        <button id="tablesSelector" (click)="modifyButtonsClasses($event)">TABLES</button>
+        
+    </div>
+    <div class="selector"  id="piecesSelector">
+        <button  id="piecesSelector" (click)="modifyButtonsClasses($event)">PIECES</button>
+        
+    </div>
+    <div class="coin">
+        <p>{{userCoins}}</p>
+        <img src="./assets/web/coin.png">
+    </div>
+</div>
+
+<div class="row">
+    <div *ngIf="showTables">
+        <div *ngFor="let item of tablesList"  class="column">
+            <div class="itemName"> {{item.nombre}}</div>
+            <img src="{{tablePath[item.nombre]}}" alt="{{item.nombre}}"> 
+        </div>
+    </div>
+    <div *ngIf="!showTables">
+        <div *ngFor="let item of piecesList"  class="column">
+            <div class="itemName"> {{item.nombre}}</div>
+            <img src="{{piecesPath[item.nombre]}}" alt="{{item.nombre}}">
+        </div>
+    </div>
+</div>

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { pieza } from 'src/app/other/interfaces';
 import { ViewChild } from '@angular/core';
 import { TimerComponent } from '../timer/timer.component';
+import { SocketService } from 'src/app/services/socket.service';
 
 @Component({
   selector: 'app-juego',
@@ -10,12 +11,17 @@ import { TimerComponent } from '../timer/timer.component';
 })
 export class JuegoComponent{
 
+  constructor(
+		//private socketService: SocketService 
+	) { }
 
   ////////////////////////////////////////////////////////////
 
   //TIMER
 
   ///////////////////////////////////////////////////////////
+
+
 
   //variables estaticas del timer
   static segundos = 0;
@@ -24,6 +30,22 @@ export class JuegoComponent{
   static finTiempo = false;
 
   static ia:boolean = false;
+  static online:boolean = false;
+
+
+  oponent:string = ""
+  miTurno:boolean = true;  //si no es mi turno no puedo seleccionar
+  online(){
+        //   this.socketService.getOpponet.subscribe((data: any) => {
+        //     this.oponent = data.fI
+        // data.side ?? -> miturno, turno, tablero
+        //   //mover pieza
+          
+        //asignamos miturno y tablero
+        //guardar id oponente
+        //empezar timer blanco
+        //   }) 
+  }
 
   @ViewChild(TimerComponent)
   timer!: TimerComponent;
@@ -93,58 +115,74 @@ export class JuegoComponent{
   negro:number = 0
   turno:boolean = true //0 para blancas, 1 para negras
 
+  ganar:boolean = false;
 
   //valor para casillas vacias
   v:pieza = {"col":"", "fil":"", "img": "", "color":0};
   
   //piezas del tablero 
 
+  tableroImg:string = "./assets/ajedrez/tablero.png"
+
+  static peonBlanco:string = "./assets/ajedrez/peon_blanco.png"
+  static alfilBlanco:string = "./assets/ajedrez/alfil_blanco.png"
+  static caballoBlanco:string = "./assets/ajedrez/caballo_blanco.png"
+  static torreBlanca:string = "./assets/ajedrez/torre_blanca.png"
+  static reinaBlanca:string = "./assets/ajedrez/reina_blanca.png"
+  static reyBlanco:string = "./assets/ajedrez/rey_blanco.png"
+
+  static peonNegro:string = "./assets/ajedrez/peon_negro.png"
+  static alfilNegro:string = "./assets/ajedrez/alfil_negro.png"
+  static caballoNegro:string = "./assets/ajedrez/caballo_negro.png"
+  static torreNegra:string = "./assets/ajedrez/torre_negra.png"
+  static reinaNegra:string = "./assets/ajedrez/reina_negra.png"
+  static reyNegro:string = "./assets/ajedrez/rey_negro.png"
   //negras
 
-  peonNegro0:pieza = {"col":this.columna[(this.blanco*7)+(0*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*1)+6*this.negro].toString() + "%", "img": "./assets/ajedrez/peon_negro.png", "color":-1};
-  peonNegro1:pieza = {"col":this.columna[(this.blanco*6)+1*this.negro].toString() + "%", "fil":this.fila[(this.blanco*1)+6*this.negro].toString() + "%", "img": "./assets/ajedrez/peon_negro.png", "color":-1};
-  peonNegro2:pieza = {"col":this.columna[(this.blanco*5)+2*this.negro].toString() + "%", "fil":this.fila[(this.blanco*1)+6*this.negro].toString() + "%", "img": "./assets/ajedrez/peon_negro.png", "color":-1};
-  peonNegro3:pieza = {"col":this.columna[(this.blanco*4)+3*this.negro].toString() + "%", "fil":this.fila[(this.blanco*1)+6*this.negro].toString() + "%", "img": "./assets/ajedrez/peon_negro.png", "color":-1};
-  peonNegro4:pieza = {"col":this.columna[(this.blanco*3)+4*this.negro].toString() + "%", "fil":this.fila[(this.blanco*1)+6*this.negro].toString() + "%", "img": "./assets/ajedrez/peon_negro.png", "color":-1};
-  peonNegro5:pieza = {"col":this.columna[(this.blanco*2)+5*this.negro].toString() + "%", "fil":this.fila[(this.blanco*1)+6*this.negro].toString() + "%", "img": "./assets/ajedrez/peon_negro.png", "color":-1};
-  peonNegro6:pieza = {"col":this.columna[(this.blanco*1)+6*this.negro].toString() + "%", "fil":this.fila[(this.blanco*1)+6*this.negro].toString() + "%", "img": "./assets/ajedrez/peon_negro.png", "color":-1};
-  peonNegro7:pieza = {"col":this.columna[(this.blanco*0)+7*this.negro].toString() + "%", "fil":this.fila[(this.blanco*1)+6*this.negro].toString() + "%", "img": "./assets/ajedrez/peon_negro.png", "color":-1};
+  peonNegro0:pieza = {"col":this.columna[(this.blanco*7)+(0*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*1)+6*this.negro].toString() + "%", "img": JuegoComponent.peonNegro, "color":-1};
+  peonNegro1:pieza = {"col":this.columna[(this.blanco*6)+1*this.negro].toString() + "%", "fil":this.fila[(this.blanco*1)+6*this.negro].toString() + "%", "img": JuegoComponent.peonNegro, "color":-1};
+  peonNegro2:pieza = {"col":this.columna[(this.blanco*5)+2*this.negro].toString() + "%", "fil":this.fila[(this.blanco*1)+6*this.negro].toString() + "%", "img": JuegoComponent.peonNegro, "color":-1};
+  peonNegro3:pieza = {"col":this.columna[(this.blanco*4)+3*this.negro].toString() + "%", "fil":this.fila[(this.blanco*1)+6*this.negro].toString() + "%", "img": JuegoComponent.peonNegro, "color":-1};
+  peonNegro4:pieza = {"col":this.columna[(this.blanco*3)+4*this.negro].toString() + "%", "fil":this.fila[(this.blanco*1)+6*this.negro].toString() + "%", "img": JuegoComponent.peonNegro, "color":-1};
+  peonNegro5:pieza = {"col":this.columna[(this.blanco*2)+5*this.negro].toString() + "%", "fil":this.fila[(this.blanco*1)+6*this.negro].toString() + "%", "img": JuegoComponent.peonNegro, "color":-1};
+  peonNegro6:pieza = {"col":this.columna[(this.blanco*1)+6*this.negro].toString() + "%", "fil":this.fila[(this.blanco*1)+6*this.negro].toString() + "%", "img": JuegoComponent.peonNegro, "color":-1};
+  peonNegro7:pieza = {"col":this.columna[(this.blanco*0)+7*this.negro].toString() + "%", "fil":this.fila[(this.blanco*1)+6*this.negro].toString() + "%", "img": JuegoComponent.peonNegro, "color":-1};
   
-  alfilNegro0:pieza = {"col":this.columna[(this.blanco*5)+(2*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*0)+(7*this.negro)].toString() + "%", "img": "./assets/ajedrez/alfil_negro.png", "color":-1};
-  alfilNegro1:pieza = {"col":this.columna[(this.blanco*2)+(5*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*0)+(7*this.negro)].toString() + "%", "img": "./assets/ajedrez/alfil_negro.png", "color":-1};
+  alfilNegro0:pieza = {"col":this.columna[(this.blanco*5)+(2*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*0)+(7*this.negro)].toString() + "%", "img": JuegoComponent.alfilNegro, "color":-1};
+  alfilNegro1:pieza = {"col":this.columna[(this.blanco*2)+(5*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*0)+(7*this.negro)].toString() + "%", "img": JuegoComponent.alfilNegro, "color":-1};
  
-  caballoNegro0:pieza = {"col":this.columna[(this.blanco*6)+(1*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*0)+(7*this.negro)].toString() + "%", "img": "./assets/ajedrez/caballo_negro.png", "color":-1};
-  caballoNegro1:pieza = {"col":this.columna[(this.blanco*1)+(6*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*0)+(7*this.negro)].toString() + "%", "img": "./assets/ajedrez/caballo_negro.png", "color":-1};
+  caballoNegro0:pieza = {"col":this.columna[(this.blanco*6)+(1*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*0)+(7*this.negro)].toString() + "%", "img": JuegoComponent.caballoNegro, "color":-1};
+  caballoNegro1:pieza = {"col":this.columna[(this.blanco*1)+(6*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*0)+(7*this.negro)].toString() + "%", "img": JuegoComponent.caballoNegro, "color":-1};
   
-  torreNegra0:pieza = {"col":this.columna[(this.blanco*7)+(0*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*0)+(7*this.negro)].toString() + "%", "img": "./assets/ajedrez/torre_negra.png", "color":-1};
-  torreNegra1:pieza = {"col":this.columna[(this.blanco*0)+(7*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*0)+(7*this.negro)].toString() + "%", "img": "./assets/ajedrez/torre_negra.png", "color":-1};
+  torreNegra0:pieza = {"col":this.columna[(this.blanco*7)+(0*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*0)+(7*this.negro)].toString() + "%", "img": JuegoComponent.torreNegra, "color":-1};
+  torreNegra1:pieza = {"col":this.columna[(this.blanco*0)+(7*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*0)+(7*this.negro)].toString() + "%", "img": JuegoComponent.torreNegra, "color":-1};
   
-  reinaNegra:pieza = {"col":this.columna[(this.blanco*3)+(3*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*0)+(7*this.negro)].toString() + "%", "img": "./assets/ajedrez/reina_negra.png", "color":-1};
-  reyNegro:pieza = {"col":this.columna[(this.blanco*4)+(4*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*0)+(7*this.negro)].toString() + "%", "img": "./assets/ajedrez/rey_negro.png", "color":-1};
+  reinaNegra:pieza = {"col":this.columna[(this.blanco*3)+(3*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*0)+(7*this.negro)].toString() + "%", "img": JuegoComponent.reinaNegra, "color":-1};
+  reyNegro:pieza = {"col":this.columna[(this.blanco*4)+(4*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*0)+(7*this.negro)].toString() + "%", "img": JuegoComponent.reyNegro, "color":-1};
 
   //blancas
-  peonBlanco0:pieza = {"col":this.columna[(this.blanco*0)+(7*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*6)+(1*this.negro)].toString() + "%", "img": "./assets/ajedrez/peon_blanco.png", "color":1};
-  peonBlanco1:pieza = {"col":this.columna[(this.blanco*1)+(6*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*6)+(1*this.negro)].toString() + "%", "img": "./assets/ajedrez/peon_blanco.png", "color":1};
-  peonBlanco2:pieza = {"col":this.columna[(this.blanco*2)+(5*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*6)+(1*this.negro)].toString() + "%", "img": "./assets/ajedrez/peon_blanco.png", "color":1};
-  peonBlanco3:pieza = {"col":this.columna[(this.blanco*3)+(4*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*6)+(1*this.negro)].toString() + "%", "img": "./assets/ajedrez/peon_blanco.png", "color":1};
-  peonBlanco4:pieza = {"col":this.columna[(this.blanco*4)+(3*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*6)+(1*this.negro)].toString() + "%", "img": "./assets/ajedrez/peon_blanco.png", "color":1};
-  peonBlanco5:pieza = {"col":this.columna[(this.blanco*5)+(2*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*6)+(1*this.negro)].toString() + "%", "img": "./assets/ajedrez/peon_blanco.png", "color":1};
-  peonBlanco6:pieza = {"col":this.columna[(this.blanco*6)+(1*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*6)+(1*this.negro)].toString() + "%", "img": "./assets/ajedrez/peon_blanco.png", "color":1};
-  peonBlanco7:pieza = {"col":this.columna[(this.blanco*7)+(0*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*6)+(1*this.negro)].toString() + "%", "img": "./assets/ajedrez/peon_blanco.png", "color":1};
+  peonBlanco0:pieza = {"col":this.columna[(this.blanco*0)+(7*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*6)+(1*this.negro)].toString() + "%", "img": JuegoComponent.peonBlanco, "color":1};
+  peonBlanco1:pieza = {"col":this.columna[(this.blanco*1)+(6*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*6)+(1*this.negro)].toString() + "%", "img": JuegoComponent.peonBlanco, "color":1};
+  peonBlanco2:pieza = {"col":this.columna[(this.blanco*2)+(5*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*6)+(1*this.negro)].toString() + "%", "img": JuegoComponent.peonBlanco, "color":1};
+  peonBlanco3:pieza = {"col":this.columna[(this.blanco*3)+(4*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*6)+(1*this.negro)].toString() + "%", "img": JuegoComponent.peonBlanco, "color":1};
+  peonBlanco4:pieza = {"col":this.columna[(this.blanco*4)+(3*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*6)+(1*this.negro)].toString() + "%", "img": JuegoComponent.peonBlanco, "color":1};
+  peonBlanco5:pieza = {"col":this.columna[(this.blanco*5)+(2*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*6)+(1*this.negro)].toString() + "%", "img": JuegoComponent.peonBlanco, "color":1};
+  peonBlanco6:pieza = {"col":this.columna[(this.blanco*6)+(1*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*6)+(1*this.negro)].toString() + "%", "img": JuegoComponent.peonBlanco, "color":1};
+  peonBlanco7:pieza = {"col":this.columna[(this.blanco*7)+(0*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*6)+(1*this.negro)].toString() + "%", "img": JuegoComponent.peonBlanco, "color":1};
  
-  alfilBlanco0:pieza = {"col":this.columna[(this.blanco*2)+(5*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*7)+(0*this.negro)].toString() + "%", "img": "./assets/ajedrez/alfil_blanco.png", "color":1};
-  alfilBlanco1:pieza = {"col":this.columna[(this.blanco*5)+(2*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*7)+(0*this.negro)].toString() + "%", "img": "./assets/ajedrez/alfil_blanco.png", "color":1};
+  alfilBlanco0:pieza = {"col":this.columna[(this.blanco*2)+(5*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*7)+(0*this.negro)].toString() + "%", "img": JuegoComponent.alfilBlanco, "color":1};
+  alfilBlanco1:pieza = {"col":this.columna[(this.blanco*5)+(2*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*7)+(0*this.negro)].toString() + "%", "img": JuegoComponent.alfilBlanco, "color":1};
  
-  caballoBlanco0:pieza = {"col":this.columna[(this.blanco*1)+(6*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*7)+(0*this.negro)].toString() + "%", "img": "./assets/ajedrez/caballo_blanco.png", "color":1};
-  caballoBlanco1:pieza = {"col":this.columna[(this.blanco*6)+(1*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*7)+(0*this.negro)].toString() + "%", "img": "./assets/ajedrez/caballo_blanco.png", "color":1};
+  caballoBlanco0:pieza = {"col":this.columna[(this.blanco*1)+(6*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*7)+(0*this.negro)].toString() + "%", "img": JuegoComponent.caballoBlanco, "color":1};
+  caballoBlanco1:pieza = {"col":this.columna[(this.blanco*6)+(1*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*7)+(0*this.negro)].toString() + "%", "img": JuegoComponent.caballoBlanco, "color":1};
  
-  torreBlanca0:pieza = {"col":this.columna[(this.blanco*0)+(7*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*7)+(0*this.negro)].toString() + "%", "img": "./assets/ajedrez/torre_blanca.png", "color":1};
-  torreBlanca1:pieza = {"col":this.columna[(this.blanco*7)+(0*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*7)+(0*this.negro)].toString() + "%", "img": "./assets/ajedrez/torre_blanca.png", "color":1};
+  torreBlanca0:pieza = {"col":this.columna[(this.blanco*0)+(7*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*7)+(0*this.negro)].toString() + "%", "img": JuegoComponent.torreBlanca, "color":1};
+  torreBlanca1:pieza = {"col":this.columna[(this.blanco*7)+(0*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*7)+(0*this.negro)].toString() + "%", "img": JuegoComponent.torreBlanca, "color":1};
   
-  reinaBlanca:pieza = {"col":this.columna[(this.blanco*3)+(4*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*7)+(0*this.negro)].toString() + "%", "img": "./assets/ajedrez/reina_blanca.png", "color":1};
+  reinaBlanca:pieza = {"col":this.columna[(this.blanco*3)+(4*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*7)+(0*this.negro)].toString() + "%", "img": JuegoComponent.reinaBlanca, "color":1};
   reinaBlanca0:pieza = {"col":"", "fil":"", "img": "", "color":0};
   
-  reyBlanco:pieza = {"col":this.columna[(this.blanco*4)+(3*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*7)+(0*this.negro)].toString() + "%", "img": "./assets/ajedrez/rey_blanco.png", "color":1};
+  reyBlanco:pieza = {"col":this.columna[(this.blanco*4)+(3*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*7)+(0*this.negro)].toString() + "%", "img": JuegoComponent.reyBlanco, "color":1};
   
 
   //tableros
@@ -218,50 +256,52 @@ tableroBlanco:pieza[][] =
 
       //piezas del tablero 
 
+
+
     //negras
 
-    this.peonNegro0 = {"col":this.columna[(this.blanco*7)+(0*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*1)+6*this.negro].toString() + "%", "img": "./assets/ajedrez/peon_negro.png", "color":-1};
-    this.peonNegro1 = {"col":this.columna[(this.blanco*6)+1*this.negro].toString() + "%", "fil":this.fila[(this.blanco*1)+6*this.negro].toString() + "%", "img": "./assets/ajedrez/peon_negro.png", "color":-1};
-    this.peonNegro2 = {"col":this.columna[(this.blanco*5)+2*this.negro].toString() + "%", "fil":this.fila[(this.blanco*1)+6*this.negro].toString() + "%", "img": "./assets/ajedrez/peon_negro.png", "color":-1};
-    this.peonNegro3 = {"col":this.columna[(this.blanco*4)+3*this.negro].toString() + "%", "fil":this.fila[(this.blanco*1)+6*this.negro].toString() + "%", "img": "./assets/ajedrez/peon_negro.png", "color":-1};
-    this.peonNegro4 = {"col":this.columna[(this.blanco*3)+4*this.negro].toString() + "%", "fil":this.fila[(this.blanco*1)+6*this.negro].toString() + "%", "img": "./assets/ajedrez/peon_negro.png", "color":-1};
-    this.peonNegro5 = {"col":this.columna[(this.blanco*2)+5*this.negro].toString() + "%", "fil":this.fila[(this.blanco*1)+6*this.negro].toString() + "%", "img": "./assets/ajedrez/peon_negro.png", "color":-1};
-    this.peonNegro6 = {"col":this.columna[(this.blanco*1)+6*this.negro].toString() + "%", "fil":this.fila[(this.blanco*1)+6*this.negro].toString() + "%", "img": "./assets/ajedrez/peon_negro.png", "color":-1};
-    this.peonNegro7 = {"col":this.columna[(this.blanco*0)+7*this.negro].toString() + "%", "fil":this.fila[(this.blanco*1)+6*this.negro].toString() + "%", "img": "./assets/ajedrez/peon_negro.png", "color":-1};
+    this.peonNegro0 = {"col":this.columna[(this.blanco*7)+(0*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*1)+6*this.negro].toString() + "%", "img": JuegoComponent.peonNegro, "color":-1};
+    this.peonNegro1 = {"col":this.columna[(this.blanco*6)+1*this.negro].toString() + "%", "fil":this.fila[(this.blanco*1)+6*this.negro].toString() + "%", "img": JuegoComponent.peonNegro, "color":-1};
+    this.peonNegro2 = {"col":this.columna[(this.blanco*5)+2*this.negro].toString() + "%", "fil":this.fila[(this.blanco*1)+6*this.negro].toString() + "%", "img": JuegoComponent.peonNegro, "color":-1};
+    this.peonNegro3 = {"col":this.columna[(this.blanco*4)+3*this.negro].toString() + "%", "fil":this.fila[(this.blanco*1)+6*this.negro].toString() + "%", "img": JuegoComponent.peonNegro, "color":-1};
+    this.peonNegro4 = {"col":this.columna[(this.blanco*3)+4*this.negro].toString() + "%", "fil":this.fila[(this.blanco*1)+6*this.negro].toString() + "%", "img": JuegoComponent.peonNegro, "color":-1};
+    this.peonNegro5 = {"col":this.columna[(this.blanco*2)+5*this.negro].toString() + "%", "fil":this.fila[(this.blanco*1)+6*this.negro].toString() + "%", "img": JuegoComponent.peonNegro, "color":-1};
+    this.peonNegro6 = {"col":this.columna[(this.blanco*1)+6*this.negro].toString() + "%", "fil":this.fila[(this.blanco*1)+6*this.negro].toString() + "%", "img": JuegoComponent.peonNegro, "color":-1};
+    this.peonNegro7 = {"col":this.columna[(this.blanco*0)+7*this.negro].toString() + "%", "fil":this.fila[(this.blanco*1)+6*this.negro].toString() + "%", "img": JuegoComponent.peonNegro, "color":-1};
     
-    this.alfilNegro0 = {"col":this.columna[(this.blanco*5)+(2*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*0)+(7*this.negro)].toString() + "%", "img": "./assets/ajedrez/alfil_negro.png", "color":-1};
-    this.alfilNegro1 = {"col":this.columna[(this.blanco*2)+(5*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*0)+(7*this.negro)].toString() + "%", "img": "./assets/ajedrez/alfil_negro.png", "color":-1};
+    this.alfilNegro0 = {"col":this.columna[(this.blanco*5)+(2*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*0)+(7*this.negro)].toString() + "%", "img": JuegoComponent.alfilNegro, "color":-1};
+    this.alfilNegro1 = {"col":this.columna[(this.blanco*2)+(5*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*0)+(7*this.negro)].toString() + "%", "img": JuegoComponent.alfilNegro, "color":-1};
   
-    this.caballoNegro0 = {"col":this.columna[(this.blanco*6)+(1*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*0)+(7*this.negro)].toString() + "%", "img": "./assets/ajedrez/caballo_negro.png", "color":-1};
-    this.caballoNegro1 = {"col":this.columna[(this.blanco*1)+(6*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*0)+(7*this.negro)].toString() + "%", "img": "./assets/ajedrez/caballo_negro.png", "color":-1};
+    this.caballoNegro0 = {"col":this.columna[(this.blanco*6)+(1*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*0)+(7*this.negro)].toString() + "%", "img": JuegoComponent.caballoNegro, "color":-1};
+    this.caballoNegro1 = {"col":this.columna[(this.blanco*1)+(6*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*0)+(7*this.negro)].toString() + "%", "img": JuegoComponent.caballoNegro, "color":-1};
     
-    this.torreNegra0 = {"col":this.columna[(this.blanco*7)+(0*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*0)+(7*this.negro)].toString() + "%", "img": "./assets/ajedrez/torre_negra.png", "color":-1};
-    this.torreNegra1 = {"col":this.columna[(this.blanco*0)+(7*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*0)+(7*this.negro)].toString() + "%", "img": "./assets/ajedrez/torre_negra.png", "color":-1};
+    this.torreNegra0 = {"col":this.columna[(this.blanco*7)+(0*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*0)+(7*this.negro)].toString() + "%", "img": JuegoComponent.torreNegra, "color":-1};
+    this.torreNegra1 = {"col":this.columna[(this.blanco*0)+(7*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*0)+(7*this.negro)].toString() + "%", "img": JuegoComponent.torreNegra, "color":-1};
     
-    this.reinaNegra = {"col":this.columna[(this.blanco*3)+(4*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*0)+(7*this.negro)].toString() + "%", "img": "./assets/ajedrez/reina_negra.png", "color":-1};
-    this.reyNegro = {"col":this.columna[(this.blanco*4)+(3*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*0)+(7*this.negro)].toString() + "%", "img": "./assets/ajedrez/rey_negro.png", "color":-1};
+    this.reinaNegra = {"col":this.columna[(this.blanco*3)+(4*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*0)+(7*this.negro)].toString() + "%", "img": JuegoComponent.reinaNegra, "color":-1};
+    this.reyNegro = {"col":this.columna[(this.blanco*4)+(3*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*0)+(7*this.negro)].toString() + "%", "img": JuegoComponent.reyNegro, "color":-1};
 
     //blancas
-    this.peonBlanco0 = {"col":this.columna[(this.blanco*0)+(7*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*6)+(1*this.negro)].toString() + "%", "img": "./assets/ajedrez/peon_blanco.png", "color":1};
-    this.peonBlanco1 = {"col":this.columna[(this.blanco*1)+(6*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*6)+(1*this.negro)].toString() + "%", "img": "./assets/ajedrez/peon_blanco.png", "color":1};
-    this.peonBlanco2 = {"col":this.columna[(this.blanco*2)+(5*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*6)+(1*this.negro)].toString() + "%", "img": "./assets/ajedrez/peon_blanco.png", "color":1};
-    this.peonBlanco3 = {"col":this.columna[(this.blanco*3)+(4*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*6)+(1*this.negro)].toString() + "%", "img": "./assets/ajedrez/peon_blanco.png", "color":1};
-    this.peonBlanco4 = {"col":this.columna[(this.blanco*4)+(3*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*6)+(1*this.negro)].toString() + "%", "img": "./assets/ajedrez/peon_blanco.png", "color":1};
-    this.peonBlanco5 = {"col":this.columna[(this.blanco*5)+(2*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*6)+(1*this.negro)].toString() + "%", "img": "./assets/ajedrez/peon_blanco.png", "color":1};
-    this.peonBlanco6 = {"col":this.columna[(this.blanco*6)+(1*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*6)+(1*this.negro)].toString() + "%", "img": "./assets/ajedrez/peon_blanco.png", "color":1};
-    this.peonBlanco7 = {"col":this.columna[(this.blanco*7)+(0*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*6)+(1*this.negro)].toString() + "%", "img": "./assets/ajedrez/peon_blanco.png", "color":1};
+    this.peonBlanco0 = {"col":this.columna[(this.blanco*0)+(7*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*6)+(1*this.negro)].toString() + "%", "img": JuegoComponent.peonBlanco, "color":1};
+    this.peonBlanco1 = {"col":this.columna[(this.blanco*1)+(6*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*6)+(1*this.negro)].toString() + "%", "img": JuegoComponent.peonBlanco, "color":1};
+    this.peonBlanco2 = {"col":this.columna[(this.blanco*2)+(5*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*6)+(1*this.negro)].toString() + "%", "img": JuegoComponent.peonBlanco, "color":1};
+    this.peonBlanco3 = {"col":this.columna[(this.blanco*3)+(4*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*6)+(1*this.negro)].toString() + "%", "img": JuegoComponent.peonBlanco, "color":1};
+    this.peonBlanco4 = {"col":this.columna[(this.blanco*4)+(3*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*6)+(1*this.negro)].toString() + "%", "img": JuegoComponent.peonBlanco, "color":1};
+    this.peonBlanco5 = {"col":this.columna[(this.blanco*5)+(2*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*6)+(1*this.negro)].toString() + "%", "img": JuegoComponent.peonBlanco, "color":1};
+    this.peonBlanco6 = {"col":this.columna[(this.blanco*6)+(1*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*6)+(1*this.negro)].toString() + "%", "img": JuegoComponent.peonBlanco, "color":1};
+    this.peonBlanco7 = {"col":this.columna[(this.blanco*7)+(0*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*6)+(1*this.negro)].toString() + "%", "img": JuegoComponent.peonBlanco, "color":1};
   
-    this.alfilBlanco0 = {"col":this.columna[(this.blanco*2)+(5*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*7)+(0*this.negro)].toString() + "%", "img": "./assets/ajedrez/alfil_blanco.png", "color":1};
-    this.alfilBlanco1 = {"col":this.columna[(this.blanco*5)+(2*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*7)+(0*this.negro)].toString() + "%", "img": "./assets/ajedrez/alfil_blanco.png", "color":1};
+    this.alfilBlanco0 = {"col":this.columna[(this.blanco*2)+(5*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*7)+(0*this.negro)].toString() + "%", "img": JuegoComponent.alfilBlanco, "color":1};
+    this.alfilBlanco1 = {"col":this.columna[(this.blanco*5)+(2*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*7)+(0*this.negro)].toString() + "%", "img": JuegoComponent.alfilBlanco, "color":1};
   
-    this.caballoBlanco0 = {"col":this.columna[(this.blanco*1)+(6*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*7)+(0*this.negro)].toString() + "%", "img": "./assets/ajedrez/caballo_blanco.png", "color":1};
-    this.caballoBlanco1 = {"col":this.columna[(this.blanco*6)+(1*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*7)+(0*this.negro)].toString() + "%", "img": "./assets/ajedrez/caballo_blanco.png", "color":1};
+    this.caballoBlanco0 = {"col":this.columna[(this.blanco*1)+(6*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*7)+(0*this.negro)].toString() + "%", "img": JuegoComponent.caballoBlanco, "color":1};
+    this.caballoBlanco1 = {"col":this.columna[(this.blanco*6)+(1*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*7)+(0*this.negro)].toString() + "%", "img": JuegoComponent.caballoBlanco, "color":1};
   
-    this.torreBlanca0 = {"col":this.columna[(this.blanco*0)+(7*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*7)+(0*this.negro)].toString() + "%", "img": "./assets/ajedrez/torre_blanca.png", "color":1};
-    this.torreBlanca1 = {"col":this.columna[(this.blanco*7)+(0*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*7)+(0*this.negro)].toString() + "%", "img": "./assets/ajedrez/torre_blanca.png", "color":1};
+    this.torreBlanca0 = {"col":this.columna[(this.blanco*0)+(7*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*7)+(0*this.negro)].toString() + "%", "img": JuegoComponent.torreBlanca, "color":1};
+    this.torreBlanca1 = {"col":this.columna[(this.blanco*7)+(0*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*7)+(0*this.negro)].toString() + "%", "img": JuegoComponent.torreBlanca, "color":1};
     
-    this.reinaBlanca = {"col":this.columna[(this.blanco*3)+(4*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*7)+(0*this.negro)].toString() + "%", "img": "./assets/ajedrez/reina_blanca.png", "color":1};
-    this.reyBlanco = {"col":this.columna[(this.blanco*4)+(3*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*7)+(0*this.negro)].toString() + "%", "img": "./assets/ajedrez/rey_blanco.png", "color":1};
+    this.reinaBlanca = {"col":this.columna[(this.blanco*3)+(4*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*7)+(0*this.negro)].toString() + "%", "img": JuegoComponent.reinaBlanca, "color":1};
+    this.reyBlanco = {"col":this.columna[(this.blanco*4)+(3*this.negro)].toString() + "%", "fil":this.fila[(this.blanco*7)+(0*this.negro)].toString() + "%", "img": JuegoComponent.reyBlanco, "color":1};
     if(blanco) {
       this.tablero = [
         [this.torreNegra1, this.caballoNegro1, this.alfilNegro1, this.reinaNegra, this.reyNegro, this.alfilNegro0, this.caballoNegro0, this.torreNegra0],
@@ -323,6 +363,14 @@ tableroBlanco:pieza[][] =
       return false
     }
 
+  }
+
+  reina():boolean{
+    if((this.pieza == "reinaNegra") || (this.pieza == "reinaBlanca")){
+      return true
+    } else{
+      return false
+    }
   }
 
   rey():boolean {
@@ -1927,6 +1975,178 @@ moverPieza(pieza:pieza):boolean{
     return -1
   }
 
+  //devuelve si hay jaque mate a la pieza
+  jaqueMate(pieza:pieza):boolean {
+
+    var piezaAmenaza:pieza = this.jaque(pieza);
+    var aux: string = this.pieza;
+
+    //if pieza amenaza existe
+    if(piezaAmenaza == this.v){return false}
+    this.pieza = this.piezaToString(piezaAmenaza);
+
+    //podemos comer peiza amenaza? si existe es falso
+    if(this.jaque(piezaAmenaza) != this.v){return false}
+
+
+    //movimeitnos del rey evitar jaque mate
+    {
+      //coger col, y fila
+      var colAux:number = this.obtenerColumna(pieza);
+      // var colVar
+      var filAux:number = this.obtenFila(pieza);
+      // var FilVar
+      
+      //comprobar si puedo mover 
+      if(colAux+1<8 && this.tablero[colAux+1][filAux] == this.v){
+
+        pieza.col == this.columna[colAux+1].toString() + "%"
+        pieza.fil == this.fila[filAux].toString() + "%"
+        if(this.jaque(pieza) == this.v) {
+          pieza.col == this.columna[colAux].toString() + "%"
+          pieza.fil == this.fila[filAux].toString() + "%" 
+          return false;
+        }
+      }
+
+      //comprobar si puedo mover 
+      if(colAux-1>=0 && this.tablero[colAux-1][filAux] == this.v){
+
+        pieza.col == this.columna[colAux-1].toString() + "%"
+        pieza.fil == this.fila[filAux].toString() + "%"
+        if(this.jaque(pieza) == this.v) {
+          pieza.col == this.columna[colAux].toString() + "%"
+          pieza.fil == this.fila[filAux].toString() + "%" 
+          return false;
+        }
+      }
+
+      //comprobar si puedo mover 
+      if(filAux+1<8 && this.tablero[colAux][filAux+1] == this.v){
+
+        pieza.col == this.columna[colAux].toString() + "%"
+        pieza.fil == this.fila[filAux+1].toString() + "%"
+        if(this.jaque(pieza) == this.v) {
+          pieza.col == this.columna[colAux].toString() + "%"
+          pieza.fil == this.fila[filAux].toString() + "%" 
+          return false;
+        }
+      }
+
+      //comprobar si puedo mover 
+      if(filAux-1>=0 && this.tablero[colAux][filAux-1] == this.v){
+
+        pieza.col == this.columna[colAux].toString() + "%"
+        pieza.fil == this.fila[filAux-1].toString() + "%"
+        if(this.jaque(pieza) == this.v) {
+          pieza.col == this.columna[colAux].toString() + "%"
+          pieza.fil == this.fila[filAux].toString() + "%" 
+          return false;
+        }
+      }
+
+      //comprobar si puedo mover 
+      if(colAux+1<8 && filAux+1<8 && this.tablero[colAux+1][filAux+1] == this.v){
+
+        pieza.col == this.columna[colAux+1].toString() + "%"
+        pieza.fil == this.fila[filAux+1].toString() + "%"
+        if(this.jaque(pieza) == this.v) {
+          pieza.col == this.columna[colAux].toString() + "%"
+          pieza.fil == this.fila[filAux].toString() + "%" 
+          return false;
+        }
+      }
+
+      //comprobar si puedo mover 
+      if(colAux-1>=0 && filAux-1>=0 && this.tablero[colAux-1][filAux-1] == this.v){
+
+        pieza.col == this.columna[colAux-1].toString() + "%"
+        pieza.fil == this.fila[filAux-1].toString() + "%"
+        if(this.jaque(pieza) == this.v) {
+          pieza.col == this.columna[colAux].toString() + "%"
+          pieza.fil == this.fila[filAux].toString() + "%" 
+          return false;
+        }
+      }
+
+      //comprobar si puedo mover 
+      if(colAux+1<8 && filAux-1>=0 && this.tablero[colAux+1][filAux-1] == this.v){
+
+        pieza.col == this.columna[colAux+1].toString() + "%"
+        pieza.fil == this.fila[filAux-1].toString() + "%"
+        if(this.jaque(pieza) == this.v) {
+          pieza.col == this.columna[colAux].toString() + "%"
+          pieza.fil == this.fila[filAux].toString() + "%" 
+          return false;
+        }
+      }
+
+      //comprobar si puedo mover 
+      if(colAux-1>=0 && filAux+1<8 && this.tablero[colAux-1][filAux+1] == this.v){
+
+        pieza.col == this.columna[colAux-1].toString() + "%"
+        pieza.fil == this.fila[filAux+1].toString() + "%"
+        if(this.jaque(pieza) == this.v) {
+          pieza.col == this.columna[colAux].toString() + "%"
+          pieza.fil == this.fila[filAux].toString() + "%" 
+          return false;
+        }
+      }
+    }
+
+//el rey no tiene movimeientos, hay que bloquear
+
+    if(this.peon()){
+      //no se bloquea
+    } 
+    else if(this.alfil()) {
+      var piezaAux:pieza = piezaAmenaza;
+      if(this.obtenerColumna(piezaAmenaza) > this.obtenerColumna(pieza) && this.obtenFila(piezaAmenaza) > this.obtenFila(pieza)){
+        piezaAux.col == this.columna[colAux - 1].toString() + "%"
+        piezaAux.fil == this.fila[filAux - 1].toString() + "%" 
+        while(piezaAux.col != pieza.col && piezaAux.fil != pieza.fil){
+          if(this.jaque(piezaAux) != this.v) {
+            return false;
+          }
+          piezaAux.col == this.columna[colAux - 1].toString() + "%"
+          piezaAux.fil == this.fila[filAux - 1].toString() + "%" 
+        }
+        return true
+      }
+      else if(this.obtenerColumna(piezaAmenaza) > this.obtenerColumna(pieza) && this.obtenFila(piezaAmenaza) < this.obtenFila(pieza)){
+
+      }
+      else if(this.obtenerColumna(piezaAmenaza) < this.obtenerColumna(pieza) && this.obtenFila(piezaAmenaza) > this.obtenFila(pieza)){
+
+      }
+      else if(this.obtenerColumna(piezaAmenaza) < this.obtenerColumna(pieza) && this.obtenFila(piezaAmenaza) < this.obtenFila(pieza)){
+
+      }
+    }
+    else if(this.caballo()){
+      //no se bloquea
+    }
+    else if(this.torre()){
+      if(this.obtenerColumna(piezaAmenaza) == this.obtenerColumna(pieza) && this.obtenerColumna(piezaAmenaza) > this.obtenerColumna(pieza)){
+
+      }
+      else if(this.obtenerColumna(piezaAmenaza) == this.obtenerColumna(pieza) && this.obtenerColumna(piezaAmenaza) < this.obtenerColumna(pieza)){
+
+      }
+      else if(this.obtenFila(piezaAmenaza) == this.obtenFila(pieza) && this.obtenFila(piezaAmenaza) > this.obtenFila(pieza)){
+
+      }
+      else if(this.obtenFila(piezaAmenaza) == this.obtenFila(pieza) && this.obtenFila(piezaAmenaza) < this.obtenFila(pieza)){
+
+      }
+    }
+    else if(this.reina()){
+
+    }
+
+    return false;
+  }
+
   //devuelve la pieza amenaza al parametro
   jaque(pieza:pieza):pieza {
 
@@ -2191,7 +2411,8 @@ moverPieza(pieza:pieza):boolean{
   }
 
   seleccionar(p:string, event:MouseEvent) {
-    if(JuegoComponent.finTiempo) {return;} //se acabo el tiempo
+    if(JuegoComponent.online && !this.miTurno) {return} //no es tu turno
+    if(JuegoComponent.finTiempo || this.ganar) {return;} //se acabo el tiempo
 
     if(!this.seleccionada) {
       //negras
@@ -2321,138 +2542,138 @@ moverPieza(pieza:pieza):boolean{
     
     else if(p == this.pieza){
       if(p == "peonNegro0") {
-        this.peonNegro0.img = "./assets/ajedrez/peon_negro.png"
+        this.peonNegro0.img = JuegoComponent.peonNegro
         this.seleccionada = !this.seleccionada;
       }
       else if(p == "peonNegro1") {
-        this.peonNegro1.img = "./assets/ajedrez/peon_negro.png"
+        this.peonNegro1.img = JuegoComponent.peonNegro
         this.seleccionada = !this.seleccionada;
       }  
       else if(p == "peonNegro2") {
-        this.peonNegro2.img = "./assets/ajedrez/peon_negro.png"
+        this.peonNegro2.img = JuegoComponent.peonNegro
         this.seleccionada = !this.seleccionada;
       }
       else if(p == "peonNegro3") {
-        this.peonNegro3.img = "./assets/ajedrez/peon_negro.png"
+        this.peonNegro3.img = JuegoComponent.peonNegro
         this.seleccionada = !this.seleccionada;
       } 
       else if(p == "peonNegro4") {
-        this.peonNegro4.img = "./assets/ajedrez/peon_negro.png"
+        this.peonNegro4.img = JuegoComponent.peonNegro
         this.seleccionada = !this.seleccionada;
       } 
       else if(p == "peonNegro5") {
-        this.peonNegro5.img = "./assets/ajedrez/peon_negro.png"
+        this.peonNegro5.img = JuegoComponent.peonNegro
         this.seleccionada = !this.seleccionada;
       }
       else if(p == "peonNegro6") {
-        this.peonNegro6.img = "./assets/ajedrez/peon_negro.png"
+        this.peonNegro6.img = JuegoComponent.peonNegro
         this.seleccionada = !this.seleccionada;
       }  
       else if(p == "peonNegro7") {
-        this.peonNegro7.img = "./assets/ajedrez/peon_negro.png"
+        this.peonNegro7.img = JuegoComponent.peonNegro
         this.seleccionada = !this.seleccionada;
       }
 
       else if(p == "peonBlanco0") {
-        this.peonBlanco0.img = "./assets/ajedrez/peon_blanco.png"
+        this.peonBlanco0.img = JuegoComponent.peonBlanco
         this.seleccionada = !this.seleccionada;
       }
       else if(p == "peonBlanco1") {
-        this.peonBlanco1.img = "./assets/ajedrez/peon_blanco.png"
+        this.peonBlanco1.img = JuegoComponent.peonBlanco
         this.seleccionada = !this.seleccionada;
       }
       else if(p == "peonBlanco2") {
-        this.peonBlanco2.img = "./assets/ajedrez/peon_blanco.png"
+        this.peonBlanco2.img = JuegoComponent.peonBlanco
         this.seleccionada = !this.seleccionada;
       }
       else if(p == "peonBlanco3") {
-        this.peonBlanco3.img = "./assets/ajedrez/peon_blanco.png"
+        this.peonBlanco3.img = JuegoComponent.peonBlanco
         this.seleccionada = !this.seleccionada;
       }
       else if(p == "peonBlanco4") {
-        this.peonBlanco4.img = "./assets/ajedrez/peon_blanco.png"
+        this.peonBlanco4.img = JuegoComponent.peonBlanco
         this.seleccionada = !this.seleccionada;
       }
       else if(p == "peonBlanco5") {
-        this.peonBlanco5.img = "./assets/ajedrez/peon_blanco.png"
+        this.peonBlanco5.img = JuegoComponent.peonBlanco
         this.seleccionada = !this.seleccionada;
       }
       else if(p == "peonBlanco6") {
-        this.peonBlanco6.img = "./assets/ajedrez/peon_blanco.png"
+        this.peonBlanco6.img = JuegoComponent.peonBlanco
         this.seleccionada = !this.seleccionada;
       }
       else if(p == "peonBlanco7") {
-        this.peonBlanco7.img = "./assets/ajedrez/peon_blanco.png"
+        this.peonBlanco7.img = JuegoComponent.peonBlanco
         this.seleccionada = !this.seleccionada;
       }
       //alfil     
       else if(p == "alfilNegro0") {
-        this.alfilNegro0.img = "./assets/ajedrez/alfil_negro.png"
+        this.alfilNegro0.img = JuegoComponent.alfilNegro
         this.seleccionada = !this.seleccionada;
       }
       else if(p == "alfilNegro1") {
-        this.alfilNegro1.img = "./assets/ajedrez/alfil_negro.png"
+        this.alfilNegro1.img = JuegoComponent.alfilNegro
         this.seleccionada = !this.seleccionada;
       }
 
       else if(p == "alfilBlanco0") {
-        this.alfilBlanco0.img = "./assets/ajedrez/alfil_blanco.png"
+        this.alfilBlanco0.img = JuegoComponent.alfilBlanco
         this.seleccionada = !this.seleccionada;
       }
       else if(p == "alfilBlanco1") {
-        this.alfilBlanco1.img = "./assets/ajedrez/alfil_blanco.png"
+        this.alfilBlanco1.img = JuegoComponent.alfilBlanco
         this.seleccionada = !this.seleccionada;
       }
       //caballos  
       else if(p == "caballoNegro0") {
-        this.caballoNegro0.img = "./assets/ajedrez/caballo_negro.png"
+        this.caballoNegro0.img = JuegoComponent.caballoNegro
         this.seleccionada = !this.seleccionada;
       }
       else if(p == "caballoNegro1") {
-        this.caballoNegro1.img = "./assets/ajedrez/caballo_negro.png"
+        this.caballoNegro1.img = JuegoComponent.caballoNegro
         this.seleccionada = !this.seleccionada;
       }
       else if(p == "caballoBlanco0") {
-        this.caballoBlanco0.img = "./assets/ajedrez/caballo_blanco.png"
+        this.caballoBlanco0.img = JuegoComponent.caballoBlanco
         this.seleccionada = !this.seleccionada;
       }
       else if(p == "caballoBlanco1") {
-        this.caballoBlanco1.img = "./assets/ajedrez/caballo_blanco.png"
+        this.caballoBlanco1.img = JuegoComponent.caballoBlanco
         this.seleccionada = !this.seleccionada;
       }
       //torres
       else if(p == "torreNegra0") {
-        this.torreNegra0.img = "./assets/ajedrez/torre_negra.png"
+        this.torreNegra0.img = JuegoComponent.torreNegra
         this.seleccionada = !this.seleccionada;
       }
       else if(p == "torreNegra1") {
-        this.torreNegra1.img = "./assets/ajedrez/torre_negra.png"
+        this.torreNegra1.img = JuegoComponent.torreNegra
         this.seleccionada = !this.seleccionada;
       }
       else if(p == "torreBlanca0") {
-        this.torreBlanca0.img = "./assets/ajedrez/torre_blanca.png"
+        this.torreBlanca0.img = JuegoComponent.torreBlanca
         this.seleccionada = !this.seleccionada;
       }
       else if(p == "torreBlanca1") {
-        this.torreBlanca1.img = "./assets/ajedrez/torre_blanca.png"
+        this.torreBlanca1.img = JuegoComponent.torreBlanca
         this.seleccionada = !this.seleccionada;
       }
       //reina  
       else if(p == "reinaNegra") {
-        this.reinaNegra.img = "./assets/ajedrez/reina_negra.png"
+        this.reinaNegra.img = JuegoComponent.reinaNegra
         this.seleccionada = !this.seleccionada;
       }
       else if(p == "reinaBlanca") {
-        this.reinaBlanca.img = "./assets/ajedrez/reina_blanca.png"
+        this.reinaBlanca.img = JuegoComponent.reinaBlanca
         this.seleccionada = !this.seleccionada;
       }
       //rey 
       else if(p == "reyNegro") {
-        this.reyNegro.img = "./assets/ajedrez/rey_negro.png"
+        this.reyNegro.img = JuegoComponent.reyNegro
         this.seleccionada = !this.seleccionada;
       } 
       else if(p == "reyBlanco") {
-        this.reyBlanco.img = "./assets/ajedrez/rey_blanco.png"
+        this.reyBlanco.img = JuegoComponent.reyBlanco
         this.seleccionada = !this.seleccionada;
       } 
     }
@@ -2632,7 +2853,7 @@ moverPieza(pieza:pieza):boolean{
         this.reinaBlanca0.col = this.columna[this.columnFin] + "%";
         this.reinaBlanca0.fil = this.fila[this.filaFin] + "%";
         this.reinaBlanca0.color = 1;
-        this.reinaBlanca0.img = "./assets/ajedrez/reina_blanca.png";
+        this.reinaBlanca0.img = JuegoComponent.reinaBlanca;
         this.tablero[this.filaFin][this.columnFin].color = 0;
         this.tablero[this.filaFin][this.columnFin] = this.reinaBlanca0
 
@@ -2705,7 +2926,7 @@ moverPieza(pieza:pieza):boolean{
               this.tablero[this.filaIni][this.columnIni] = this.v
               this.tablero[this.filaFin][2] = this.reyBlanco
               this.reyBlanco.col = this.columna[2] + "%"
-              this.reyBlanco.img  = "./assets/ajedrez/rey_blanco.png"
+              this.reyBlanco.img  = JuegoComponent.reyBlanco
               
               this.tablero[this.filaIni][3] = this.torreBlanca0
               this.torreBlanca0.col = this.columna[3] + "%"
@@ -2732,7 +2953,7 @@ moverPieza(pieza:pieza):boolean{
               this.tablero[this.filaIni][this.columnIni] = this.v
               this.tablero[this.filaFin][6] = this.reyBlanco
               this.reyBlanco.col = this.columna[6] + "%"
-              this.reyBlanco.img  = "./assets/ajedrez/rey_blanco.png"
+              this.reyBlanco.img  = JuegoComponent.reyBlanco
 
               this.tablero[this.filaIni][5] = this.torreBlanca1
               this.torreBlanca1.col = this.columna[5] + "%"
@@ -2761,7 +2982,7 @@ moverPieza(pieza:pieza):boolean{
               this.tablero[this.filaIni][this.columnIni] = this.v
               this.tablero[this.filaFin][5] = this.reyBlanco
               this.reyBlanco.col = this.columna[5] + "%"
-              this.reyBlanco.img  = "./assets/ajedrez/rey_blanco.png"
+              this.reyBlanco.img  = JuegoComponent.reyBlanco
 
               this.tablero[this.filaIni][4] = this.torreBlanca0
               this.torreBlanca0.col = this.columna[4] + "%"
@@ -2789,7 +3010,7 @@ moverPieza(pieza:pieza):boolean{
               this.tablero[this.filaIni][this.columnIni] = this.v
               this.tablero[this.filaFin][1] = this.reyBlanco
               this.reyBlanco.col = this.columna[1] + "%"
-              this.reyBlanco.img  = "./assets/ajedrez/rey_blanco.png"
+              this.reyBlanco.img  = JuegoComponent.reyBlanco
 
               this.tablero[this.filaIni][2] = this.torreBlanca1
               this.torreBlanca1.col = this.columna[2] + "%"
@@ -2818,7 +3039,7 @@ moverPieza(pieza:pieza):boolean{
               this.tablero[this.filaIni][this.columnIni] = this.v
               this.tablero[this.filaFin][6] = this.reyNegro
               this.reyNegro.col = this.columna[6] + "%"
-              this.reyNegro.img  = "./assets/ajedrez/rey_negro.png"
+              this.reyNegro.img  = JuegoComponent.reyNegro
 
               this.tablero[this.filaIni][5] = this.torreNegra0
               this.torreNegra0.col = this.columna[5] + "%"
@@ -2847,7 +3068,7 @@ moverPieza(pieza:pieza):boolean{
               this.tablero[this.filaIni][this.columnIni] = this.v
               this.tablero[this.filaFin][2] = this.reyNegro
               this.reyNegro.col = this.columna[2] + "%"
-              this.reyNegro.img  = "./assets/ajedrez/rey_negro.png"
+              this.reyNegro.img  = JuegoComponent.reyNegro
 
               this.tablero[this.filaIni][3] = this.torreNegra1
               this.torreNegra1.col = this.columna[3] + "%"
@@ -2875,7 +3096,7 @@ moverPieza(pieza:pieza):boolean{
               this.tablero[this.filaIni][this.columnIni] = this.v
               this.tablero[this.filaFin][1] = this.reyNegro
               this.reyNegro.col = this.columna[1] + "%"
-              this.reyNegro.img  = "./assets/ajedrez/rey_negro.png"
+              this.reyNegro.img  = JuegoComponent.reyNegro
 
               this.tablero[this.filaIni][2] = this.torreNegra0
               this.torreNegra0.col = this.columna[2] + "%"
@@ -2904,7 +3125,7 @@ moverPieza(pieza:pieza):boolean{
               this.tablero[this.filaIni][this.columnIni] = this.v
               this.tablero[this.filaFin][5] = this.reyNegro
               this.reyNegro.col = this.columna[5] + "%"
-              this.reyNegro.img  = "./assets/ajedrez/rey_negro.png"
+              this.reyNegro.img  = JuegoComponent.reyNegro
 
               this.tablero[this.filaIni][4] = this.torreNegra1
               this.torreNegra1.col = this.columna[4] + "%"
@@ -2942,197 +3163,206 @@ moverPieza(pieza:pieza):boolean{
         this.tablero[this.filaIni][this.columnIni] = this.v
 
         if(this.pieza == "peonNegro0") {  
-          this.peonNegro0.img  = "./assets/ajedrez/peon_negro.png"    
+          this.peonNegro0.img  = JuegoComponent.peonNegro    
           this.peonNegro0.fil = this.auxY.toString() + "%"
           this.peonNegro0.col =  this.auxX.toString() + "%" 
         }
   
         if(this.pieza == "peonNegro1") {
-          this.peonNegro1.img  = "./assets/ajedrez/peon_negro.png"   
+          this.peonNegro1.img  = JuegoComponent.peonNegro   
           this.peonNegro1.fil = this.auxY.toString() + "%"
           this.peonNegro1.col =  this.auxX.toString() + "%" 
         }
   
         if(this.pieza == "peonNegro2") {  
-          this.peonNegro2.img  = "./assets/ajedrez/peon_negro.png"
+          this.peonNegro2.img  = JuegoComponent.peonNegro
           this.peonNegro2.fil = this.auxY.toString() + "%"
           this.peonNegro2.col =  this.auxX.toString() + "%" 
         }
 
         if(this.pieza == "peonNegro3") {  
-          this.peonNegro3.img  = "./assets/ajedrez/peon_negro.png"
+          this.peonNegro3.img  = JuegoComponent.peonNegro
           this.peonNegro3.fil = this.auxY.toString() + "%"
           this.peonNegro3.col =  this.auxX.toString() + "%" 
         }
 
         if(this.pieza == "peonNegro4") {  
-          this.peonNegro4.img  = "./assets/ajedrez/peon_negro.png"
+          this.peonNegro4.img  = JuegoComponent.peonNegro
           this.peonNegro4.fil = this.auxY.toString() + "%"
           this.peonNegro4.col =  this.auxX.toString() + "%" 
         }
 
         if(this.pieza == "peonNegro5") {  
-          this.peonNegro5.img  = "./assets/ajedrez/peon_negro.png"
+          this.peonNegro5.img  = JuegoComponent.peonNegro
           this.peonNegro5.fil = this.auxY.toString() + "%"
           this.peonNegro5.col =  this.auxX.toString() + "%" 
         }
 
         if(this.pieza == "peonNegro6") {  
-          this.peonNegro6.img  = "./assets/ajedrez/peon_negro.png"
+          this.peonNegro6.img  = JuegoComponent.peonNegro
           this.peonNegro6.fil = this.auxY.toString() + "%"
           this.peonNegro6.col =  this.auxX.toString() + "%" 
         }
 
         if(this.pieza == "peonNegro7") {  
-          this.peonNegro7.img  = "./assets/ajedrez/peon_negro.png"
+          this.peonNegro7.img  = JuegoComponent.peonNegro
           this.peonNegro7.fil = this.auxY.toString() + "%"
           this.peonNegro7.col =  this.auxX.toString() + "%" 
         }
 
         if(this.pieza == "peonBlanco0") {  
-          this.peonBlanco0.img  = "./assets/ajedrez/peon_blanco.png"
+          this.peonBlanco0.img  = JuegoComponent.peonBlanco
           this.peonBlanco0.fil = this.auxY.toString() + "%"
           this.peonBlanco0.col =  this.auxX.toString() + "%" 
         }
 
         if(this.pieza == "peonBlanco1") {  
-          this.peonBlanco1.img  = "./assets/ajedrez/peon_blanco.png"
+          this.peonBlanco1.img  = JuegoComponent.peonBlanco
           this.peonBlanco1.fil = this.auxY.toString() + "%"
           this.peonBlanco1.col =  this.auxX.toString() + "%" 
         }
 
         if(this.pieza == "peonBlanco2") {  
-          this.peonBlanco2.img  = "./assets/ajedrez/peon_blanco.png"
+          this.peonBlanco2.img  = JuegoComponent.peonBlanco
           this.peonBlanco2.fil = this.auxY.toString() + "%"
           this.peonBlanco2.col =  this.auxX.toString() + "%" 
         }
 
         if(this.pieza == "peonBlanco3") {  
-          this.peonBlanco3.img  = "./assets/ajedrez/peon_blanco.png"
+          this.peonBlanco3.img  = JuegoComponent.peonBlanco
           this.peonBlanco3.fil = this.auxY.toString() + "%"
           this.peonBlanco3.col =  this.auxX.toString() + "%" 
         }
 
         if(this.pieza == "peonBlanco4") {  
-          this.peonBlanco4.img  = "./assets/ajedrez/peon_blanco.png"
+          this.peonBlanco4.img  = JuegoComponent.peonBlanco
           this.peonBlanco4.fil = this.auxY.toString() + "%"
           this.peonBlanco4.col =  this.auxX.toString() + "%" 
         }
 
         if(this.pieza == "peonBlanco5") {  
-          this.peonBlanco5.img  = "./assets/ajedrez/peon_blanco.png"
+          this.peonBlanco5.img  = JuegoComponent.peonBlanco
           this.peonBlanco5.fil = this.auxY.toString() + "%"
           this.peonBlanco5.col =  this.auxX.toString() + "%" 
         }
 
         if(this.pieza == "peonBlanco6") {  
-          this.peonBlanco6.img  = "./assets/ajedrez/peon_blanco.png"
+          this.peonBlanco6.img  = JuegoComponent.peonBlanco
           this.peonBlanco6.fil = this.auxY.toString() + "%"
           this.peonBlanco6.col =  this.auxX.toString() + "%" 
         }
 
         if(this.pieza == "peonBlanco7") {  
-          this.peonBlanco7.img  = "./assets/ajedrez/peon_blanco.png"
+          this.peonBlanco7.img  = JuegoComponent.peonBlanco
           this.peonBlanco7.fil = this.auxY.toString() + "%"
           this.peonBlanco7.col =  this.auxX.toString() + "%" 
         }
         //alfiles
         if(this.pieza == "alfilNegro0") {
-          this.alfilNegro0.img  = "./assets/ajedrez/alfil_negro.png"
+          this.alfilNegro0.img  = JuegoComponent.alfilNegro
           this.alfilNegro0.fil = this.auxY.toString() + "%"
           this.alfilNegro0.col =  this.auxX.toString() + "%" 
         }
         if(this.pieza == "alfilNegro1") {
-          this.alfilNegro1.img  = "./assets/ajedrez/alfil_negro.png"
+          this.alfilNegro1.img  = JuegoComponent.alfilNegro
           this.alfilNegro1.fil = this.auxY.toString() + "%"
           this.alfilNegro1.col =  this.auxX.toString() + "%" 
         }
 
         if(this.pieza == "alfilBlanco0") {
-          this.alfilBlanco0.img  = "./assets/ajedrez/alfil_blanco.png"
+          this.alfilBlanco0.img  = JuegoComponent.alfilBlanco
           this.alfilBlanco0.fil = this.auxY.toString() + "%"
           this.alfilBlanco0.col =  this.auxX.toString() + "%" 
         }
         if(this.pieza == "alfilBlanco1") {
-          this.alfilBlanco1.img  = "./assets/ajedrez/alfil_blanco.png"
+          this.alfilBlanco1.img  = JuegoComponent.alfilBlanco
           this.alfilBlanco1.fil = this.auxY.toString() + "%"
           this.alfilBlanco1.col =  this.auxX.toString() + "%" 
         }
         //caballos
         if(this.pieza == "caballoNegro0") {
-          this.caballoNegro0.img  = "./assets/ajedrez/caballo_negro.png"
+          this.caballoNegro0.img  = JuegoComponent.caballoNegro
           this.caballoNegro0.fil = this.auxY.toString() + "%"
           this.caballoNegro0.col =  this.auxX.toString() + "%" 
         } 
         if(this.pieza == "caballoNegro1") {
-          this.caballoNegro1.img  = "./assets/ajedrez/caballo_negro.png"
+          this.caballoNegro1.img  = JuegoComponent.caballoNegro
           this.caballoNegro1.fil = this.auxY.toString() + "%"
           this.caballoNegro1.col =  this.auxX.toString() + "%" 
         } 
         if(this.pieza == "caballoBlanco0") {
-          this.caballoBlanco0.img  = "./assets/ajedrez/caballo_blanco.png"
+          this.caballoBlanco0.img  = JuegoComponent.caballoBlanco
           this.caballoBlanco0.fil = this.auxY.toString() + "%"
           this.caballoBlanco0.col =  this.auxX.toString() + "%" 
         } 
         if(this.pieza == "caballoBlanco1") {
-          this.caballoBlanco1.img  = "./assets/ajedrez/caballo_blanco.png"
+          this.caballoBlanco1.img  = JuegoComponent.caballoBlanco
           this.caballoBlanco1.fil = this.auxY.toString() + "%"
           this.caballoBlanco1.col =  this.auxX.toString() + "%" 
         } 
         //torres
         if(this.pieza == "torreNegra0") {
-          this.torreNegra0.img  = "./assets/ajedrez/torre_negra.png"
+          this.torreNegra0.img  = JuegoComponent.torreNegra
           this.torreNegra0.fil = this.auxY.toString() + "%"
           this.torreNegra0.col =  this.auxX.toString() + "%" 
           this.enroqueNegro0 = false
         }
         if(this.pieza == "torreNegra1") {
-          this.torreNegra1.img  = "./assets/ajedrez/torre_negra.png"
+          this.torreNegra1.img  = JuegoComponent.torreNegra
           this.torreNegra1.fil = this.auxY.toString() + "%"
           this.torreNegra1.col =  this.auxX.toString() + "%" 
           this.enroqueNegro1 = false
         }
         if(this.pieza == "torreBlanca0") {
-          this.torreBlanca0.img  = "./assets/ajedrez/torre_blanca.png"
+          this.torreBlanca0.img  = JuegoComponent.torreBlanca
           this.torreBlanca0.fil = this.auxY.toString() + "%"
           this.torreBlanca0.col =  this.auxX.toString() + "%" 
           this.enroqueBlanco0 = false
         }
         if(this.pieza == "torreBlanca1") {
-          this.torreBlanca1.img  = "./assets/ajedrez/torre_blanca.png"
+          this.torreBlanca1.img  = JuegoComponent.torreBlanca
           this.torreBlanca1.fil = this.auxY.toString() + "%"
           this.torreBlanca1.col =  this.auxX.toString() + "%" 
           this.enroqueBlanco1 = false
         }
         //reina
         if(this.pieza == "reinaNegra") {
-          this.reinaNegra.img  = "./assets/ajedrez/reina_negra.png"
+          this.reinaNegra.img  = JuegoComponent.reinaNegra
           this.reinaNegra.fil = this.auxY.toString() + "%"
           this.reinaNegra.col =  this.auxX.toString() + "%" 
         }
         if(this.pieza == "reinaBlanca") {
-          this.reinaBlanca.img  = "./assets/ajedrez/reina_blanca.png"
+          this.reinaBlanca.img  = JuegoComponent.reinaBlanca
           this.reinaBlanca.fil = this.auxY.toString() + "%"
           this.reinaBlanca.col =  this.auxX.toString() + "%" 
         }
 
         //rey
         if(this.pieza == "reyNegro") {
-          this.reyNegro.img  = "./assets/ajedrez/rey_negro.png"
+          this.reyNegro.img  = JuegoComponent.reyNegro
           this.reyNegro.fil = this.auxY.toString() + "%"
           this.reyNegro.col =  this.auxX.toString() + "%" 
           this.enroqueNegro1 = false
           this.enroqueNegro0 = false
         }
         if(this.pieza == "reyBlanco") {
-          this.reyBlanco.img  = "./assets/ajedrez/rey_blanco.png"
+          this.reyBlanco.img  = JuegoComponent.reyBlanco
           this.reyBlanco.fil = this.auxY.toString() + "%"
           this.reyBlanco.col =  this.auxX.toString() + "%" 
           this.enroqueBlanco1 = false
           this.enroqueBlanco0 = false
         }
         
-        this.coronar()
+        //fin de la partida?
+        // if(online) -> enviar movimiento, esperar al suyo, miturno=false 
+        // if(JuegoComponent.online){
+        //   this.socketService.sendGameMove(this.oponent, this.filaIni, this.columnIni, this.filaFin, this.columnFin);
+        //   this.miTurno = false;
+        // }
+
+        //if he ganado
+
+        //this.coronar()
         this.seleccionada = !this.seleccionada
         this.puedeMover = false;
         this.cambiarTimer();
@@ -3140,9 +3370,25 @@ moverPieza(pieza:pieza):boolean{
         //console.log(this.jaque(this.reyBlanco))
         if(JuegoComponent.ia)
           this.IA()
-        //console.log(this.randomInt(0,3))
-        //var aux:Boolean = this.moverPieza(this.peonBlanco3)
-        //console.log(this.randomInt(2,2))
+
+        //if(online)->esperar turno, my turno= true, cambair timer, comporbar fin partida
+        //getGameMove { op: "", fI: 1, cI: 2, fF: 3, cF: 4 }
+        // if(JuegoComponent.online){
+        //   this.socketService.getGameMove.subscribe((data: any) => {
+        //     this.filaIni = data.fI
+        //     this.columnIni = data.cI
+        //     this.filaFin = data.fF
+        //     this.columnFin = data.cF
+        //   //mover pieza
+          
+        //   this.miTurno = true;
+        //   {this.seleccionada = !this.seleccionada
+        //   this.puedeMover = false;
+        //   this.cambiarTimer();
+        //   this.turno = !this.turno}
+          
+        //   })
+        // }
       }
     }
   }
