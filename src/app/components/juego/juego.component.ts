@@ -9,11 +9,20 @@ import { SocketService } from 'src/app/services/socket.service';
   templateUrl: './juego.component.html',
   styleUrls: ['./juego.component.css']
 })
-export class JuegoComponent{
+export class JuegoComponent implements OnInit{
 
   constructor(
-		//private socketService: SocketService 
+		private socketService: SocketService 
 	) { }
+
+  ngOnInit(): void {
+    if(JuegoComponent.online) {
+      this.online()
+    } else {
+      this.elegirLado(true)
+    }
+  }
+
 
   ////////////////////////////////////////////////////////////
 
@@ -33,18 +42,47 @@ export class JuegoComponent{
   static online:boolean = false;
 
 
-  oponent:string = ""
+  opponent:string = ""
   miTurno:boolean = true;  //si no es mi turno no puedo seleccionar
-  online(){
-        //   this.socketService.getOpponet.subscribe((data: any) => {
-        //     this.oponent = data.fI
-        // data.side ?? -> miturno, turno, tablero
-        //   //mover pieza
+  
+  online():void {
+      this.socketService.getOpponent().subscribe((data: any) => {
+        this.opponent = data.op
+        if(data.side == "1"){ //si soy blanco
+          this.miTurno = true; //mi turno
+          this.elegirLado(this.miTurno) // lado config para blancas
+          this.start(); //empieza timer
+        } else {
+          this.miTurno = false; // no es mi turno
+          this.elegirLado(this.miTurno) //config para negras
+          this.start(); // empieza su timer
+        }
+      
+      })
+
+      if(!this.miTurno){
+        //esperar su movimiento
+            this.socketService.getGameMove().subscribe((data: any) => {
+            this.filaIni = data.fI
+            this.columnIni = data.cI
+            this.filaFin = data.fF
+            this.columnFin = data.cF
+          //mover pieza
+          this.moverRival()
+
+          this.miTurno = true;
+          {this.seleccionada = !this.seleccionada
+          this.puedeMover = false;
+          this.cambiarTimer();
+          this.turno = !this.turno}
           
-        //asignamos miturno y tablero
-        //guardar id oponente
-        //empezar timer blanco
-        //   }) 
+          })
+      }
+  }
+
+  moverRival():void{
+    this.tablero[this.filaFin][this.columnFin] = this.tablero[this.filaIni][this.columnIni]
+    this.tablero[this.filaIni][this.columnIni] = this.v
   }
 
   @ViewChild(TimerComponent)
@@ -3355,10 +3393,10 @@ moverPieza(pieza:pieza):boolean{
         
         //fin de la partida?
         // if(online) -> enviar movimiento, esperar al suyo, miturno=false 
-        // if(JuegoComponent.online){
-        //   this.socketService.sendGameMove(this.oponent, this.filaIni, this.columnIni, this.filaFin, this.columnFin);
-        //   this.miTurno = false;
-        // }
+        if(JuegoComponent.online){
+          this.socketService.sendGameMove(this.opponent, this.filaIni, this.columnIni, this.filaFin, this.columnFin);
+          this.miTurno = false;
+        }
 
         //if he ganado
 
@@ -3373,22 +3411,22 @@ moverPieza(pieza:pieza):boolean{
 
         //if(online)->esperar turno, my turno= true, cambair timer, comporbar fin partida
         //getGameMove { op: "", fI: 1, cI: 2, fF: 3, cF: 4 }
-        // if(JuegoComponent.online){
-        //   this.socketService.getGameMove.subscribe((data: any) => {
-        //     this.filaIni = data.fI
-        //     this.columnIni = data.cI
-        //     this.filaFin = data.fF
-        //     this.columnFin = data.cF
-        //   //mover pieza
-          
-        //   this.miTurno = true;
-        //   {this.seleccionada = !this.seleccionada
-        //   this.puedeMover = false;
-        //   this.cambiarTimer();
-        //   this.turno = !this.turno}
-          
-        //   })
-        // }
+        if(JuegoComponent.online){
+          this.socketService.getGameMove().subscribe((data: any) => {
+            this.filaIni = data.fI
+            this.columnIni = data.cI
+            this.filaFin = data.fF
+            this.columnFin = data.cF
+          //mover pieza
+          this.moverRival()
+
+          this.miTurno = true;
+          {this.seleccionada = !this.seleccionada
+          this.puedeMover = false;
+          this.cambiarTimer();
+          this.turno = !this.turno}
+          })
+        }
       }
     }
   }

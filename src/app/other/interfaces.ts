@@ -173,4 +173,7 @@ export const tablePath: {[index:string]: string}= {
     'standart_table': './assets/articles/tables/tablero.png',
 };
 
-export const piecesPath: {[index:string]: string}= {};
+export const piecesPath: {[index:string]: string}= {
+    'default_Piezas': "./assets/ajedrez/default_Piezas.png",
+    'rojiAzul_Piezas': "./assets/ajedrez/rojiAzul_Piezas.png",
+};

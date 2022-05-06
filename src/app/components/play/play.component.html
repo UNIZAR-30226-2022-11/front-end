@@ -2,10 +2,10 @@
     <div class="row">
       <div class="column" style="background-color:#aaa;">
         <h2>PLAY ONLINE</h2>
-        <a (click)="ponerTiempo(3)" routerLink="/juego">3 mins</a>
-        <a (click)="ponerTiempo(5)" routerLink="/juego">5 mins</a>
-        <a (click)="ponerTiempo(10)" routerLink="/juego">10 mins</a>
-        <a (click)="ponerTiempo(0)" routerLink="/juego">No time</a>
+        <a (click)="ponerTiempoOnline(3)" routerLink="/juego">3 mins</a>
+        <a (click)="ponerTiempoOnline(5)" routerLink="/juego">5 mins</a>
+        <a (click)="ponerTiempoOnline(10)" routerLink="/juego">10 mins</a>
+        <a (click)="ponerTiempoOnline(0)" routerLink="/juego">No time</a>
       </div>
       <div class="column" style="background-color:#bbb;">
         <h2>PLAY AGAINST IA</h2>
@@ -16,7 +16,7 @@
       </div>
       <div class="column" style="background-color:#ccc;">
         <h2>TOURNAMENTS</h2>
-        <a routerLink="/juego">CREATE</a>
+        <a (click)="ponerTiempo(3)" routerLink="/juego">CREATE</a>
         <a routerLink="/juego">SEARCH</a>
         <a routerLink="/juego">10 mins</a>
         <a routerLink="/juego">JOIN</a>

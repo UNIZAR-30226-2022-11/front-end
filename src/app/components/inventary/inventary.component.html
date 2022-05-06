@@ -17,13 +17,15 @@
     <div *ngIf="showTables">
         <div *ngFor="let item of tablesList"  class="column">
             <div class="itemName"> {{item.nombre}}</div>
-            <img src="{{tablePath[item.nombre]}}" alt="{{item.nombre}}"> 
+            <img (click)="selectedTable=item.nombre;selectPieces(item.nombre)" src="{{tablePath[item.nombre]}}" alt="{{item.nombre}}"> 
+            <p class="itemName" style="background-color: green" *ngIf="item.nombre == selectedTable" >Seleccionado</p>
         </div>
     </div>
     <div *ngIf="!showTables">
         <div *ngFor="let item of piecesList"  class="column">
             <div class="itemName"> {{item.nombre}}</div>
-            <img src="{{piecesPath[item.nombre]}}" alt="{{item.nombre}}">
+            <img (click)="selectedPieza=item.nombre;selectPieces(item.nombre)" src="{{piecesPath[item.nombre]}}" alt="{{item.nombre}}">
+            <p class="itemName" style="background-color: green" *ngIf="item.nombre == selectedPieza" >Seleccionado</p>
         </div>
     </div>
 </div>
