@@ -97,4 +97,56 @@ export class ServiceClientService {
     return this.servicio.get(this.servidor1+"/login?nickname="+nickname+"&password="+password,{headers});
   }
 
+
+  //deberia devolver las ultimas 20 partidas
+  // empate será true si empataron, falso en cualquier otro caso
+  // Ganador será true si quien pide la solicitud ganó la partida, false si la perdió, y indefinido si empataron.
+  // Enviar { "nickname": "<nickname>"}
+  // Devolver { "matchHistory": [{
+  //                            "rival": <nickname: string>,
+  //                            "ganador": <ganador: boolean>,
+  //                            "empate": <empate: boolean>},
+  //                             {
+  //                            "rival": <nickname: rival>,
+  //                            "ganador": <ganador: boolean>,
+  //                            "empate": <empate: boolean>}
+  //                            ]* }
+  GetMatchHistory(nickname:string): Observable<any>{
+    const headers = new HttpHeaders(
+      {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*'
+      });
+    return this.servicio.get(this.servidor1+"/getMatchHistory?nickname="+nickname, {headers});
+  }
+
+  // Devolver true si se ha añadido correctamente el nuevo amigo
+  // Enviar { "nickname": "<nickname>",
+  //          "request": "<request>"}
+  // Devolver { "exito" : "<exito: boolean>"}
+  AceptFriendRequest(nickname:string, request:string): Observable<any>{
+    const body = {nickname,request }
+    const headers = new HttpHeaders(
+      {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*'
+      });
+    return this.servicio.post(this.servidor1+"/AceptFriendRequest" ,body, {headers});
+  }
+
+  // Devolver true si se ha eliminado correctamente la solicitud de amistad
+  // Enviar { "nickname": "<nickname>",
+  //          "request": "<request>"}
+  // Devolver { "exito" : "<exito: boolean>"}
+  DeclineFriendRequest(nickname:string, request:string): Observable<any>{
+    const body = {nickname,request }
+    const headers = new HttpHeaders(
+      {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*'
+      });
+    return this.servicio.post(this.servidor1+"/DeclineFriendRequest" ,body, {headers});
+  }
+
+
 }

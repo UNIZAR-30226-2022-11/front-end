@@ -9,8 +9,8 @@ import { LoginComponent } from '../login/login.component';
 export class FriendListComponent implements OnInit {
   
   showFriendList : boolean = true;
-  friendList: Array<String>=[];
-  friendRequests: Array<String>=[];
+  friendList: Array<string>=["hola"];
+  friendRequests: Array<string>=["adios"];
   //friendRequests: Array<any> = [];
   //personajes: any=[];
   //prueba: Array<any>=[];
@@ -79,6 +79,7 @@ export class FriendListComponent implements OnInit {
 
   getFriendList (){
     this.servicioCliente.GetFriendList(LoginComponent.user.nickname).subscribe(datos=>{
+      this.friendList = [];
       for(let i=0;i<datos;i++){
         this.friendList.push(datos.friendList[i]);
       }
@@ -87,9 +88,29 @@ export class FriendListComponent implements OnInit {
 
   getFriendRequests (){
     this.servicioCliente.GetFriendRequests(LoginComponent.user.nickname).subscribe(datos=>{
+      this.friendRequests = [];
       for(let i=0;i<datos;i++){
         this.friendRequests.push(datos.friendRequests[i]);
       }
+    })
+  }
+
+  InvitarAmigo(user:string){
+    //SOCKETS
+    //LoginComponent.user.nickname contiene el nombre del usuario logeado (por si lo necesitas)
+  }
+
+  AceptarSolicitud(user:string){
+    this.servicioCliente.AceptFriendRequest(LoginComponent.user.nickname, user).subscribe(datos=>{
+      this.getFriendList();
+      this.getFriendRequests();
+    })
+  }
+
+  RechazarSolicitud(user:string){
+    this.servicioCliente.DeclineFriendRequest(LoginComponent.user.nickname, user).subscribe(datos=>{
+      this.getFriendList();
+      this.getFriendRequests();
     })
   }
 
