@@ -22,11 +22,13 @@ export class PlayComponent implements OnInit {
   ponerTiempoIA(t:number){
     JuegoComponent.minutos = t;
     JuegoComponent.ia = true;
+    JuegoComponent.online = false;
   }
 
   ponerTiempoOnline(t:number){
     JuegoComponent.minutos = t;
     JuegoComponent.online = true;
+    JuegoComponent.ia = false;
   }
 
 
