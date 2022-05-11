@@ -5,6 +5,7 @@ import { usuario } from 'src/app/other/interfaces';
 import { ServiceClientService } from '../../services/service-client.service';
 import * as bcrypt from 'bcryptjs';
 import { FriendListComponent } from '../friend-list/friend-list.component';
+import { PasswordValidatorService } from 'src/app/services/password-validator.service';
 const salt = bcrypt.genSaltSync(10);
 
 
@@ -52,10 +53,10 @@ export class LoginComponent implements OnInit {
       });*/
       //Opcion B
       this.signupForm = this._builderSignup.group({
-        fullName: ['', Validators.required],
+        //fullName: ['', Validators.required],
         user: ['', Validators.required],
         email: ['', Validators.compose([Validators.required, Validators.email])],
-        password: ['', [Validators.required]],
+        password: ['', Validators.compose([Validators.required,  PasswordValidatorService.strong])],
         passwordConfirm: ['', [Validators.required]]
       });
     }

@@ -148,5 +148,28 @@ export class ServiceClientService {
     return this.servicio.post(this.servidor1+"/DeclineFriendRequest" ,body, {headers});
   }
 
+  // "result" es un string que puede tomar los valores:
+  //        "win": en caso de que <nickname> haya ganado a <rival>,
+  //        "lose": en caso de que <nickname> haya perdido ante <rival>,
+  //        "draw": en caso de empate
+  // "puntos" será la nueva cantidad de puntos del usuario <nickname> // +5 puntos en caso de victoria, +0 en caso de empate o derrota
+  // "monedas" será la nueva cantidad de monedas del usuario <nickname> // +1 moneda en caso de victoria, +0 en cualquier otro caso
+  // Enviar { "nickname": "<nickname>",
+  //          "rival": "<rival>",
+  //          "result" "<result:string>"}
+  // Devolver { "exito": "<exito: boolean>",
+  //            "puntos": "<puntos: integer>",
+  //            "monedas": "<monedas: integer>"}
+  SaveMatchResult(nickname:string, rival:string, result: string){
+    const body = {nickname,rival, result }
+    const headers = new HttpHeaders(
+      {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*'
+      });
+    return this.servicio.post(this.servidor1+"/SaveMatchResult" ,body, {headers});
+  }
+
+  
 
 }
