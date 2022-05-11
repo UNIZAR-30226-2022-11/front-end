@@ -177,3 +177,15 @@ export const piecesPath: {[index:string]: string}= {
     'default_Piezas': "./assets/ajedrez/default_Piezas.png",
     'rojiAzul_Piezas': "./assets/ajedrez/rojiAzul_Piezas.png",
 };
+
+export interface matchHistory{
+    rival: string;
+    ganador: boolean;
+    empate: boolean;
+}
+
+export interface rankingItem{
+    position: number;
+    username: string;
+    points: number;
+}

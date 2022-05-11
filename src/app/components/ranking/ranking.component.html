@@ -1,0 +1,18 @@
+<div class="header">
+    <div class="position">#</div> 
+    <div class="username">USERNAME</div>
+    <div class="points">POINTS</div>
+</div>
+
+<div *ngFor="let ranking of rankingList">
+    <div class="row user" *ngIf="ranking.username == getUserName">
+        <div class="position">{{ranking.position}}</div> 
+        <div class="username">{{ranking.username}}</div>
+        <div class="points">{{ranking.points}}</div>
+    </div>
+    <div class="row" *ngIf="ranking.username != getUserName">
+        <div class="position">{{ranking.position}}</div> 
+        <div class="username">{{ranking.username}}</div>
+        <div class="points">{{ranking.points}}</div>
+    </div>
+</div>

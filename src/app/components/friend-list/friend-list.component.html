@@ -21,12 +21,15 @@
 <div class="sidenav">
     <div *ngIf="showFriendList">
         <a *ngFor="let friend of friendList">
-            {{friend}}
+            {{friend}}<br>
+            <button (click)="InvitarAmigo(friend)">Invitar a jugar</button>
         </a>
     </div>
     <div *ngIf="!showFriendList">
-        <a *ngFor="let friend of friendRequests">
-            {{friend}}
+        <a *ngFor="let request of friendRequests">
+            {{request}}<br>
+            <button (click)="AceptarSolicitud(request)">Aceptar</button>
+            <button (click)="RechazarSolicitud(request)">Rechazar</button>
         </a>
     </div>
 </div>

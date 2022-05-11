@@ -1,0 +1,17 @@
+<div *ngFor="let match of matchHistory" >
+    <div class="empate" *ngIf="match.empate">
+        <p>{{match.rival}}</p>
+        <p>EMPATE</p>
+    </div>
+    <div *ngIf="!match.empate">
+        <div class="victoria historial" *ngIf="match.ganador">
+            <p>{{match.rival}}</p>
+            <p>VICTORIA</p>
+        </div>
+        <div class="derrota" *ngIf="!match.ganador">
+            <p>{{match.rival}}</p>
+            <p>DERROTA</p>
+        </div>
+    </div>
+    
+</div>

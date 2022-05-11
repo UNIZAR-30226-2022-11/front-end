@@ -1,0 +1,17 @@
+.victoria{
+    border:2px solid black;
+    padding: 5px 0px 5px 20px;
+    background-color: rgb(145, 202, 255);
+}
+
+.derrota{
+    border:2px solid black;
+    padding: 5px 0px 5px 20px;
+    background-color: rgb(228, 161, 161);
+}
+
+.empate{
+    border:2px solid black;
+    padding: 5px 0px 5px 20px;
+    background-color: rgb(216, 216, 95);
+}

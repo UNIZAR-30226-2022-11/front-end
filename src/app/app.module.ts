@@ -21,6 +21,8 @@ import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { environment } from 'src/environments/environment';
 import { ListComponent } from './components/list/list.component';
 import { InventaryComponent } from './components/inventary/inventary.component';
+import { MatchHistoryComponent } from './components/match-history/match-history.component';
+import { RankingComponent } from './components/ranking/ranking.component';
 
 const rutas: Routes = [
   {
@@ -51,6 +53,14 @@ const rutas: Routes = [
   {
     path: 'inventary',
     component: InventaryComponent
+  }, 
+  {
+    path: 'matchHistory',
+    component: MatchHistoryComponent
+  },
+  {
+    path: 'ranking',
+    component: RankingComponent
   }
 ]
 
@@ -76,6 +86,8 @@ const config: SocketIoConfig = {
     ShopComponent,
     ListComponent,
     InventaryComponent,
+    MatchHistoryComponent,
+    RankingComponent,
   ],
   imports: [
     BrowserModule,

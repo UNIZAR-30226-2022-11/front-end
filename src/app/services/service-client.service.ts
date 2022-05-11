@@ -97,4 +97,100 @@ export class ServiceClientService {
     return this.servicio.get(this.servidor1+"/login?nickname="+nickname+"&password="+password,{headers});
   }
 
+
+  //deberia devolver las ultimas 20 partidas
+  // empate será true si empataron, falso en cualquier otro caso
+  // Ganador será true si quien pide la solicitud ganó la partida, false si la perdió, y indefinido si empataron.
+  // Enviar { "nickname": "<nickname>"}
+  // Devolver { "matchHistory": [{
+  //                            "rival": <nickname: string>,
+  //                            "ganador": <ganador: boolean>,
+  //                            "empate": <empate: boolean>},
+  //                             {
+  //                            "rival": <nickname: rival>,
+  //                            "ganador": <ganador: boolean>,
+  //                            "empate": <empate: boolean>}
+  //                            ]* }
+  GetMatchHistory(nickname:string): Observable<any>{
+    const headers = new HttpHeaders(
+      {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*'
+      });
+    return this.servicio.get(this.servidor1+"/getMatchHistory?nickname="+nickname, {headers});
+  }
+
+  // Devolver true si se ha añadido correctamente el nuevo amigo
+  // Enviar { "nickname": "<nickname>",
+  //          "request": "<request>"}
+  // Devolver { "exito" : "<exito: boolean>"}
+  AceptFriendRequest(nickname:string, request:string): Observable<any>{
+    const body = {nickname,request }
+    const headers = new HttpHeaders(
+      {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*'
+      });
+    return this.servicio.post(this.servidor1+"/AceptFriendRequest" ,body, {headers});
+  }
+
+  // Devolver true si se ha eliminado correctamente la solicitud de amistad
+  // Enviar { "nickname": "<nickname>",
+  //          "request": "<request>"}
+  // Devolver { "exito" : "<exito: boolean>"}
+  DeclineFriendRequest(nickname:string, request:string): Observable<any>{
+    const body = {nickname,request }
+    const headers = new HttpHeaders(
+      {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*'
+      });
+    return this.servicio.post(this.servidor1+"/DeclineFriendRequest" ,body, {headers});
+  }
+
+  // "result" es un string que puede tomar los valores:
+  //        "win": en caso de que <nickname> haya ganado a <rival>,
+  //        "lose": en caso de que <nickname> haya perdido ante <rival>,
+  //        "draw": en caso de empate
+  // "puntos" será la nueva cantidad de puntos del usuario <nickname> // +5 puntos en caso de victoria, +0 en caso de empate o derrota
+  // "monedas" será la nueva cantidad de monedas del usuario <nickname> // +1 moneda en caso de victoria, +0 en cualquier otro caso
+  // Enviar { "nickname": "<nickname>",
+  //          "rival": "<rival>",
+  //          "result" "<result:string>"}
+  // Devolver { "exito": "<exito: boolean>",
+  //            "puntos": "<puntos: integer>",
+  //            "monedas": "<monedas: integer>"}
+  SaveMatchResult(nickname:string, rival:string, result: string): Observable<any>{
+    const body = {nickname,rival, result }
+    const headers = new HttpHeaders(
+      {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*'
+      });
+    return this.servicio.post(this.servidor1+"/SaveMatchResult" ,body, {headers});
+  }
+
+  // Se debe devolver una lista de 7 elementos ordenada por posicion ascendente / puntos descendente (el resultado es el mismo)
+  // que contenga los 3 usuarios por encima y por debajo en el raking del usuario <nickname>.  
+  // Tambien debe incluir el <position>, <username> y <points> del usuario <nickname> entre los 3 de encima y de debajo.
+  // En el caso de que no hayan 3 jugadores por encima y/o por debajo de <nickname> se podrá devolver una lista de tamaño inferior a 7.
+  // Enviar { "nickname": "<nickname>"} position: number;
+  // Devolver { "rankingList": [{
+  //                            "position": <position: number>,
+  //                            "username": <username: string>,
+  //                            "points": <points: number>},
+  //                            {
+  //                            "position": <position: number>,
+  //                            "username": <username: string>,
+  //                            "points": <points: number>}
+  //                            ]* }
+  GetRankingList(nickname: string): Observable<any>{
+    const headers = new HttpHeaders(
+      {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*'
+      });
+    return this.servicio.get(this.servidor1+"/GetRankingList?nickname="+nickname , {headers});
+  }
+
 }
