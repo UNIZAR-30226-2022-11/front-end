@@ -101,7 +101,7 @@ export class FriendListComponent implements OnInit {
   }
 
   AceptarSolicitud(user:string){
-    this.servicioCliente.AceptFriendRequest(LoginComponent.user.nickname, user).subscribe(datos=>{
+    this.servicioCliente.AcceptFriendRequest(LoginComponent.user.nickname, user).subscribe(datos=>{
       this.getFriendList();
       this.getFriendRequests();
     })

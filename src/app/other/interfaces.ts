@@ -178,6 +178,11 @@ export const piecesPath: {[index:string]: string}= {
     'rojiAzul_Piezas': "./assets/ajedrez/rojiAzul_Piezas.png",
 };
 
+export const avatarPath:  {[index:string]: string}= {
+    'star': "./assets/articles/avatars/star_avatar.png",
+    'heart': "./assets/articles/avatars/heart_avatar.png",
+};
+
 export interface matchHistory{
     rival: string;
     ganador: boolean;

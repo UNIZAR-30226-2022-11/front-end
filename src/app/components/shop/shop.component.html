@@ -8,6 +8,10 @@
         <button  id="piecesSelector" (click)="modifyButtonsClasses($event)">PIECES</button>
         
     </div>
+    <div class="selector"  id="avatarsSelector">
+        <button  id="avatarsSelector" (click)="modifyButtonsClasses($event)">AVATARS</button>
+        
+    </div>
     <div class="coin">
         <p>{{userCoins}}</p>
         <img src="./assets/web/coin.png">
@@ -26,11 +30,22 @@
             </button>
         </div>
     </div>
-    <div *ngIf="!showTables">
+    <div *ngIf="showPieces">
         <div *ngFor="let item of piecesList"  class="column">
             <div class="itemName"> {{item.nombre}}</div>
             <img src="{{piecesPath[item.nombre]}}" alt="{{item.nombre}}">
             <button class="price" (click)="buyPieces($event)">
+                <img src="./assets/web/coin.png">
+                <p>{{item.precio}}</p>
+                
+            </button>
+        </div>
+    </div>
+    <div *ngIf="showAvatars">
+        <div *ngFor="let item of avatarsList"  class="column">
+            <div class="itemName"> {{item.nombre}}</div>
+            <img src="{{avatarPath[item.nombre]}}" alt="{{item.nombre}}">
+            <button class="price" (click)="buyAvatar($event)">
                 <img src="./assets/web/coin.png">
                 <p>{{item.precio}}</p>
                 
