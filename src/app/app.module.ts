@@ -22,6 +22,7 @@ import { environment } from 'src/environments/environment';
 import { ListComponent } from './components/list/list.component';
 import { InventaryComponent } from './components/inventary/inventary.component';
 import { MatchHistoryComponent } from './components/match-history/match-history.component';
+import { RankingComponent } from './components/ranking/ranking.component';
 
 const rutas: Routes = [
   {
@@ -56,6 +57,10 @@ const rutas: Routes = [
   {
     path: 'matchHistory',
     component: MatchHistoryComponent
+  },
+  {
+    path: 'ranking',
+    component: RankingComponent
   }
 ]
 
@@ -82,6 +87,7 @@ const config: SocketIoConfig = {
     ListComponent,
     InventaryComponent,
     MatchHistoryComponent,
+    RankingComponent,
   ],
   imports: [
     BrowserModule,

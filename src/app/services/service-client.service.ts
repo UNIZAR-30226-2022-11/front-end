@@ -160,7 +160,7 @@ export class ServiceClientService {
   // Devolver { "exito": "<exito: boolean>",
   //            "puntos": "<puntos: integer>",
   //            "monedas": "<monedas: integer>"}
-  SaveMatchResult(nickname:string, rival:string, result: string){
+  SaveMatchResult(nickname:string, rival:string, result: string): Observable<any>{
     const body = {nickname,rival, result }
     const headers = new HttpHeaders(
       {
@@ -170,6 +170,27 @@ export class ServiceClientService {
     return this.servicio.post(this.servidor1+"/SaveMatchResult" ,body, {headers});
   }
 
-  
+  // Se debe devolver una lista de 7 elementos ordenada por posicion ascendente / puntos descendente (el resultado es el mismo)
+  // que contenga los 3 usuarios por encima y por debajo en el raking del usuario <nickname>.  
+  // Tambien debe incluir el <position>, <username> y <points> del usuario <nickname> entre los 3 de encima y de debajo.
+  // En el caso de que no hayan 3 jugadores por encima y/o por debajo de <nickname> se podrá devolver una lista de tamaño inferior a 7.
+  // Enviar { "nickname": "<nickname>"} position: number;
+  // Devolver { "rankingList": [{
+  //                            "position": <position: number>,
+  //                            "username": <username: string>,
+  //                            "points": <points: number>},
+  //                            {
+  //                            "position": <position: number>,
+  //                            "username": <username: string>,
+  //                            "points": <points: number>}
+  //                            ]* }
+  GetRankingList(nickname: string): Observable<any>{
+    const headers = new HttpHeaders(
+      {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*'
+      });
+    return this.servicio.get(this.servidor1+"/GetRankingList?nickname="+nickname , {headers});
+  }
 
 }

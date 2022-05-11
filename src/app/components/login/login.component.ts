@@ -73,6 +73,7 @@ export class LoginComponent implements OnInit {
         LoginComponent.logged = true;
         LoginComponent.user = resp.user;
        // FriendListComponent.getFriendList();
+       // SI NO SE CARGAN LOS AMIGOS Y SOLICITUDES AL LOGEARSE SE DEBE EJECUTAR DESDE AQUI
       }else{
         console.log(resp.exito);
       }
@@ -89,7 +90,8 @@ export class LoginComponent implements OnInit {
       if (resp.exito == true) {
         this.signupForm.reset();
         LoginComponent.logged = true;
-        LoginComponent.user = resp.user;
+        LoginComponent.user = resp.user; 
+        // SI NO SE CARGAN LOS AMIGOS Y SOLICITUDES AL REGISTRARSE SE DEBE EJECUTAR DESDE AQUI
       }else{
         console.log(resp.exito);
       }
@@ -115,5 +117,9 @@ export class LoginComponent implements OnInit {
 
   get staticLogged():boolean{
     return LoginComponent.logged;
+  }
+
+  get staticUsername():string{
+    return LoginComponent.user.nickname;
   }
 }

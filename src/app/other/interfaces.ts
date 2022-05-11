@@ -183,3 +183,9 @@ export interface matchHistory{
     ganador: boolean;
     empate: boolean;
 }
+
+export interface rankingItem{
+    position: number;
+    username: string;
+    points: number;
+}

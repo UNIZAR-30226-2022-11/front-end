@@ -9,8 +9,8 @@ import { LoginComponent } from '../login/login.component';
 export class FriendListComponent implements OnInit {
   
   showFriendList : boolean = true;
-  friendList: Array<string>=["hola"];
-  friendRequests: Array<string>=["adios"];
+  friendList: Array<string>=["hola"]; //DEJAR LISTA VACIA
+  friendRequests: Array<string>=["adios"]; //DEJAR LISTA VACIA
   //friendRequests: Array<any> = [];
   //personajes: any=[];
   //prueba: Array<any>=[];

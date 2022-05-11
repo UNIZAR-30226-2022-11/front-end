@@ -33,6 +33,7 @@ export class MatchHistoryComponent implements OnInit {
 
   getMatchHistory(){
     this.servicioCliente.GetMatchHistory(LoginComponent.user.nickname).subscribe(datos=>{
+      this.matchHistory = [];
       for(let i=0;i<datos;i++){
         this.matchHistory.push(datos.friendList[i]);
       }
