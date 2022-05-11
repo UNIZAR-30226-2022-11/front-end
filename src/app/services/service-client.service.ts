@@ -124,14 +124,14 @@ export class ServiceClientService {
   // Enviar { "nickname": "<nickname>",
   //          "request": "<request>"}
   // Devolver { "exito" : "<exito: boolean>"}
-  AceptFriendRequest(nickname:string, request:string): Observable<any>{
+  AcceptFriendRequest(nickname:string, request:string): Observable<any>{
     const body = {nickname,request }
     const headers = new HttpHeaders(
       {
           'Content-Type': 'application/json',
           'Access-Control-Allow-Origin': '*'
       });
-    return this.servicio.post(this.servidor1+"/AceptFriendRequest" ,body, {headers});
+    return this.servicio.post(this.servidor1+"/acceptFriendRequest" ,body, {headers});
   }
 
   // Devolver true si se ha eliminado correctamente la solicitud de amistad
@@ -145,7 +145,7 @@ export class ServiceClientService {
           'Content-Type': 'application/json',
           'Access-Control-Allow-Origin': '*'
       });
-    return this.servicio.post(this.servidor1+"/DeclineFriendRequest" ,body, {headers});
+    return this.servicio.post(this.servidor1+"/declineFriendRequest" ,body, {headers});
   }
 
   // "result" es un string que puede tomar los valores:
@@ -167,7 +167,7 @@ export class ServiceClientService {
           'Content-Type': 'application/json',
           'Access-Control-Allow-Origin': '*'
       });
-    return this.servicio.post(this.servidor1+"/SaveMatchResult" ,body, {headers});
+    return this.servicio.post(this.servidor1+"/saveMatchResult" ,body, {headers});
   }
 
   // Se debe devolver una lista de 7 elementos ordenada por posicion ascendente / puntos descendente (el resultado es el mismo)
@@ -190,7 +190,7 @@ export class ServiceClientService {
           'Content-Type': 'application/json',
           'Access-Control-Allow-Origin': '*'
       });
-    return this.servicio.get(this.servidor1+"/GetRankingList?nickname="+nickname , {headers});
+    return this.servicio.get(this.servidor1+"/getRankingList?nickname="+nickname , {headers});
   }
 
 }

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginComponent } from '../login/login.component';
-import { articulo, tablePath, piecesPath } from 'src/app/other/interfaces';
+import { articulo, tablePath, piecesPath, avatarPath } from 'src/app/other/interfaces';
 import { reduce } from 'rxjs';
 import { JuegoComponent } from '../juego/juego.component';
 
@@ -14,10 +14,13 @@ export class InventaryComponent implements OnInit {
 
   tablePath = tablePath;
   piecesPath = piecesPath;
+  avatarPath = avatarPath;
   showTables : boolean = true;
+  showPieces: boolean = false;
+  showAvatars: boolean = false;
   selectedTable: string = "standart_table";
   selectedPieza: string = "default_Piezas";
-
+  selectedAvatar: string = "star";
   tablesList: Array<articulo>=[
     {   nombre: "standart_table",
         precio: 0,
@@ -32,13 +35,25 @@ export class InventaryComponent implements OnInit {
         precio: 0,
         tipo: "piece"}
     ];
+  avatarsList: Array<articulo> = [
+    {   nombre: "star",
+        precio: 0,
+        tipo: "table"},
+    {   nombre: "heart",
+        precio: 120,
+        tipo: "table"},
+    ];
 
     ngOnInit(): void {
       if (this.showTables){
         var element=document.getElementById("tablesSelector")
         element?.classList.add('shopping')
-      }else{
+      }
+      else if (this.showPieces){
         var element=document.getElementById("piecesSelector")
+        element?.classList.add('shopping')
+      }else{
+        var element=document.getElementById("avatarsSelector")
         element?.classList.add('shopping')
       }
     }
@@ -47,7 +62,7 @@ export class InventaryComponent implements OnInit {
     return LoginComponent.user.monedas
   }
 
-  modifyButtonsClasses (event:MouseEvent){
+  /*modifyButtonsClasses (event:MouseEvent){
     var obj : any = event.target;
     //Quitamos la clase selector de todos los selectores
     var class_name="inventary";
@@ -65,9 +80,34 @@ export class InventaryComponent implements OnInit {
     var element=document.getElementById(obj.id)
       element?.classList.add('inventary')
   }
+*/
+  modifyButtonsClasses (event:MouseEvent){
+    var obj : any = event.target;
+    //Quitamos la clase selector de todos los selectores
+    var class_name="shopping";
+    const collection = document.getElementsByClassName(class_name);
+    for (let i = 0; i < collection.length; i++) {
+      collection[i].classList.remove(class_name);
+    } 
+    //Le damos la clase selector al boton clickado
+    if (obj.id == "tablesSelector"){
+      this.showTables = true;
+      this.showPieces = false;
+      this.showAvatars = false;
+    }else if (obj.id == "piecesSelector"){
+      this.showTables = false;
+      this.showPieces = true;
+      this.showAvatars = false;
+    }else{
+      this.showTables = false;
+      this.showPieces = false;
+      this.showAvatars = true;
+    }
+    var element=document.getElementById(obj.id)
+      element?.classList.add('shopping')
+  }
 
-
-  selectTable(event:MouseEvent){
+  selectTable(table:string){
     
   }
 
@@ -109,6 +149,10 @@ export class InventaryComponent implements OnInit {
       JuegoComponent.reyNegro = "./assets/ajedrez/rey_blue.png"
 
     }
+  }
+
+  selectAvatar(avatar:string){
+
   }
 
 }
