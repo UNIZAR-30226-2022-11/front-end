@@ -23,6 +23,7 @@ import { ListComponent } from './components/list/list.component';
 import { InventaryComponent } from './components/inventary/inventary.component';
 import { MatchHistoryComponent } from './components/match-history/match-history.component';
 import { RankingComponent } from './components/ranking/ranking.component';
+import { ChatComponent } from './components/chat/chat.component';
 
 const rutas: Routes = [
   {
@@ -49,6 +50,10 @@ const rutas: Routes = [
   {
     path: 'shop',
     component: ShopComponent
+  }, 
+  {
+    path: 'chat',
+    component: ChatComponent
   }, 
   {
     path: 'inventary',
@@ -88,6 +93,7 @@ const config: SocketIoConfig = {
     InventaryComponent,
     MatchHistoryComponent,
     RankingComponent,
+    ChatComponent,
   ],
   imports: [
     BrowserModule,

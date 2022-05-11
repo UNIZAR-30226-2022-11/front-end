@@ -1,0 +1,28 @@
+<body >
+    <div *ngIf="show==true;">
+        <div id="wrapper">
+            <div id="menu">
+                  <p class="welcome">Chat de partida<b></b></p>
+                  <button (click)="mostrar()" style="position:relative; left:55%">x</button>
+              </div>
+               
+              <div id="chatbox" >
+                  <div *ngFor="let item of listMsg"> 
+                    <p *ngIf="propio==true;" style="z-index:2; color: red;">{{item}}</p>
+                  </div>
+                    
+              </div>
+                  
+                  <input type="text" id="texto" style="position: relative; left: 5%; align-self: center; width: 75%;" />
+                  <button style="position: relative; left: 5%" >Send</button>
+          </div> 
+    </div>
+</body>
+
+<div *ngIf="show==false;">
+    <button (click)="mostrar()" 
+    style="width:8%; height: 8%; position: absolute; z-index: 1; bottom: 5%; left: 15%; font-size: larger; color: white;
+    font-style: arial; font-weight: 600; background-color: black ; border: 3%;">
+        CHAT
+    </button>
+</div>
