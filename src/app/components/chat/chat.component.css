@@ -24,7 +24,7 @@ a {
     font-weight: 600;
     padding-bottom:25px;
     background:#1a1a1a;
-    width:185%;
+    width:180%;
     border:1px solid #575757; }
   
 #loginform { padding-top:18px; }
@@ -37,7 +37,7 @@ a {
     margin-bottom:25px;
     padding:10px;
     background:#fff;
-    height:275px;
+    height:375px;
     width:80%;
     border:1px solid #444444;
     overflow:auto; }
@@ -50,7 +50,7 @@ a {
   
 .error { color: #ff0000; }
   
-#menu { padding:12.5px 25px 12.5px 25px; }
+#menu { padding:12.5px 25px 12.5px; }
   
 .welcome { float:left; }
   

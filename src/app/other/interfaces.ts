@@ -194,3 +194,8 @@ export interface rankingItem{
     username: string;
     points: number;
 }
+
+export type msgChat = {
+    texto: string; 
+    side:boolean; //1 propio, 0 rival
+};

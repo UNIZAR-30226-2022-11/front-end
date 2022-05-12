@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { msgChat } from 'src/app/other/interfaces';
 
 @Component({
   selector: 'app-chat',
@@ -14,11 +15,36 @@ export class ChatComponent implements OnInit {
 
   show:boolean=true;
   propio:boolean=true;
-  try:string="beunas tardes";
-  listMsg: Array<string>=["","maldvcsdvs", "creo","que ahora si"]
+  msg:msgChat = {texto:"hi hi", side:false}
+  listMsg: Array<msgChat>=[{texto:"fd", side:true}, this.msg] //30 caracters por linea
 
   mostrar(){
     this.show = !this.show;
+  }
+
+  escribir(linea:string){
+    var newMsg:msgChat;
+    //var linea:string = "12345678901234567890123456789012345678901234567890123456789012345678901234567890123"
+    var lineaNew:string = ""
+    var i,j:number = 0;
+    for(i = 0; linea[i] != null; i++){
+      //console.log(linea[i])
+      j++
+      if(j >= 30){
+        lineaNew = linea.substring(i-j+1, i+1)
+        // console.log(i-j+1)
+        // console.log(i+1)
+        newMsg = {texto:lineaNew, side:true}
+        this.listMsg.push(newMsg)
+        j = 0
+        lineaNew = ""
+      }
+    }
+    if(j!=0){
+      lineaNew = linea.substring(i-j, i)
+      newMsg = {texto:lineaNew, side:true}
+      this.listMsg.push(newMsg)
+    }
   }
 
 }

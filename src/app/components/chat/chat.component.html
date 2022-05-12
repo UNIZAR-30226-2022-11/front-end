@@ -1,20 +1,23 @@
 <body >
     <div *ngIf="show==true;">
-        <div id="wrapper">
+        <div id="wrapper" style="width: 390px">
             <div id="menu">
                   <p class="welcome">Chat de partida<b></b></p>
                   <button (click)="mostrar()" style="position:relative; left:55%">x</button>
               </div>
                
-              <div id="chatbox" >
+              <div id="chatbox" style="width: 80%;" >
                   <div *ngFor="let item of listMsg"> 
-                    <p *ngIf="propio==true;" style="z-index:2; color: red;">{{item}}</p>
-                  </div>
+                    <p *ngIf="item.side==true;" style="z-index:2; color: rgb(48, 48, 48); background-color: rgb(177, 238, 177); background-size: 100%;">{{item.texto}}</p>
+                    <p *ngIf="item.side==false;" style="z-index:2; color: rgb(48, 48, 48); background-color: rgb(216, 216, 216); background-size: 100%;">{{item.texto}}</p>
+                    
+                </div>
                     
               </div>
                   
-                  <input type="text" id="texto" style="position: relative; left: 5%; align-self: center; width: 75%;" />
-                  <button style="position: relative; left: 5%" >Send</button>
+                  <input #linea type="text" id="texto" style="position: relative; left: 5%; align-self: center; width: 75%;" />
+                  <button (click)="escribir(linea.value)" style="position: relative; left: 5%" >Send</button>
+
           </div> 
     </div>
 </body>
