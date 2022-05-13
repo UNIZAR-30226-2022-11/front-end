@@ -98,6 +98,12 @@ export class FriendListComponent implements OnInit {
   InvitarAmigo(user:string){
     //SOCKETS
     //LoginComponent.user.nickname contiene el nombre del usuario logeado (por si lo necesitas)
+    var val = confirm("Type your text here.");
+if (val == true) {
+alert("You pressed OK.");
+} else {
+alert("You pressed Cancel.");
+}
   }
 
   AceptarSolicitud(user:string){
