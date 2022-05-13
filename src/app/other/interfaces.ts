@@ -170,7 +170,10 @@ export interface compra{
 }
 
 export const tablePath: {[index:string]: string}= {
-    'standart_table': './assets/articles/tables/tablero.png',
+    'BoardMarron': './assets/articles/tables/BoardMarron.png',
+    'BoardAzul': './assets/articles/tables/BoardAzul.png',
+    'BoardRojoAzul': './assets/articles/tables/BoardRojoAzul.png',
+    'BoardGris': './assets/articles/tables/BoardGris.png',
 };
 
 export const piecesPath: {[index:string]: string}= {
@@ -179,8 +182,10 @@ export const piecesPath: {[index:string]: string}= {
 };
 
 export const avatarPath:  {[index:string]: string}= {
-    'star': "./assets/articles/avatars/star_avatar.png",
-    'heart': "./assets/articles/avatars/heart_avatar.png",
+    'star_avatar': "./assets/articles/avatars/star_avatar.png",
+    'heart_avatar': "./assets/articles/avatars/heart_avatar.png",
+    'soccer_avatar': "./assets/articles/avatars/soccer_avatar.png",
+    'knight_avatar': "./assets/articles/avatars/knight_avatar.png",
 };
 
 export interface matchHistory{

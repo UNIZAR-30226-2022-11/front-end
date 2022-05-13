@@ -23,7 +23,7 @@
         <div *ngFor="let item of tablesList"  class="column">
             <div class="itemName"> {{item.nombre}}</div>
             <img src="{{tablePath[item.nombre]}}" alt="{{item.nombre}}">
-            <button class="price" (click)="buyTable($event)">
+            <button class="price" (click)="buy(item.nombre, item.tipo)">
                 <img src="./assets/web/coin.png">
                 <p>{{item.precio}}</p>
                 
@@ -34,7 +34,7 @@
         <div *ngFor="let item of piecesList"  class="column">
             <div class="itemName"> {{item.nombre}}</div>
             <img src="{{piecesPath[item.nombre]}}" alt="{{item.nombre}}">
-            <button class="price" (click)="buyPieces($event)">
+            <button class="price" (click)="buy(item.nombre, item.tipo)">
                 <img src="./assets/web/coin.png">
                 <p>{{item.precio}}</p>
                 
@@ -45,7 +45,7 @@
         <div *ngFor="let item of avatarsList"  class="column">
             <div class="itemName"> {{item.nombre}}</div>
             <img src="{{avatarPath[item.nombre]}}" alt="{{item.nombre}}">
-            <button class="price" (click)="buyAvatar($event)">
+            <button class="price" (click)="buy(item.nombre, item.tipo)">
                 <img src="./assets/web/coin.png">
                 <p>{{item.precio}}</p>
                 

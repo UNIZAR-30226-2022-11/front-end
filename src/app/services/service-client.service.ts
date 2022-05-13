@@ -211,4 +211,60 @@ export class ServiceClientService {
     return this.servicio.get(this.servidor1+"/getCoins?nickname="+nickname , {headers});
   }
 
+
+  // Devuelve los todos los items que posee el user <nickname>, ya sean de tipo "table", "pieces" o "avatar"
+  // Enviar { "nickname": "<nickname>"}
+  // Devolver { "articulos": [{
+  //                            "nombre": <nombre: string>,
+  //                            "tipo": <tipo: string>},
+  //                            {
+  //                            "nombre": <nombre: string>,
+  //                            "tipo": <tipo: string>}
+  //                            ]*}
+  GetInventary(nickname: string): Observable<any>{
+    const headers = new HttpHeaders(
+      {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*'
+      });
+    return this.servicio.get(this.servidor1+"/getInventary?nickname="+nickname , {headers});
+  }
+
+  // Devuelve los todos los items que no posee el user <nickname>, ya sean de tipo "table", "pieces" o "avatar"
+  // Enviar { "nickname": "<nickname>"}
+  // Devolver { "articulos": [{
+  //                            "nombre": <nombre: string>,
+  //                            "precio": <precio: number>,
+  //                            "tipo": <tipo: string>}
+  //                            {
+  //                            "nombre": <nombre: string>,
+  //                            "precio": <precio: number>,
+  //                            "tipo": <tipo: string>}
+  //                            ]*}
+  GetShop(nickname: string): Observable<any>{
+    const headers = new HttpHeaders(
+      {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*'
+      });
+    return this.servicio.get(this.servidor1+"/getShop?nickname="+nickname , {headers});
+  }
+
+  // Devolverá true si tiene suficiente monedas para pagar ese articulo.
+  // En ese caso se descontaran esas monedas del usuario <nickname> y ese articulo pasará
+  // a ser de su posesion
+  // Enviar { "nickname": "<nickname>" ,
+  //          "nombre": "<nombre>",
+  //          "tipo": "<tipo>"}
+  // Devolver{"exito": "<exito: boolean>"}
+  BuyItem(nickname: string, nombre:string, tipo:string): Observable<any>{
+    const body = {nickname,nombre, tipo }
+    const headers = new HttpHeaders(
+      {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*'
+      });
+    return this.servicio.post(this.servidor1+"/buyItem" ,body, {headers});
+  }
+
 }

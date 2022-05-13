@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginComponent } from '../login/login.component';
 import { articulo, tablePath, piecesPath, avatarPath } from 'src/app/other/interfaces';
+import { ServiceClientService } from 'src/app/services/service-client.service';
 @Component({
   selector: 'app-shop',
   templateUrl: './shop.component.html',
@@ -15,14 +16,17 @@ export class ShopComponent implements OnInit {
   showPieces: boolean = false;
   showAvatars: boolean = false;
   tablesList: Array<articulo>=[
-    {   nombre: "standart_table",
+    {   nombre: "BoardMarron",
         precio: 0,
         tipo: "table"},
-    {   nombre: "standart_table",
-        precio: 120,
+    {   nombre: "BoardGris",
+        precio: 5,
         tipo: "table"},
-    {   nombre: "standart_table",
-        precio: 25,
+    {   nombre: "BoardAzul",
+        precio: 10,
+        tipo: "table"},
+    {   nombre: "BoardRojoAzul",
+        precio: 15,
         tipo: "table"}
     ];
   piecesList: Array<articulo>=[
@@ -37,10 +41,16 @@ export class ShopComponent implements OnInit {
         tipo: "table"}
     ];
   avatarsList: Array<articulo> = [
-    {   nombre: "star",
+    {   nombre: "star_avatar",
         precio: 0,
-        tipo: "table"},
+        tipo: "avatar"},
     {   nombre: "heart",
+        precio: 120,
+        tipo: "table"},
+    {   nombre: "soccer",
+        precio: 120,
+        tipo: "table"},
+    {   nombre: "knight",
         precio: 120,
         tipo: "table"},
     ];
@@ -75,9 +85,13 @@ export class ShopComponent implements OnInit {
     return LoginComponent.user.monedas
   }
 
-  constructor() { }
+  constructor(private servicioCliente:ServiceClientService) { }
 
   ngOnInit(): void {
+    if (LoginComponent.logged) {
+      this.getShop();
+    }
+
     if (this.showTables){
       var element=document.getElementById("tablesSelector")
       element?.classList.add('shopping')
@@ -91,16 +105,32 @@ export class ShopComponent implements OnInit {
     }
   }
 
-  buyTable(event:MouseEvent){
-    
+  buy(nombre: string, tipo:string){
+    console.log(nombre, tipo);
+    this.servicioCliente.BuyItem(LoginComponent.user.nickname, nombre,tipo).subscribe(datos=>{
+      if (datos.exito == true){
+        this.getShop();
+        this.servicioCliente.GetCoins(LoginComponent.user.nickname).subscribe(datos=>{
+          LoginComponent.user.monedas = datos.coins;
+        })
+      }
+    })
   }
 
-  buyPieces(event:MouseEvent){
-
+  getShop(){
+    this.servicioCliente.GetShop(LoginComponent.user.nickname).subscribe(datos=>{
+      this.tablesList = [];
+      this.piecesList = [];
+      this.avatarsList = [];
+      for(let i=0;i<datos;i++){
+        if (datos.articulos[i].tipo == "table"){
+          this.tablesList.push(datos.articulos[i]);
+        }else if (datos.articulos[i].tipo == "pieces"){
+          this.piecesList.push(datos.articulos[i]);
+        }else if (datos.articulos[i].tipo == "avatar"){
+          this.avatarsList.push(datos.articulos[i]);
+        }
+      }
+    })
   }
-
-  buyAvatar(event:MouseEvent){
-
-  }
-
 }
