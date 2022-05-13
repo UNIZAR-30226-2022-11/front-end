@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { pieza } from 'src/app/other/interfaces';
+import { pieza, usuario } from 'src/app/other/interfaces';
 import { ViewChild } from '@angular/core';
 import { TimerComponent } from '../timer/timer.component';
 import { SocketService } from 'src/app/services/socket.service';
+import { flush } from '@angular/core/testing';
+import { LoginComponent } from '../login/login.component';
+import { ServiceClientService } from 'src/app/services/service-client.service';
 
 @Component({
   selector: 'app-juego',
@@ -12,7 +15,8 @@ import { SocketService } from 'src/app/services/socket.service';
 export class JuegoComponent implements OnInit{
 
   constructor(
-		//private socketService: SocketService 
+		//private socketService: SocketService,
+    private servicioCliente:ServiceClientService
 	) { }
 
   ngOnInit(): void {
@@ -36,11 +40,27 @@ export class JuegoComponent implements OnInit{
   static segundos = 0;
   static minutos = 0;
   //variable estática de victoria
-  static finTiempo = false;
+  static finTiempo1 = false;
+  static finTiempo2 = false;
+ 
+  empatado:boolean = false;
+  pierde:boolean = false;
+  gana:boolean = false;
+
+
 
   static ia:boolean = false;
   static online:boolean = false;
 
+  user: usuario = LoginComponent.user;
+
+ rival: usuario ={ nickname: "",
+puntos: 0,
+monedas: 0,
+avatar: "",
+piezas: "",
+tablero: ""
+}
 
   opponent:string = ""
   miTurno:boolean = true;  //si no es mi turno no puedo seleccionar
@@ -89,7 +109,7 @@ export class JuegoComponent implements OnInit{
   // }
 
   moverRival():void{
-    console.log("moverRival")
+    //console.log("moverRival")
     this.tablero[this.filaFin][this.columnFin] = this.tablero[this.filaIni][this.columnIni]
     this.tablero[this.filaIni][this.columnIni] = this.v
   }
@@ -161,8 +181,6 @@ export class JuegoComponent implements OnInit{
   blanco:number = 1
   negro:number = 0
   turno:boolean = true //0 para blancas, 1 para negras
-
-  ganar:boolean = false;
 
   //valor para casillas vacias
   v:pieza = {"col":"", "fil":"", "img": "", "color":0};
@@ -452,7 +470,7 @@ tableroBlanco:pieza[][] =
     //matar amenaza
     var aux:pieza = this.jaque(this.reyBlanco)
     if(aux != this.v && aux.color==-1){
-      console.log(this.jaque(aux))
+      //console.log(this.jaque(aux))
       if(this.jaque(aux).color == 1){ //aux es la pieza que amenaza al rey
         var filIni:number = this.obtenFila(this.jaque(aux))
         var colIni:number = this.obtenerColumna(this.jaque(aux))
@@ -477,7 +495,7 @@ tableroBlanco:pieza[][] =
     //mover rey
     var aux:pieza = this.jaque(this.reyBlanco)
       if(aux != this.v && aux.color==-1){
-        console.log("inside")
+        //console.log("inside")
       //movimientos del rey evitar jaque mate
       //coger col, y fila
       var colAux:number = this.obtenerColumna(this.reyBlanco);
@@ -487,7 +505,7 @@ tableroBlanco:pieza[][] =
       
       //comprobar si puedo mover 
       if(colAux+1<8 && this.tablero[filAux][colAux+1].color != this.reyBlanco.color){
-        console.log("1")
+        //console.log("1")
         this.reyBlanco.col = this.columna[colAux+1].toString() + "%"
         this.reyBlanco.fil = this.fila[filAux].toString() + "%"
         this.tablero[filAux][colAux] = this.v
@@ -833,7 +851,7 @@ tableroBlanco:pieza[][] =
     
             while(piezaAux.col != this.reyBlanco.col && piezaAux.fil != this.reyBlanco.fil){
               if(this.jaqueEspecial(piezaAux) != this.v && this.jaqueEspecial(piezaAux).color == 1) {
-                console.log(piezaAux)
+                //console.log(piezaAux)
                 var filIni = this.obtenFila(this.jaqueEspecial(piezaAux))
                 var colIni = this.obtenerColumna(this.jaqueEspecial(piezaAux))
   
@@ -1078,7 +1096,7 @@ tableroBlanco:pieza[][] =
       
               while(piezaAux.col != this.reyBlanco.col && piezaAux.fil != this.reyBlanco.fil){
                 if(this.jaqueEspecial(piezaAux) != this.v && this.jaqueEspecial(piezaAux).color == 1) {
-                  console.log(piezaAux)
+                  //console.log(piezaAux)
                   var filIni = this.obtenFila(this.jaqueEspecial(piezaAux))
                   var colIni = this.obtenerColumna(this.jaqueEspecial(piezaAux))
     
@@ -1239,11 +1257,13 @@ tableroBlanco:pieza[][] =
 
         //impiar casilla inicial
         this.tablero[filIni][colIni] = this.v
-        //cambiar timer
-        this.cambiarTimer()
-        //pasar turno
-        this.turno = !this.turno
-        return
+        
+          //cambiar timer
+          this.cambiarTimer()
+          //pasar turno
+          this.turno = !this.turno
+          return
+        
       }   
       var aux:pieza = this.jaque(this.reinaNegra)
       if(aux != this.v && aux.color==1){
@@ -1253,18 +1273,20 @@ tableroBlanco:pieza[][] =
         var colFin:number = this.obtenerColumna(this.reinaNegra)
 
         //mover la pieza
-        this.tablero[filFin][colFin].color = 0  //borro destino
+        //this.tablero[filFin][colFin].color = 0  //borro destino
         this.tablero[filFin][colFin] = this.tablero[filIni][colIni]   //muevo en la matriz
         this.tablero[filFin][colFin].col = this.columna[colFin] + "%" //desde la matriz cambio fila y col
         this.tablero[filFin][colFin].fil = this.fila[filFin] + "%"
 
         //impiar casilla inicial
         this.tablero[filIni][colIni] = this.v
+
         //cambiar timer
         this.cambiarTimer()
         //pasar turno
         this.turno = !this.turno
         return
+        
       }
       var aux:pieza = this.jaque(this.torreNegra0)
       if(aux != this.v && aux.color==1){
@@ -1281,11 +1303,13 @@ tableroBlanco:pieza[][] =
 
         //impiar casilla inicial
         this.tablero[filIni][colIni] = this.v
-        //cambiar timer
-        this.cambiarTimer()
-        //pasar turno
-        this.turno = !this.turno
-        return
+
+          //cambiar timer
+          this.cambiarTimer()
+          //pasar turno
+          this.turno = !this.turno
+          return
+        
       }
       var aux:pieza = this.jaque(this.torreNegra1)
       if(aux != this.v && aux.color==1){
@@ -1302,11 +1326,14 @@ tableroBlanco:pieza[][] =
 
         //impiar casilla inicial
         this.tablero[filIni][colIni] = this.v
-        //cambiar timer
-        this.cambiarTimer()
-        //pasar turno
-        this.turno = !this.turno
-        return
+
+        {
+          //cambiar timer
+          this.cambiarTimer()
+          //pasar turno
+          this.turno = !this.turno
+          return
+        }
       }
       var aux:pieza = this.jaque(this.caballoNegro0)
       if(aux != this.v && aux.color==1){
@@ -1323,11 +1350,15 @@ tableroBlanco:pieza[][] =
 
         //impiar casilla inicial
         this.tablero[filIni][colIni] = this.v
-        //cambiar timer
-        this.cambiarTimer()
-        //pasar turno
-        this.turno = !this.turno
-        return
+
+
+        {
+          //cambiar timer
+          this.cambiarTimer()
+          //pasar turno
+          this.turno = !this.turno
+          return
+        }
       }
       var aux:pieza = this.jaque(this.caballoNegro1)
       if(aux != this.v && aux.color==1){
@@ -1344,11 +1375,15 @@ tableroBlanco:pieza[][] =
 
         //impiar casilla inicial
         this.tablero[filIni][colIni] = this.v
-        //cambiar timer
-        this.cambiarTimer()
-        //pasar turno
-        this.turno = !this.turno
-        return
+
+
+        {
+          //cambiar timer
+          this.cambiarTimer()
+          //pasar turno
+          this.turno = !this.turno
+          return
+        }
       }
       var aux:pieza = this.jaque(this.alfilNegro0)
       if(aux != this.v && aux.color==1){
@@ -1356,7 +1391,6 @@ tableroBlanco:pieza[][] =
         var colIni:number = this.obtenerColumna(aux)
         var filFin:number = this.obtenFila(this.alfilNegro0)
         var colFin:number = this.obtenerColumna(this.alfilNegro0)
-
         //mover la pieza
         this.tablero[filFin][colFin].color = 0  //borro destino
         this.tablero[filFin][colFin] = this.tablero[filIni][colIni]   //muevo en la matriz
@@ -1365,11 +1399,15 @@ tableroBlanco:pieza[][] =
 
         //impiar casilla inicial
         this.tablero[filIni][colIni] = this.v
-        //cambiar timer
-        this.cambiarTimer()
-        //pasar turno
-        this.turno = !this.turno
-        return
+
+
+        {
+          //cambiar timer
+          this.cambiarTimer()
+          //pasar turno
+          this.turno = !this.turno
+          return
+        }
       }
       var aux:pieza = this.jaque(this.alfilNegro1)
       if(aux != this.v && aux.color==1){
@@ -1386,11 +1424,15 @@ tableroBlanco:pieza[][] =
 
         //impiar casilla inicial
         this.tablero[filIni][colIni] = this.v
-        //cambiar timer
-        this.cambiarTimer()
-        //pasar turno
-        this.turno = !this.turno
-        return
+
+
+        {
+          //cambiar timer
+          this.cambiarTimer()
+          //pasar turno
+          this.turno = !this.turno
+          return
+        }
       }
       var aux:pieza = this.jaque(this.peonNegro0)
       if(aux != this.v && aux.color==1){
@@ -1398,7 +1440,6 @@ tableroBlanco:pieza[][] =
         var colIni:number = this.obtenerColumna(aux)
         var filFin:number = this.obtenFila(this.peonNegro0)
         var colFin:number = this.obtenerColumna(this.peonNegro0)
-
         //mover la pieza
         this.tablero[filFin][colFin].color = 0  //borro destino
         this.tablero[filFin][colFin] = this.tablero[filIni][colIni]   //muevo en la matriz
@@ -1407,11 +1448,15 @@ tableroBlanco:pieza[][] =
 
         //impiar casilla inicial
         this.tablero[filIni][colIni] = this.v
-        //cambiar timer
-        this.cambiarTimer()
-        //pasar turno
-        this.turno = !this.turno
-        return
+
+
+        {
+          //cambiar timer
+          this.cambiarTimer()
+          //pasar turno
+          this.turno = !this.turno
+          return
+        }
       }
       var aux:pieza = this.jaque(this.peonNegro1)
       if(aux != this.v && aux.color==1){
@@ -1428,11 +1473,15 @@ tableroBlanco:pieza[][] =
 
         //impiar casilla inicial
         this.tablero[filIni][colIni] = this.v
-        //cambiar timer
-        this.cambiarTimer()
-        //pasar turno
-        this.turno = !this.turno
-        return
+
+
+        {
+          //cambiar timer
+          this.cambiarTimer()
+          //pasar turno
+          this.turno = !this.turno
+          return
+        }
       }
       var aux:pieza = this.jaque(this.peonNegro2)
       if(aux != this.v && aux.color==1){
@@ -1449,11 +1498,14 @@ tableroBlanco:pieza[][] =
 
         //impiar casilla inicial
         this.tablero[filIni][colIni] = this.v
-        //cambiar timer
-        this.cambiarTimer()
-        //pasar turno
-        this.turno = !this.turno
-        return
+
+        {
+          //cambiar timer
+          this.cambiarTimer()
+          //pasar turno
+          this.turno = !this.turno
+          return
+        }
       }
       var aux:pieza = this.jaque(this.peonNegro3)
       if(aux != this.v && aux.color==1){
@@ -1470,11 +1522,15 @@ tableroBlanco:pieza[][] =
 
         //impiar casilla inicial
         this.tablero[filIni][colIni] = this.v
-        //cambiar timer
-        this.cambiarTimer()
-        //pasar turno
-        this.turno = !this.turno
-        return
+
+
+        {
+          //cambiar timer
+          this.cambiarTimer()
+          //pasar turno
+          this.turno = !this.turno
+          return
+        }
       }
       var aux:pieza = this.jaque(this.peonNegro4)
       if(aux != this.v && aux.color==1){
@@ -1491,11 +1547,14 @@ tableroBlanco:pieza[][] =
 
         //impiar casilla inicial
         this.tablero[filIni][colIni] = this.v
-        //cambiar timer
-        this.cambiarTimer()
-        //pasar turno
-        this.turno = !this.turno
-        return
+
+        {
+          //cambiar timer
+          this.cambiarTimer()
+          //pasar turno
+          this.turno = !this.turno
+          return
+        }
       }
       var aux:pieza = this.jaque(this.peonNegro5)
       if(aux != this.v && aux.color==1){
@@ -1512,11 +1571,14 @@ tableroBlanco:pieza[][] =
 
         //impiar casilla inicial
         this.tablero[filIni][colIni] = this.v
-        //cambiar timer
-        this.cambiarTimer()
-        //pasar turno
-        this.turno = !this.turno
-        return
+
+        {
+          //cambiar timer
+          this.cambiarTimer()
+          //pasar turno
+          this.turno = !this.turno
+          return
+        }
       }
       var aux:pieza = this.jaque(this.peonNegro6)
       if(aux != this.v && aux.color==1){
@@ -1534,11 +1596,13 @@ tableroBlanco:pieza[][] =
         //impiar casilla inicial
         this.tablero[filIni][colIni] = this.v
 
-        //cambiar timer
-        this.cambiarTimer()
-        //pasar turno
-        this.turno = !this.turno
-        return
+        {
+          //cambiar timer
+          this.cambiarTimer()
+          //pasar turno
+          this.turno = !this.turno
+          return
+        }
       }
       var aux:pieza = this.jaque(this.peonNegro7)
       if(aux != this.v && aux.color==1){
@@ -1546,7 +1610,6 @@ tableroBlanco:pieza[][] =
         var colIni:number = this.obtenerColumna(aux)
         var filFin:number = this.obtenFila(this.peonNegro7)
         var colFin:number = this.obtenerColumna(this.peonNegro7)
-
         //mover la pieza
         this.tablero[filFin][colFin].color = 0  //borro destino
         this.tablero[filFin][colFin] = this.tablero[filIni][colIni]   //muevo en la matriz
@@ -1555,11 +1618,14 @@ tableroBlanco:pieza[][] =
 
         //impiar casilla inicial
         this.tablero[filIni][colIni] = this.v
-        //cambiar timer
-        this.cambiarTimer()
-        //pasar turno
-        this.turno = !this.turno
-        return
+
+        {
+          //cambiar timer
+          this.cambiarTimer()
+          //pasar turno
+          this.turno = !this.turno
+          return
+        }
       }
 
       //////////////////////////////////////
@@ -1568,8 +1634,15 @@ tableroBlanco:pieza[][] =
 
       //seleccionar una pieza blanca
       var piezaMover:pieza = this.getBlanca()
-      while(!this.moverPieza(piezaMover)){
+      var i:number = 0
+      while(!this.moverPieza(piezaMover) && i < 10000){
         piezaMover = this.getBlanca()
+      }      
+      if(i == 10000){
+        this.timer.stop();
+        this.timer.stop2();
+        this.gana = true
+        return
       }
       this.cambiarTimer()
       this.turno = !this.turno
@@ -1581,6 +1654,779 @@ tableroBlanco:pieza[][] =
     else if (this.turno == false && this.blanco == 1){
       //console.log("llego")
       //turno = true para blancas, busca el jaque a las negras(ia es blanca) 
+
+      //if jaque a tu rey blanco
+      //matar amenaza
+      var aux:pieza = this.jaque(this.reyNegro)
+      if(aux != this.v && aux.color== 1){
+        //console.log(this.jaque(aux))
+        if(this.jaque(aux).color == -1){ //aux es la pieza que amenaza al rey
+          var filIni:number = this.obtenFila(this.jaque(aux))
+          var colIni:number = this.obtenerColumna(this.jaque(aux))
+          var filFin:number = this.obtenFila(aux)
+          var colFin:number = this.obtenerColumna(aux)
+          //this.jaque(this.reyBlanco).color = 0
+          this.tablero[filFin][colFin].color = 0
+          this.tablero[filFin][colFin] = this.tablero[filIni][colIni]
+          this.tablero[filFin][colFin].col = this.columna[colFin] + "%" //desde la matriz cambio fila y col
+          this.tablero[filFin][colFin].fil = this.fila[filFin] + "%" 
+  
+          //this.tablero[filIni][colIni].color = 0
+          this.tablero[filIni][colIni] = this.v
+  
+          this.cambiarTimer()
+          //pasar turno
+          this.turno = !this.turno
+          return
+        }
+      }
+      
+      //mover rey
+      var aux:pieza = this.jaque(this.reyNegro)
+        if(aux != this.v && aux.color== 1){
+          //console.log("inside")
+        //movimientos del rey evitar jaque mate
+        //coger col, y fila
+        var colAux:number = this.obtenerColumna(this.reyNegro);
+        // var colVar
+        var filAux:number = this.obtenFila(this.reyNegro);
+        // var FilVar
+        
+        //comprobar si puedo mover 
+        if(colAux+1<8 && this.tablero[filAux][colAux+1].color != this.reyNegro.color){
+          //console.log("1")
+          this.reyNegro.col = this.columna[colAux+1].toString() + "%"
+          this.reyNegro.fil = this.fila[filAux].toString() + "%"
+          this.tablero[filAux][colAux] = this.v
+  
+          //this.tablero[filAux][colAux+1] = this.reyBlanco
+          //console.log(this.jaque(pieza))
+          if(this.jaque(this.reyNegro) == this.v) {
+              //console.log("in1")
+              //console.log(this.jaque(this.reyBlanco))
+              this.tablero[filAux][colAux+1].color = 0
+              this.tablero[filAux][colAux+1] = this.reyNegro
+              this.tablero[filAux][colAux] = this.v
+              this.cambiarTimer()
+              this.turno=!this.turno
+              return;
+          } else {
+            //console.log(this.jaque(this.reyBlanco))
+  
+            //this.tablero[filAux][colAux+1] = this.jaque(this.reyBlanco)
+            this.tablero[filAux][colAux] = this.reyNegro
+  
+            this.reyNegro.col = this.columna[colAux].toString() + "%"
+            this.reyNegro.fil = this.fila[filAux].toString() + "%" 
+          }
+        }
+  
+        //comprobar si puedo mover 
+        if(colAux-1>=0 && this.tablero[filAux][colAux-1].color != this.reyNegro.color){
+          //console.log("2")
+          this.reyNegro.col = this.columna[colAux-1].toString() + "%"
+          this.reyNegro.fil = this.fila[filAux].toString() + "%"
+          this.tablero[filAux][colAux] = this.v
+  
+          //this.tablero[filAux][colAux-1] = this.reyBlanco
+          //console.log(this.jaque(pieza))
+          if(this.jaque(this.reyNegro) == this.v) {
+              //console.log("in2")
+              this.tablero[filAux][colAux-1].color = 0
+              this.tablero[filAux][colAux-1] = this.reyNegro
+              this.tablero[filAux][colAux] = this.v
+              //console.log(this.tablero[filAux][colAux])
+              //console.log(this.tablero[filAux][colAux-1])
+              this.cambiarTimer()
+              this.turno=!this.turno
+            return
+          }else {
+            //console.log(this.jaque(this.reyBlanco))
+  
+            //this.tablero[filAux][colAux-1] = this.jaque(this.reyBlanco)
+            this.tablero[filAux][colAux] = this.reyNegro
+  
+            this.reyNegro.col = this.columna[colAux].toString() + "%"
+            this.reyNegro.fil = this.fila[filAux].toString() + "%" 
+          }
+        }
+  
+        //comprobar si puedo mover 
+        if(filAux+1<8 && this.tablero[filAux+1][colAux].color != this.reyNegro.color){
+          //console.log("3")
+          this.reyNegro.col = this.columna[colAux].toString() + "%"
+          this.reyNegro.fil = this.fila[filAux+1].toString() + "%"
+          this.tablero[filAux][colAux] = this.v
+  
+          //this.tablero[filAux+1][colAux] = this.reyBlanco
+          //console.log(this.jaque(pieza))
+          if(this.jaque(this.reyNegro) == this.v) {
+            //console.log("in3")
+            //console.log(this.jaque(this.reyBlanco))
+            this.tablero[filAux+1][colAux].color = 0
+            this.tablero[filAux+1][colAux] = this.reyNegro
+            this.tablero[filAux][colAux] = this.v
+            this.cambiarTimer()
+            this.turno=!this.turno
+            return
+          }else {
+            //console.log(this.jaque(this.reyBlanco))
+  
+            //this.tablero[filAux+1][colAux] = this.jaque(this.reyBlanco)
+            this.tablero[filAux][colAux] = this.reyNegro
+  
+            this.reyNegro.col = this.columna[colAux].toString() + "%"
+            this.reyNegro.fil = this.fila[filAux].toString() + "%" 
+          }
+        }
+  
+        //comprobar si puedo mover 
+        if(filAux-1>=0 && this.tablero[filAux-1][colAux].color != this.reyNegro.color){
+          //console.log("4")
+          this.reyNegro.col = this.columna[colAux].toString() + "%"
+          this.reyNegro.fil = this.fila[filAux-1].toString() + "%"
+          this.tablero[filAux][colAux] = this.v
+  
+          //this.tablero[filAux-1][colAux] = this.reyBlanco
+          //console.log(this.jaque(pieza))
+          if(this.jaque(this.reyNegro) == this.v) {
+            //console.log("in4")
+            //console.log(this.jaque(this.reyBlanco))
+            this.tablero[filAux-1][colAux].color = 0
+            this.tablero[filAux-1][colAux] = this.reyNegro
+            this.tablero[filAux][colAux] = this.v
+            this.cambiarTimer()
+            this.turno=!this.turno
+            return 
+          }else {
+            //console.log(this.jaque(this.reyBlanco))
+  
+            //this.tablero[filAux-1][colAux] = this.jaque(this.reyBlanco)
+            this.tablero[filAux][colAux] = this.reyNegro
+  
+            this.reyNegro.col = this.columna[colAux].toString() + "%"
+            this.reyNegro.fil = this.fila[filAux].toString() + "%" 
+          }
+        }
+  
+        //comprobar si puedo mover 
+        if(colAux+1<8 && filAux+1<8 && this.tablero[filAux+1][colAux+1].color != this.reyNegro.color){
+          //console.log("5")
+          this.reyNegro.col = this.columna[colAux+1].toString() + "%"
+          this.reyNegro.fil = this.fila[filAux+1].toString() + "%"
+          this.tablero[filAux][colAux] = this.v
+  
+          //this.tablero[filAux+1][colAux+1] = this.reyBlanco
+          //console.log(this.jaque(pieza))
+          if(this.jaque(this.reyNegro) == this.v) {
+            //console.log("in5")
+            //console.log(this.jaque(this.reyBlanco))
+            this.tablero[filAux+1][colAux+1].color = 0
+            this.tablero[filAux+1][colAux+1] = this.reyNegro
+            this.tablero[filAux][colAux] = this.v
+            //console.log(this.reyBlanco)
+            this.cambiarTimer()
+            this.turno=!this.turno
+            return 
+          }else {
+            //console.log(this.jaque(this.reyBlanco))
+  
+            //this.tablero[filAux+1][colAux+1] = this.jaque(this.reyBlanco)
+            this.tablero[filAux][colAux] = this.reyNegro
+  
+            this.reyNegro.col = this.columna[colAux].toString() + "%"
+            this.reyNegro.fil = this.fila[filAux].toString() + "%" 
+          }
+        }
+  
+        //comprobar si puedo mover 
+        if(colAux-1>=0 && filAux-1>=0 && this.tablero[filAux-1][colAux-1].color != this.reyNegro.color){
+          //console.log("6")
+          this.reyNegro.col = this.columna[colAux-1].toString() + "%"
+          this.reyNegro.fil = this.fila[filAux-1].toString() + "%"
+          this.tablero[filAux][colAux] = this.v
+  
+          //this.tablero[filAux-1][colAux-1] = this.reyBlanco
+          //console.log(this.jaque(pieza))
+          if(this.jaque(this.reyNegro) == this.v) {
+            //console.log("in6")
+            //console.log(this.jaque(this.reyBlanco))
+            this.tablero[filAux-1][colAux-1].color = 0
+            this.tablero[filAux-1][colAux-1] = this.reyNegro
+            this.tablero[filAux][colAux] = this.v
+            this.cambiarTimer()
+            this.turno=!this.turno
+            return
+          }else {
+            //console.log(this.jaque(this.reyBlanco))
+  
+            //this.tablero[filAux-1][colAux-1] = this.jaque(this.reyBlanco)
+            this.tablero[filAux][colAux] = this.reyNegro
+  
+            this.reyNegro.col = this.columna[colAux].toString() + "%"
+            this.reyNegro.fil = this.fila[filAux].toString() + "%" 
+          }
+        }
+  
+        //comprobar si puedo mover 
+        if(colAux+1<8 && filAux-1>=0 && this.tablero[filAux-1][colAux+1].color != this.reyNegro.color){
+          //console.log("7")
+          this.reyNegro.col = this.columna[colAux+1].toString() + "%"
+          this.reyNegro.fil = this.fila[filAux-1].toString() + "%"
+          this.tablero[filAux][colAux] = this.v
+  
+          //this.tablero[filAux-1][colAux+1] = this.reyBlanco
+          //console.log(this.jaque(pieza))
+          if(this.jaque(this.reyNegro) == this.v) {
+            //console.log("in7")
+            //console.log(this.jaque(this.reyBlanco))
+            this.tablero[filAux-1][colAux+1].color = 0
+            this.tablero[filAux-1][colAux+1] = this.reyNegro
+            this.tablero[filAux][colAux] = this.v
+            this.cambiarTimer()
+            this.turno=!this.turno
+            return
+          }else {
+            //console.log(this.jaque(this.reyBlanco))
+  
+           //this.tablero[filAux-1][colAux+1] = this.jaque(this.reyBlanco)
+            this.tablero[filAux][colAux] = this.reyNegro
+  
+            this.reyNegro.col = this.columna[colAux].toString() + "%"
+            this.reyNegro.fil = this.fila[filAux].toString() + "%" 
+          }
+        }
+  
+        //comprobar si puedo mover 
+        if(colAux-1>=0 && filAux+1<8 && this.tablero[filAux+1][colAux-1].color != this.reyNegro.color){
+          //console.log("8")
+          //console.log(this.jaque(this.reyBlanco))
+          this.reyNegro.col = this.columna[colAux-1].toString() + "%"
+          this.reyNegro.fil = this.fila[filAux+1].toString() + "%"
+          this.tablero[filAux][colAux] = this.v
+          
+          //this.tablero[filAux+1][colAux-1] = this.reyBlanco
+          //console.log(this.jaque(pieza))
+          if(this.jaque(this.reyNegro) == this.v) {
+            this.tablero[filAux+1][colAux-1].color = 0
+            this.tablero[filAux+1][colAux-1] = this.reyNegro
+            this.tablero[filAux][colAux] = this.v
+            this.cambiarTimer()
+            this.turno=!this.turno
+            return 
+          }else {
+            //console.log(this.jaque(this.reyBlanco))
+  
+            //this.tablero[filAux+1][colAux-1] = this.jaque(this.reyBlanco)
+            this.tablero[filAux][colAux] = this.reyNegro
+            
+            this.reyNegro.col = this.columna[colAux].toString() + "%"
+            this.reyNegro.fil = this.fila[filAux].toString() + "%" 
+          }
+        }
+      }
+  
+        //bloquear
+        var piezaAmenaza:pieza = this.jaque(this.reyNegro)
+        if(aux != this.v && aux.color == 1){
+          this.pieza = this.piezaToString(aux);
+          var piezaAux:pieza = {"col":"", "fil":"", "img": "", "color":piezaAmenaza.color};
+          var colAux:number = this.obtenerColumna(piezaAmenaza);
+          // var colVar
+          var filAux:number = this.obtenFila(piezaAmenaza);
+          if(this.alfil()) {
+            //console.log("here")
+            if(this.obtenerColumna(piezaAmenaza) > this.obtenerColumna(this.reyNegro) && this.obtenFila(piezaAmenaza) > this.obtenFila(this.reyNegro)){
+              piezaAux.col = this.columna[colAux - 1].toString() + "%"
+              piezaAux.fil = this.fila[filAux - 1].toString() + "%" 
+              colAux--
+              filAux--
+      
+              while(piezaAux.col != this.reyNegro.col && piezaAux.fil != this.reyNegro.fil){
+                //console.log(piezaAux.col)
+                //comrobar aqui alcanzable por peon
+                if(this.jaqueEspecial(piezaAux) != this.v && this.jaqueEspecial(piezaAux).color == -1) {
+                  //mover la pieza
+    
+                  var filIni = this.obtenFila(this.jaqueEspecial(piezaAux))
+                  var colIni = this.obtenerColumna(this.jaqueEspecial(piezaAux))
+    
+                  this.tablero[filAux][colAux].color = 0
+                  this.tablero[filAux][colAux] = this.tablero[filIni][colIni]
+                  this.tablero[filIni][colIni].col = this.columna[colAux] + "%" //desde la matriz cambio fila y col
+                  this.tablero[filIni][colIni].fil = this.fila[filAux] + "%" 
+          
+                  //this.tablero[filIni][colIni].color = 0
+                  this.tablero[filIni][colIni] = this.v
+    
+                  this.cambiarTimer()
+                  this.turno=!this.turno
+                  return
+                }
+                piezaAux.col = this.columna[colAux - 1].toString() + "%"
+                piezaAux.fil = this.fila[filAux - 1].toString() + "%" 
+                colAux--
+                filAux--
+              }
+            }
+            else if(this.obtenerColumna(piezaAmenaza) > this.obtenerColumna(this.reyNegro) && this.obtenFila(piezaAmenaza) < this.obtenFila(this.reyNegro)){
+              piezaAux.col = this.columna[colAux - 1].toString() + "%"
+              piezaAux.fil = this.fila[filAux + 1].toString() + "%" 
+              colAux--
+              filAux++
+              while(piezaAux.col != this.reyNegro.col && piezaAux.fil != this.reyNegro.fil){
+                if(this.jaqueEspecial(piezaAux) != this.v && this.jaqueEspecial(piezaAux).color == -1) {
+                  
+                  var filIni = this.obtenFila(this.jaqueEspecial(piezaAux))
+                  var colIni = this.obtenerColumna(this.jaqueEspecial(piezaAux))
+    
+                  this.tablero[filAux][colAux].color = 0
+                  this.tablero[filAux][colAux] = this.tablero[filIni][colIni]
+                  this.tablero[filIni][colIni].col = this.columna[colAux] + "%" //desde la matriz cambio fila y col
+                  this.tablero[filIni][colIni].fil = this.fila[filAux] + "%" 
+          
+                  //this.tablero[filIni][colIni].color = 0
+                  this.tablero[filIni][colIni] = this.v
+    
+                  this.cambiarTimer()
+                  this.turno=!this.turno
+                  return
+                }
+                piezaAux.col = this.columna[colAux - 1].toString() + "%"
+                piezaAux.fil = this.fila[filAux + 1].toString() + "%" 
+                colAux--
+                filAux++
+              }
+            }
+            else if(this.obtenerColumna(piezaAmenaza) < this.obtenerColumna(this.reyNegro) && this.obtenFila(piezaAmenaza) > this.obtenFila(this.reyNegro)){
+              piezaAux.col = this.columna[colAux + 1].toString() + "%"
+              piezaAux.fil = this.fila[filAux - 1].toString() + "%" 
+              colAux++
+              filAux--
+              
+              while(piezaAux.col != this.reyNegro.col && piezaAux.fil != this.reyNegro.fil){
+                if(this.jaqueEspecial(piezaAux) != this.v && this.jaqueEspecial(piezaAux).color == -1) {
+                  
+                  var filIni = this.obtenFila(this.jaqueEspecial(piezaAux))
+                  var colIni = this.obtenerColumna(this.jaqueEspecial(piezaAux))
+    
+                  this.tablero[filAux][colAux].color = 0
+                  this.tablero[filAux][colAux] = this.tablero[filIni][colIni]
+                  this.tablero[filIni][colIni].col = this.columna[colAux] + "%" //desde la matriz cambio fila y col
+                  this.tablero[filIni][colIni].fil = this.fila[filAux] + "%" 
+          
+                  //this.tablero[filIni][colIni].color = 0
+                  this.tablero[filIni][colIni] = this.v
+    
+                  this.cambiarTimer()
+                  this.turno=!this.turno
+                  return
+                }
+                piezaAux.col = this.columna[colAux + 1].toString() + "%"
+                piezaAux.fil = this.fila[filAux - 1].toString() + "%" 
+                colAux++
+                filAux--
+              }
+            }
+            
+            else if(this.obtenerColumna(piezaAmenaza) < this.obtenerColumna(this.reyNegro) && this.obtenFila(piezaAmenaza) < this.obtenFila(this.reyNegro)){
+             
+              //sumar colaxu Y filaux
+               
+              piezaAux.col = this.columna[colAux + 1].toString() + "%"
+              piezaAux.fil = this.fila[filAux + 1].toString() + "%" 
+              colAux++
+              filAux++
+      
+              while(piezaAux.col != this.reyNegro.col && piezaAux.fil != this.reyNegro.fil){
+                if(this.jaqueEspecial(piezaAux) != this.v && this.jaqueEspecial(piezaAux).color == -1) {
+                  //console.log(piezaAux)
+                  var filIni = this.obtenFila(this.jaqueEspecial(piezaAux))
+                  var colIni = this.obtenerColumna(this.jaqueEspecial(piezaAux))
+    
+                  this.tablero[filAux][colAux].color = 0
+                  this.tablero[filAux][colAux] = this.tablero[filIni][colIni]
+                  this.tablero[filIni][colIni].col = this.columna[colAux] + "%" //desde la matriz cambio fila y col
+                  this.tablero[filIni][colIni].fil = this.fila[filAux] + "%" 
+          
+                  //this.tablero[filIni][colIni].color = 0
+                  this.tablero[filIni][colIni] = this.v
+    
+                  this.cambiarTimer()
+                  this.turno=!this.turno
+                  return
+                }
+                piezaAux.col = this.columna[colAux + 1].toString() + "%"
+                piezaAux.fil = this.fila[filAux + 1].toString() + "%" 
+                colAux++
+                filAux++
+              }
+            }
+          } 
+          else if(this.torre()){
+            if(this.obtenerColumna(piezaAmenaza) == this.obtenerColumna(this.reyNegro) && this.obtenFila(piezaAmenaza) > this.obtenFila(this.reyNegro)){
+              piezaAux.col = this.columna[colAux].toString() + "%"
+              piezaAux.fil = this.fila[filAux - 1].toString() + "%" 
+              filAux--
+              //console.log("1 " + piezaAux.col)
+              while(piezaAux.fil != this.reyNegro.fil){
+                if(this.jaqueEspecial(piezaAux) != this.v && this.jaqueEspecial(piezaAux).color == -1) {
+                  var filIni = this.obtenFila(this.jaqueEspecial(piezaAux))
+                  var colIni = this.obtenerColumna(this.jaqueEspecial(piezaAux))
+    
+                  this.tablero[filAux][colAux].color = 0
+                  this.tablero[filAux][colAux] = this.tablero[filIni][colIni]
+                  this.tablero[filIni][colIni].col = this.columna[colAux] + "%" //desde la matriz cambio fila y col
+                  this.tablero[filIni][colIni].fil = this.fila[filAux] + "%" 
+          
+                  //this.tablero[filIni][colIni].color = 0
+                  this.tablero[filIni][colIni] = this.v
+    
+                  this.cambiarTimer()
+                  this.turno=!this.turno
+                  return
+                }
+                piezaAux.col = this.columna[colAux].toString() + "%"
+                piezaAux.fil = this.fila[filAux - 1].toString() + "%" 
+                filAux--
+              }
+            }
+      
+            else if(this.obtenerColumna(piezaAmenaza) == this.obtenerColumna(this.reyNegro) && this.obtenFila(piezaAmenaza) < this.obtenFila(this.reyNegro)){
+              piezaAux.col = this.columna[colAux].toString() + "%"
+              piezaAux.fil = this.fila[filAux + 1].toString() + "%" 
+              filAux++
+              //console.log("2 " + piezaAux.col)
+              while(piezaAux.fil != this.reyNegro.fil){
+                //console.log("Pieza: " + pieza)
+                //console.log("Aux: " + piezaAux)
+                if(this.jaqueEspecial(piezaAux) != this.v && this.jaqueEspecial(piezaAux).color == -1) {
+                  var filIni = this.obtenFila(this.jaqueEspecial(piezaAux))
+                  var colIni = this.obtenerColumna(this.jaqueEspecial(piezaAux))
+    
+                  this.tablero[filAux][colAux].color = 0
+                  this.tablero[filAux][colAux] = this.tablero[filIni][colIni]
+                  this.tablero[filIni][colIni].col = this.columna[colAux] + "%" //desde la matriz cambio fila y col
+                  this.tablero[filIni][colIni].fil = this.fila[filAux] + "%" 
+          
+                  //this.tablero[filIni][colIni].color = 0
+                  this.tablero[filIni][colIni] = this.v
+    
+                  this.cambiarTimer()
+                  this.turno=!this.turno
+                  return
+                }
+                piezaAux.col = this.columna[colAux].toString() + "%"
+                piezaAux.fil = this.fila[filAux + 1].toString() + "%" 
+                filAux++
+              }
+            }
+      
+            else if(this.obtenFila(piezaAmenaza) == this.obtenFila(this.reyNegro) && this.obtenerColumna(piezaAmenaza) > this.obtenerColumna(this.reyNegro)){
+              piezaAux.col = this.columna[colAux - 1].toString() + "%"
+              piezaAux.fil = this.fila[filAux].toString() + "%" 
+              colAux--
+              //console.log("3"+piezaAux.col)
+              while(piezaAux.col != this.reyNegro.col){
+                if(this.jaqueEspecial(piezaAux) != this.v && this.jaqueEspecial(piezaAux).color == -1) {
+                  var filIni = this.obtenFila(this.jaqueEspecial(piezaAux))
+                  var colIni = this.obtenerColumna(this.jaqueEspecial(piezaAux))
+    
+                  this.tablero[filAux][colAux].color = 0
+                  this.tablero[filAux][colAux] = this.tablero[filIni][colIni]
+                  this.tablero[filIni][colIni].col = this.columna[colAux] + "%" //desde la matriz cambio fila y col
+                  this.tablero[filIni][colIni].fil = this.fila[filAux] + "%" 
+          
+                  //this.tablero[filIni][colIni].color = 0
+                  this.tablero[filIni][colIni] = this.v
+    
+                  this.cambiarTimer()
+                  this.turno=!this.turno
+                  return
+                }
+                piezaAux.col = this.columna[colAux - 1].toString() + "%"
+                piezaAux.fil = this.fila[filAux].toString() + "%" 
+                colAux--
+              }
+            }
+      
+            else if(this.obtenFila(piezaAmenaza) == this.obtenFila(this.reyNegro) && this.obtenerColumna(piezaAmenaza) < this.obtenerColumna(this.reyNegro)){
+              piezaAux.col = this.columna[colAux + 1].toString() + "%"
+              piezaAux.fil = this.fila[filAux].toString() + "%" 
+              colAux++
+              //console.log("4"+piezaAux.col)
+              while(piezaAux.col != this.reyNegro.col){
+                if(this.jaqueEspecial(piezaAux) != this.v && this.jaqueEspecial(piezaAux).color == -1) {
+                  var filIni = this.obtenFila(this.jaqueEspecial(piezaAux))
+                  var colIni = this.obtenerColumna(this.jaqueEspecial(piezaAux))
+    
+                  this.tablero[filAux][colAux].color = 0
+                  this.tablero[filAux][colAux] = this.tablero[filIni][colIni]
+                  this.tablero[filIni][colIni].col = this.columna[colAux] + "%" //desde la matriz cambio fila y col
+                  this.tablero[filIni][colIni].fil = this.fila[filAux] + "%" 
+          
+                  //this.tablero[filIni][colIni].color = 0
+                  this.tablero[filIni][colIni] = this.v
+    
+                  this.cambiarTimer()
+                  this.turno=!this.turno
+                  return
+                }
+                piezaAux.col = this.columna[colAux + 1].toString() + "%"
+                piezaAux.fil = this.fila[filAux].toString() + "%" 
+                colAux++
+              }
+            }
+          }
+          else if(this.reina()){
+            if(true) {
+              //console.log("here")
+              if(this.obtenerColumna(piezaAmenaza) > this.obtenerColumna(this.reyNegro) && this.obtenFila(piezaAmenaza) > this.obtenFila(this.reyNegro)){
+                piezaAux.col = this.columna[colAux - 1].toString() + "%"
+                piezaAux.fil = this.fila[filAux - 1].toString() + "%" 
+                colAux--
+                filAux--
+        
+                while(piezaAux.col != this.reyNegro.col && piezaAux.fil != this.reyNegro.fil){
+                  //console.log(piezaAux.col)
+                  //comrobar aqui alcanzable por peon
+                  if(this.jaqueEspecial(piezaAux) != this.v && this.jaqueEspecial(piezaAux).color == -1) {
+                    //mover la pieza
+      
+                    var filIni = this.obtenFila(this.jaqueEspecial(piezaAux))
+                    var colIni = this.obtenerColumna(this.jaqueEspecial(piezaAux))
+      
+                    this.tablero[filAux][colAux].color = 0
+                    this.tablero[filAux][colAux] = this.tablero[filIni][colIni]
+                    this.tablero[filIni][colIni].col = this.columna[colAux] + "%" //desde la matriz cambio fila y col
+                    this.tablero[filIni][colIni].fil = this.fila[filAux] + "%" 
+            
+                    //this.tablero[filIni][colIni].color = 0
+                    this.tablero[filIni][colIni] = this.v
+      
+                    this.cambiarTimer()
+                    this.turno=!this.turno
+                    return
+                  }
+                  piezaAux.col = this.columna[colAux - 1].toString() + "%"
+                  piezaAux.fil = this.fila[filAux - 1].toString() + "%" 
+                  colAux--
+                  filAux--
+                }
+              }
+              else if(this.obtenerColumna(piezaAmenaza) > this.obtenerColumna(this.reyNegro) && this.obtenFila(piezaAmenaza) < this.obtenFila(this.reyNegro)){
+                piezaAux.col = this.columna[colAux - 1].toString() + "%"
+                piezaAux.fil = this.fila[filAux + 1].toString() + "%" 
+                colAux--
+                filAux++
+                while(piezaAux.col != this.reyNegro.col && piezaAux.fil != this.reyNegro.fil){
+                  if(this.jaqueEspecial(piezaAux) != this.v && this.jaqueEspecial(piezaAux).color == -1) {
+                    
+                    var filIni = this.obtenFila(this.jaqueEspecial(piezaAux))
+                    var colIni = this.obtenerColumna(this.jaqueEspecial(piezaAux))
+      
+                    this.tablero[filAux][colAux].color = 0
+                    this.tablero[filAux][colAux] = this.tablero[filIni][colIni]
+                    this.tablero[filIni][colIni].col = this.columna[colAux] + "%" //desde la matriz cambio fila y col
+                    this.tablero[filIni][colIni].fil = this.fila[filAux] + "%" 
+            
+                    //this.tablero[filIni][colIni].color = 0
+                    this.tablero[filIni][colIni] = this.v
+      
+                    this.cambiarTimer()
+                    this.turno=!this.turno
+                    return
+                  }
+                  piezaAux.col = this.columna[colAux - 1].toString() + "%"
+                  piezaAux.fil = this.fila[filAux + 1].toString() + "%" 
+                  colAux--
+                  filAux++
+                }
+              }
+              else if(this.obtenerColumna(piezaAmenaza) < this.obtenerColumna(this.reyNegro) && this.obtenFila(piezaAmenaza) > this.obtenFila(this.reyNegro)){
+                piezaAux.col = this.columna[colAux + 1].toString() + "%"
+                piezaAux.fil = this.fila[filAux - 1].toString() + "%" 
+                colAux++
+                filAux--
+                
+                while(piezaAux.col != this.reyNegro.col && piezaAux.fil != this.reyNegro.fil){
+                  if(this.jaqueEspecial(piezaAux) != this.v && this.jaqueEspecial(piezaAux).color == -1) {
+                    
+                    var filIni = this.obtenFila(this.jaqueEspecial(piezaAux))
+                    var colIni = this.obtenerColumna(this.jaqueEspecial(piezaAux))
+      
+                    this.tablero[filAux][colAux].color = 0
+                    this.tablero[filAux][colAux] = this.tablero[filIni][colIni]
+                    this.tablero[filIni][colIni].col = this.columna[colAux] + "%" //desde la matriz cambio fila y col
+                    this.tablero[filIni][colIni].fil = this.fila[filAux] + "%" 
+            
+                    //this.tablero[filIni][colIni].color = 0
+                    this.tablero[filIni][colIni] = this.v
+      
+                    this.cambiarTimer()
+                    this.turno=!this.turno
+                    return
+                  }
+                  piezaAux.col = this.columna[colAux + 1].toString() + "%"
+                  piezaAux.fil = this.fila[filAux - 1].toString() + "%" 
+                  colAux++
+                  filAux--
+                }
+              }
+              
+              else if(this.obtenerColumna(piezaAmenaza) < this.obtenerColumna(this.reyNegro) && this.obtenFila(piezaAmenaza) < this.obtenFila(this.reyNegro)){
+               
+                //sumar colaxu Y filaux
+                 
+                piezaAux.col = this.columna[colAux + 1].toString() + "%"
+                piezaAux.fil = this.fila[filAux + 1].toString() + "%" 
+                colAux++
+                filAux++
+        
+                while(piezaAux.col != this.reyNegro.col && piezaAux.fil != this.reyNegro.fil){
+                  if(this.jaqueEspecial(piezaAux) != this.v && this.jaqueEspecial(piezaAux).color == -1) {
+                    //console.log(piezaAux)
+                    var filIni = this.obtenFila(this.jaqueEspecial(piezaAux))
+                    var colIni = this.obtenerColumna(this.jaqueEspecial(piezaAux))
+      
+                    this.tablero[filAux][colAux].color = 0
+                    this.tablero[filAux][colAux] = this.tablero[filIni][colIni]
+                    this.tablero[filIni][colIni].col = this.columna[colAux] + "%" //desde la matriz cambio fila y col
+                    this.tablero[filIni][colIni].fil = this.fila[filAux] + "%" 
+            
+                    //this.tablero[filIni][colIni].color = 0
+                    this.tablero[filIni][colIni] = this.v
+      
+                    this.cambiarTimer()
+                    this.turno=!this.turno
+                    return
+                  }
+                  piezaAux.col = this.columna[colAux + 1].toString() + "%"
+                  piezaAux.fil = this.fila[filAux + 1].toString() + "%" 
+                  colAux++
+                  filAux++
+                }
+              }
+            } 
+            if(true){
+              if(this.obtenerColumna(piezaAmenaza) == this.obtenerColumna(this.reyNegro) && this.obtenFila(piezaAmenaza) > this.obtenFila(this.reyNegro)){
+                piezaAux.col = this.columna[colAux].toString() + "%"
+                piezaAux.fil = this.fila[filAux - 1].toString() + "%" 
+                filAux--
+                //console.log("1 " + piezaAux.col)
+                while(piezaAux.fil != this.reyNegro.fil){
+                  if(this.jaqueEspecial(piezaAux) != this.v && this.jaqueEspecial(piezaAux).color == -1) {
+                    var filIni = this.obtenFila(this.jaqueEspecial(piezaAux))
+                    var colIni = this.obtenerColumna(this.jaqueEspecial(piezaAux))
+      
+                    this.tablero[filAux][colAux].color = 0
+                    this.tablero[filAux][colAux] = this.tablero[filIni][colIni]
+                    this.tablero[filIni][colIni].col = this.columna[colAux] + "%" //desde la matriz cambio fila y col
+                    this.tablero[filIni][colIni].fil = this.fila[filAux] + "%" 
+            
+                    //this.tablero[filIni][colIni].color = 0
+                    this.tablero[filIni][colIni] = this.v
+      
+                    this.cambiarTimer()
+                    this.turno=!this.turno
+                    return
+                  }
+                  piezaAux.col = this.columna[colAux].toString() + "%"
+                  piezaAux.fil = this.fila[filAux - 1].toString() + "%" 
+                  filAux--
+                }
+              }
+        
+              else if(this.obtenerColumna(piezaAmenaza) == this.obtenerColumna(this.reyNegro) && this.obtenFila(piezaAmenaza) < this.obtenFila(this.reyNegro)){
+                piezaAux.col = this.columna[colAux].toString() + "%"
+                piezaAux.fil = this.fila[filAux + 1].toString() + "%" 
+                filAux++
+                //console.log("2 " + piezaAux.col)
+                while(piezaAux.fil != this.reyNegro.fil){
+                  //console.log("Pieza: " + pieza)
+                  //console.log("Aux: " + piezaAux)
+                  if(this.jaqueEspecial(piezaAux) != this.v && this.jaqueEspecial(piezaAux).color == -1) {
+                    var filIni = this.obtenFila(this.jaqueEspecial(piezaAux))
+                    var colIni = this.obtenerColumna(this.jaqueEspecial(piezaAux))
+      
+                    this.tablero[filAux][colAux].color = 0
+                    this.tablero[filAux][colAux] = this.tablero[filIni][colIni]
+                    this.tablero[filIni][colIni].col = this.columna[colAux] + "%" //desde la matriz cambio fila y col
+                    this.tablero[filIni][colIni].fil = this.fila[filAux] + "%" 
+            
+                    //this.tablero[filIni][colIni].color = 0
+                    this.tablero[filIni][colIni] = this.v
+      
+                    this.cambiarTimer()
+                    this.turno=!this.turno
+                    return
+                  }
+                  piezaAux.col = this.columna[colAux].toString() + "%"
+                  piezaAux.fil = this.fila[filAux + 1].toString() + "%" 
+                  filAux++
+                }
+              }
+        
+              else if(this.obtenFila(piezaAmenaza) == this.obtenFila(this.reyNegro) && this.obtenerColumna(piezaAmenaza) > this.obtenerColumna(this.reyNegro)){
+                piezaAux.col = this.columna[colAux - 1].toString() + "%"
+                piezaAux.fil = this.fila[filAux].toString() + "%" 
+                colAux--
+                //console.log("3"+piezaAux.col)
+                while(piezaAux.col != this.reyNegro.col){
+                  if(this.jaqueEspecial(piezaAux) != this.v && this.jaqueEspecial(piezaAux).color == -1) {
+                    var filIni = this.obtenFila(this.jaqueEspecial(piezaAux))
+                    var colIni = this.obtenerColumna(this.jaqueEspecial(piezaAux))
+      
+                    this.tablero[filAux][colAux].color = 0
+                    this.tablero[filAux][colAux] = this.tablero[filIni][colIni]
+                    this.tablero[filIni][colIni].col = this.columna[colAux] + "%" //desde la matriz cambio fila y col
+                    this.tablero[filIni][colIni].fil = this.fila[filAux] + "%" 
+            
+                    //this.tablero[filIni][colIni].color = 0
+                    this.tablero[filIni][colIni] = this.v
+      
+                    this.cambiarTimer()
+                    this.turno=!this.turno
+                    return
+                  }
+                  piezaAux.col = this.columna[colAux - 1].toString() + "%"
+                  piezaAux.fil = this.fila[filAux].toString() + "%" 
+                  colAux--
+                }
+              }
+        
+              else if(this.obtenFila(piezaAmenaza) == this.obtenFila(this.reyNegro) && this.obtenerColumna(piezaAmenaza) < this.obtenerColumna(this.reyNegro)){
+                piezaAux.col = this.columna[colAux + 1].toString() + "%"
+                piezaAux.fil = this.fila[filAux].toString() + "%" 
+                colAux++
+                //console.log("4"+piezaAux.col)
+                while(piezaAux.col != this.reyNegro.col){
+                  if(this.jaqueEspecial(piezaAux) != this.v && this.jaqueEspecial(piezaAux).color == -1) {
+                    var filIni = this.obtenFila(this.jaqueEspecial(piezaAux))
+                    var colIni = this.obtenerColumna(this.jaqueEspecial(piezaAux))
+      
+                    this.tablero[filAux][colAux].color = 0
+                    this.tablero[filAux][colAux] = this.tablero[filIni][colIni]
+                    this.tablero[filIni][colIni].col = this.columna[colAux] + "%" //desde la matriz cambio fila y col
+                    this.tablero[filIni][colIni].fil = this.fila[filAux] + "%" 
+            
+                    //this.tablero[filIni][colIni].color = 0
+                    this.tablero[filIni][colIni] = this.v
+      
+                    this.cambiarTimer()
+                    this.turno=!this.turno
+                    return
+                  }
+                  piezaAux.col = this.columna[colAux + 1].toString() + "%"
+                  piezaAux.fil = this.fila[filAux].toString() + "%" 
+                  colAux++
+                }
+              }
+            }
+          }
+        }
+
+      /////////////////////////////////////////////////////////////
             
       var aux:pieza = this.jaque(this.reyBlanco)
       if(aux != this.v && aux.color==-1){
@@ -1933,13 +2779,14 @@ tableroBlanco:pieza[][] =
       var piezaMover:pieza = this.getNegra()
       var i:number = 0
       while(!this.moverPieza(piezaMover) && i < 10000){
+        console.log(piezaMover)
         piezaMover = this.getNegra()
         i++
       }
       if(i == 10000){
         this.timer.stop();
         this.timer.stop2();
-        this.perder = true
+        this.gana = true
         return
       }
       this.cambiarTimer()
@@ -2774,7 +3621,6 @@ moverPieza(pieza:pieza):boolean{
     }
 
   }
-
   return false
 }
 
@@ -2830,12 +3676,12 @@ moverPieza(pieza:pieza):boolean{
     //var aux: string = this.pieza;
 
     //if pieza amenaza existe
-    if(piezaAmenaza == this.v){return false}
+    if(piezaAmenaza.color == 0){return false}
     this.pieza = this.piezaToString(piezaAmenaza);
-
+    console.log("tier 0")
     //podemos comer peiza amenaza? si existe es falso
-    if(this.jaque(piezaAmenaza) != this.v){return false}
-
+    if(this.jaque(piezaAmenaza) != this.v && (this.jaque(piezaAmenaza))!=pieza){return false}
+    console.log("tier 1")
 
     //movimientos del rey evitar jaque mate
     {
@@ -2974,6 +3820,7 @@ moverPieza(pieza:pieza):boolean{
       }
     }
 
+    console.log("tier 2")
 //el rey no tiene movimeientos, hay que bloquear
     {
       colAux = this.obtenerColumna(piezaAmenaza)
@@ -2997,6 +3844,7 @@ moverPieza(pieza:pieza):boolean{
           //console.log(piezaAux.col)
           //comrobar aqui alcanzable por peon
           if(this.jaqueEspecial(piezaAux) != this.v) {
+            console.log("tier 3")
             return false;
           }
           piezaAux.col = this.columna[colAux - 1].toString() + "%"
@@ -3004,6 +3852,7 @@ moverPieza(pieza:pieza):boolean{
           colAux--
           filAux--
         }
+        
         return true
       }
       else if(this.obtenerColumna(piezaAmenaza) > this.obtenerColumna(pieza) && this.obtenFila(piezaAmenaza) < this.obtenFila(pieza)){
@@ -3013,6 +3862,7 @@ moverPieza(pieza:pieza):boolean{
         filAux++
         while(piezaAux.col != pieza.col && piezaAux.fil != pieza.fil){
           if(this.jaqueEspecial(piezaAux) != this.v) {
+            console.log("tier 4")
             return false;
           }
           piezaAux.col = this.columna[colAux - 1].toString() + "%"
@@ -3030,6 +3880,7 @@ moverPieza(pieza:pieza):boolean{
         
         while(piezaAux.col != pieza.col && piezaAux.fil != pieza.fil){
           if(this.jaqueEspecial(piezaAux) != this.v) {
+            console.log("tier 5")
             return false;
           }
           piezaAux.col = this.columna[colAux + 1].toString() + "%"
@@ -3051,6 +3902,7 @@ moverPieza(pieza:pieza):boolean{
 
         while(piezaAux.col != pieza.col && piezaAux.fil != pieza.fil){
           if(this.jaqueEspecial(piezaAux) != this.v) {
+            console.log("tier 6")
             return false;
           }
           piezaAux.col = this.columna[colAux + 1].toString() + "%"
@@ -3075,6 +3927,7 @@ moverPieza(pieza:pieza):boolean{
         //console.log("1 " + piezaAux.col)
         while(piezaAux.fil != pieza.fil){
           if(this.jaqueEspecial(piezaAux) != this.v) {
+            console.log("tier 7")
             return false;
           }
           piezaAux.col = this.columna[colAux].toString() + "%"
@@ -3093,6 +3946,7 @@ moverPieza(pieza:pieza):boolean{
           //console.log("Pieza: " + pieza)
           //console.log("Aux: " + piezaAux)
           if(this.jaqueEspecial(piezaAux) != this.v) {
+            console.log("tier 8")
             return false;
           }
           piezaAux.col = this.columna[colAux].toString() + "%"
@@ -3109,6 +3963,7 @@ moverPieza(pieza:pieza):boolean{
         //console.log("3"+piezaAux.col)
         while(piezaAux.col != pieza.col){
           if(this.jaqueEspecial(piezaAux) != this.v) {
+            console.log("tier 9")
             return false;
           }
           piezaAux.col = this.columna[colAux - 1].toString() + "%"
@@ -3125,6 +3980,7 @@ moverPieza(pieza:pieza):boolean{
         //console.log("4"+piezaAux.col)
         while(piezaAux.col != pieza.col){
           if(this.jaqueEspecial(piezaAux) != this.v) {
+            console.log("tier 10")
             return false;
           }
           piezaAux.col = this.columna[colAux + 1].toString() + "%"
@@ -3146,6 +4002,7 @@ moverPieza(pieza:pieza):boolean{
           //console.log(piezaAux.col)
           //comrobar aqui alcanzable por peon
           if(this.jaqueEspecial(piezaAux) != this.v) {
+            console.log("tier 11")
             return false;
           }
           piezaAux.col = this.columna[colAux - 1].toString() + "%"
@@ -3162,6 +4019,7 @@ moverPieza(pieza:pieza):boolean{
         filAux++
         while(piezaAux.col != pieza.col && piezaAux.fil != pieza.fil){
           if(this.jaqueEspecial(piezaAux) != this.v) {
+            console.log("tier 12")
             return false;
           }
           piezaAux.col = this.columna[colAux - 1].toString() + "%"
@@ -3179,6 +4037,7 @@ moverPieza(pieza:pieza):boolean{
         
         while(piezaAux.col != pieza.col && piezaAux.fil != pieza.fil){
           if(this.jaqueEspecial(piezaAux) != this.v) {
+            console.log("tier 13")
             return false;
           }
           piezaAux.col = this.columna[colAux + 1].toString() + "%"
@@ -3199,6 +4058,7 @@ moverPieza(pieza:pieza):boolean{
 
         while(piezaAux.col != pieza.col && piezaAux.fil != pieza.fil){
           if(this.jaqueEspecial(piezaAux) != this.v) {
+            console.log("tier 14")
             return false;
           }
           piezaAux.col = this.columna[colAux + 1].toString() + "%"
@@ -3215,6 +4075,7 @@ moverPieza(pieza:pieza):boolean{
         //console.log("1 " + piezaAux.col)
         while(piezaAux.fil != pieza.fil){
           if(this.jaqueEspecial(piezaAux) != this.v) {
+            console.log("tier 15")
             return false;
           }
           piezaAux.col = this.columna[colAux].toString() + "%"
@@ -3232,6 +4093,7 @@ moverPieza(pieza:pieza):boolean{
           //console.log("Pieza: " + pieza)
           //console.log("Aux: " + piezaAux)
           if(this.jaqueEspecial(piezaAux) != this.v) {
+            console.log("tier 16")
             return false;
           }
           piezaAux.col = this.columna[colAux].toString() + "%"
@@ -3247,6 +4109,7 @@ moverPieza(pieza:pieza):boolean{
         //console.log("3"+piezaAux.col)
         while(piezaAux.col != pieza.col){
           if(this.jaqueEspecial(piezaAux) != this.v) {
+            console.log("tier 17")
             return false;
           }
           piezaAux.col = this.columna[colAux - 1].toString() + "%"
@@ -3262,6 +4125,7 @@ moverPieza(pieza:pieza):boolean{
         //console.log("4"+piezaAux.col)
         while(piezaAux.col != pieza.col){
           if(this.jaqueEspecial(piezaAux) != this.v) {
+            console.log("tier 18")
             return false;
           }
           piezaAux.col = this.columna[colAux + 1].toString() + "%"
@@ -3457,99 +4321,99 @@ moverPieza(pieza:pieza):boolean{
       if(this.amenazaPieza(this.peonNegro0, pieza) && this.peonNegro0.color == -1) {
         return this.peonNegro0
       }
-      else if(this.amenazaPieza(this.peonNegro1, pieza)) {
+      else if(this.amenazaPieza(this.peonNegro1, pieza) && this.peonNegro1.color == -1) {
         return this.peonNegro1
       }
-      else if(this.amenazaPieza(this.peonNegro2, pieza)) {
+      else if(this.amenazaPieza(this.peonNegro2, pieza) && this.peonNegro2.color == -1) {
         return this.peonNegro2
       }
-      else if(this.amenazaPieza(this.peonNegro3, pieza)) {
+      else if(this.amenazaPieza(this.peonNegro3, pieza) && this.peonNegro3.color == -1) {
         return this.peonNegro3
       }
-      else if(this.amenazaPieza(this.peonNegro4, pieza)) {
+      else if(this.amenazaPieza(this.peonNegro4, pieza) && this.peonNegro4.color == -1) {
         return this.peonNegro4
       }
-      else if(this.amenazaPieza(this.peonNegro5, pieza)) {
+      else if(this.amenazaPieza(this.peonNegro5, pieza) && this.peonNegro5.color == -1) {
         return this.peonNegro5
       }
-      else if(this.amenazaPieza(this.peonNegro6, pieza)) {
+      else if(this.amenazaPieza(this.peonNegro6, pieza) && this.peonNegro6.color == -1) {
         return this.peonNegro6
       }
-      else if(this.amenazaPieza(this.peonNegro7, pieza)) {
+      else if(this.amenazaPieza(this.peonNegro7, pieza) && this.peonNegro7.color == -1) {
         return this.peonNegro7
       }
-      else if(this.amenazaPieza(this.alfilNegro0, pieza)) {
+      else if(this.amenazaPieza(this.alfilNegro0, pieza) && this.alfilNegro0.color == -1) {
         return this.alfilNegro0
       }
-      else if(this.amenazaPieza(this.alfilNegro1, pieza)) {
+      else if(this.amenazaPieza(this.alfilNegro1, pieza) && this.alfilNegro1.color == -1) {
         return this.alfilNegro1
       }
-      else if(this.amenazaPieza(this.caballoNegro0, pieza)) {
+      else if(this.amenazaPieza(this.caballoNegro0, pieza) && this.caballoNegro0.color == -1) {
         return this.caballoNegro0
       }
-      else if(this.amenazaPieza(this.caballoNegro1, pieza)) {
+      else if(this.amenazaPieza(this.caballoNegro1, pieza) && this.caballoNegro1.color == -1) {
         return this.caballoNegro1
       }
-      else if(this.amenazaPieza(this.torreNegra0, pieza)) {
+      else if(this.amenazaPieza(this.torreNegra0, pieza) && this.torreNegra0.color == -1) {
         return this.torreNegra0
       }
-      else if(this.amenazaPieza(this.torreNegra1, pieza)) {
+      else if(this.amenazaPieza(this.torreNegra1, pieza) && this.torreNegra1.color == -1) {
         return this.torreNegra1
       }
-      else if(this.amenazaPieza(this.reinaNegra, pieza)) {
+      else if(this.amenazaPieza(this.reinaNegra, pieza) && this.reinaNegra.color == -1) {
         return this.reinaNegra
       }
-      else if(this.amenazaPieza(this.reyNegro, pieza)) {
+      else if(this.amenazaPieza(this.reyNegro, pieza) && this.reyNegro.color == -1) {
         return this.reyNegro
       }
     }
     else if(pieza.color == -1) {      //la pieza es negra, amenazan blancas
-      if(this.amenazaPieza(this.peonBlanco0, pieza)) {
+      if(this.amenazaPieza(this.peonBlanco0, pieza) && this.peonBlanco0.color == 1) {
         return this.peonBlanco0
       }
-      else if(this.amenazaPieza(this.peonBlanco1, pieza)) {
+      else if(this.amenazaPieza(this.peonBlanco1, pieza) && this.peonBlanco1.color == 1) {
         return this.peonBlanco1
       }
-      else if(this.amenazaPieza(this.peonBlanco2, pieza)) {
+      else if(this.amenazaPieza(this.peonBlanco2, pieza) && this.peonBlanco2.color == 1) {
         return this.peonBlanco2
       }
-      else if(this.amenazaPieza(this.peonBlanco3, pieza)) {
+      else if(this.amenazaPieza(this.peonBlanco3, pieza) && this.peonBlanco3.color == 1) {
         return this.peonBlanco3
       }
-      else if(this.amenazaPieza(this.peonBlanco4, pieza)) {
+      else if(this.amenazaPieza(this.peonBlanco4, pieza) && this.peonBlanco4.color == 1) {
         return this.peonBlanco4
       }
-      else if(this.amenazaPieza(this.peonBlanco5, pieza)) {
+      else if(this.amenazaPieza(this.peonBlanco5, pieza) && this.peonBlanco5.color == 1) {
         return this.peonBlanco5
       }
-      else if(this.amenazaPieza(this.peonBlanco6, pieza)) {
+      else if(this.amenazaPieza(this.peonBlanco6, pieza) && this.peonBlanco6.color == 1) {
         return this.peonBlanco6
       }
-      else if(this.amenazaPieza(this.peonBlanco7, pieza)) {
+      else if(this.amenazaPieza(this.peonBlanco7, pieza) && this.peonBlanco7.color == 1) {
         return this.peonBlanco7
       }
-      else if(this.amenazaPieza(this.alfilBlanco0, pieza)) {
+      else if(this.amenazaPieza(this.alfilBlanco0, pieza) && this.alfilBlanco0.color == 1) {
         return this.alfilBlanco0
       }
-      else if(this.amenazaPieza(this.alfilBlanco1, pieza)) {
+      else if(this.amenazaPieza(this.alfilBlanco1, pieza) && this.alfilBlanco1.color == 1) {
         return this.alfilBlanco1
       }
-      else if(this.amenazaPieza(this.caballoBlanco0, pieza)) {
+      else if(this.amenazaPieza(this.caballoBlanco0, pieza) && this.caballoBlanco0.color == 1) {
         return this.caballoBlanco0
       }
-      else if(this.amenazaPieza(this.caballoBlanco1, pieza)) {
+      else if(this.amenazaPieza(this.caballoBlanco1, pieza) && this.caballoBlanco1.color == 1) {
         return this.caballoBlanco1
       }
-      else if(this.amenazaPieza(this.torreBlanca0, pieza)) {
+      else if(this.amenazaPieza(this.torreBlanca0, pieza) && this.torreBlanca0.color == 1) {
         return this.torreBlanca0
       }
-      else if(this.amenazaPieza(this.torreBlanca1, pieza)) {
+      else if(this.amenazaPieza(this.torreBlanca1, pieza) && this.torreBlanca1.color == 1) {
         return this.torreBlanca1
       }
-      else if(this.amenazaPieza(this.reinaBlanca, pieza)) {
+      else if(this.amenazaPieza(this.reinaBlanca, pieza) && this.reinaBlanca.color == 1) {
         return this.reinaBlanca
       }
-      else if(this.amenazaPieza(this.reyBlanco, pieza)) {
+      else if(this.amenazaPieza(this.reyBlanco, pieza) && this.reyBlanco.color == 1) {
         return this.reyBlanco
       }
     }
@@ -3569,6 +4433,7 @@ moverPieza(pieza:pieza):boolean{
       }
     }
     const colIni:number = i
+
     for (i=0; i < 9; i++){
       if(piezaIni.fil == this.fila[i].toString() + "%"){
         break
@@ -3591,7 +4456,7 @@ moverPieza(pieza:pieza):boolean{
     }
     const filFin:number = i
 
-    if(piezaIni.color != 0)
+    if(piezaIni.color != 0 && piezaFin.color != 0)
       {
         if((piezaIni == this.peonNegro0) || (piezaIni == this.peonNegro1) || (piezaIni == this.peonNegro2)
         || (piezaIni == this.peonNegro3) || (piezaIni == this.peonNegro4) || (piezaIni == this.peonNegro5)
@@ -3607,7 +4472,6 @@ moverPieza(pieza:pieza):boolean{
 
       return this.amenazar
   }
-
 
   //MIRAR ESTO
   amenazaPeon(colIni: number, filIni: number, colFin: number, filFin: number):boolean {
@@ -3730,8 +4594,9 @@ moverPieza(pieza:pieza):boolean{
   }
 
   seleccionar(p:string, event:MouseEvent) {
+
     if(JuegoComponent.online && !this.miTurno) {return} //no es tu turno
-    if(JuegoComponent.finTiempo || this.ganar) {return;} //se acabo el tiempo
+    if(this.gana || this.pierde || this.empatado) {return;} //se acabo el tiempo
 
     if(!this.seleccionada) {
       //negras
@@ -4196,7 +5061,7 @@ moverPieza(pieza:pieza):boolean{
 
 
   mover(event:MouseEvent) {
-    if(JuegoComponent.finTiempo) {return;} //se acabo el tiempo
+    //if(JuegoComponent.finTiempo) {return;} //se acabo el tiempo
     this.w = window.innerWidth;
     this.h = window.innerHeight;
     if(this.seleccionada) {
@@ -4224,13 +5089,13 @@ moverPieza(pieza:pieza):boolean{
           this.puedeMover = ((this.filaIni - this.filaFin == -1) && ((this.columnIni + 1 == this.columnFin) || (this.columnIni - 1 == this.columnFin)))
         }   
         
-        //console.log("peon: " + this.puedeMover)
-        if(this.puedeMover)
-            {this.tablero[this.filaFin][this.columnFin].color = 0}
+        // //console.log("peon: " + this.puedeMover)
+        // if(this.puedeMover)
+        //     {this.tablero[this.filaFin][this.columnFin].color = 0}
       }
 
       else if(this.rey() && (this.tablero[this.filaIni][this.columnIni].color == this.tablero[this.filaFin][this.columnFin].color)){
-       
+      //console.log("enrrocar")
         //rey blanco
         if ((this.tablero[this.filaIni][this.columnIni] == this.reyBlanco) 
          && (this.tablero[this.filaFin][this.columnFin] == this.torreBlanca0) 
@@ -4238,6 +5103,7 @@ moverPieza(pieza:pieza):boolean{
             if ((this.tablero[this.filaFin][1] == this.tablero[this.filaFin][2]) 
             && (this.tablero[this.filaFin][2] == this.tablero[this.filaFin][3]) 
             && (this.tablero[this.filaFin][3] == this.v)) {
+              console.log("enrrocar1")
 
               this.tablero[this.filaFin][this.columnFin] = this.v
               this.tablero[this.filaIni][this.columnIni] = this.v
@@ -4250,7 +5116,9 @@ moverPieza(pieza:pieza):boolean{
 
               this.seleccionada = !this.seleccionada
               this.puedeMover = false;
+              this.cambiarTimer()
               this.turno = !this.turno
+              
 
               this.enroqueBlanco0 = false
               this.enroqueBlanco1 = false
@@ -4265,7 +5133,7 @@ moverPieza(pieza:pieza):boolean{
          && (this.tablero[this.filaFin][this.columnFin] == this.torreBlanca1) 
          && this.enroqueBlanco1 && (this.blanco == 1)) {
             if((this.tablero[this.filaFin][6] == this.tablero[this.filaFin][5]) && (this.tablero[this.filaFin][5] == this.v)) {
-              
+              console.log("enrrocar2")
               this.tablero[this.filaFin][this.columnFin] = this.v
               this.tablero[this.filaIni][this.columnIni] = this.v
               this.tablero[this.filaFin][6] = this.reyBlanco
@@ -4277,7 +5145,9 @@ moverPieza(pieza:pieza):boolean{
 
               this.seleccionada = !this.seleccionada
               this.puedeMover = false;
+              this.cambiarTimer()
               this.turno = !this.turno
+              
               
               this.enroqueBlanco0 = false
               this.enroqueBlanco1 = false
@@ -4294,6 +5164,7 @@ moverPieza(pieza:pieza):boolean{
             if ((this.tablero[this.filaFin][4] == this.tablero[this.filaFin][5]) 
             && (this.tablero[this.filaFin][5] == this.tablero[this.filaFin][6]) 
             && (this.tablero[this.filaFin][6] == this.v)) {
+              console.log("enrrocar3")
 
               this.tablero[this.filaFin][this.columnFin] = this.v
               this.tablero[this.filaIni][this.columnIni] = this.v
@@ -4306,7 +5177,9 @@ moverPieza(pieza:pieza):boolean{
 
               this.seleccionada = !this.seleccionada
               this.puedeMover = false;
+              this.cambiarTimer()
               this.turno = !this.turno
+             
 
               this.enroqueBlanco0 = false
               this.enroqueBlanco1 = false
@@ -4322,6 +5195,7 @@ moverPieza(pieza:pieza):boolean{
          && this.enroqueBlanco1 && (this.negro == 1)) {
             if ((this.tablero[this.filaFin][1] == this.tablero[this.filaFin][2]) 
             && (this.tablero[this.filaFin][2] ==  this.v)) {
+              console.log("enrrocar4")
 
               this.tablero[this.filaFin][this.columnFin] = this.v
               this.tablero[this.filaIni][this.columnIni] = this.v
@@ -4334,7 +5208,9 @@ moverPieza(pieza:pieza):boolean{
 
               this.seleccionada = !this.seleccionada
               this.puedeMover = false;
+              this.cambiarTimer()
               this.turno = !this.turno
+              
 
               this.enroqueBlanco0 = false
               this.enroqueBlanco1 = false
@@ -4351,7 +5227,8 @@ moverPieza(pieza:pieza):boolean{
         && (this.tablero[this.filaFin][this.columnFin] == this.torreNegra0) 
         && this.enroqueNegro0 && (this.blanco == 1)) {
             if((this.tablero[this.filaFin][6] == this.tablero[this.filaFin][5]) && (this.tablero[this.filaFin][5] == this.v)) {
-              
+              console.log("enrrocar5")
+
               this.tablero[this.filaFin][this.columnFin] = this.v
               this.tablero[this.filaIni][this.columnIni] = this.v
               this.tablero[this.filaFin][6] = this.reyNegro
@@ -4363,7 +5240,9 @@ moverPieza(pieza:pieza):boolean{
 
               this.seleccionada = !this.seleccionada
               this.puedeMover = false;
+              this.cambiarTimer()
               this.turno = !this.turno
+              
 
               this.enroqueNegro0 = false
               this.enroqueNegro1 = false
@@ -4380,7 +5259,7 @@ moverPieza(pieza:pieza):boolean{
             if ((this.tablero[this.filaFin][1] == this.tablero[this.filaFin][2]) 
             && (this.tablero[this.filaFin][2] == this.tablero[this.filaFin][3]) 
             && (this.tablero[this.filaFin][3] == this.v)) {
-              
+              console.log("enrrocar6")
               this.tablero[this.filaFin][this.columnFin] = this.v
               this.tablero[this.filaIni][this.columnIni] = this.v
               this.tablero[this.filaFin][2] = this.reyNegro
@@ -4392,7 +5271,9 @@ moverPieza(pieza:pieza):boolean{
 
               this.seleccionada = !this.seleccionada
               this.puedeMover = false;
+              this.cambiarTimer()
               this.turno = !this.turno
+             
 
               this.enroqueNegro0 = false
               this.enroqueNegro1 = false
@@ -4408,7 +5289,7 @@ moverPieza(pieza:pieza):boolean{
         && this.enroqueNegro0 && (this.negro == 1)) {
             if ((this.tablero[this.filaFin][1] == this.tablero[this.filaFin][2]) 
             && (this.tablero[this.filaFin][2] ==  this.v)) {
-
+              console.log("enrrocar7")
               this.tablero[this.filaFin][this.columnFin] = this.v
               this.tablero[this.filaIni][this.columnIni] = this.v
               this.tablero[this.filaFin][1] = this.reyNegro
@@ -4420,7 +5301,9 @@ moverPieza(pieza:pieza):boolean{
 
               this.seleccionada = !this.seleccionada
               this.puedeMover = false;
+              this.cambiarTimer()
               this.turno = !this.turno
+              
 
               this.enroqueNegro0 = false
               this.enroqueNegro1 = false
@@ -4434,6 +5317,7 @@ moverPieza(pieza:pieza):boolean{
         else if ((this.tablero[this.filaIni][this.columnIni] == this.reyNegro) 
         && (this.tablero[this.filaFin][this.columnFin] == this.torreNegra1) 
         && this.enroqueNegro1 && (this.negro == 1)) {
+          console.log("enrrocar8")
             if ((this.tablero[this.filaFin][4] == this.tablero[this.filaFin][5]) 
             && (this.tablero[this.filaFin][5] == this.tablero[this.filaFin][6]) 
             && (this.tablero[this.filaFin][6] == this.v)) {
@@ -4449,7 +5333,9 @@ moverPieza(pieza:pieza):boolean{
 
               this.seleccionada = !this.seleccionada
               this.puedeMover = false;
+              this.cambiarTimer()
               this.turno = !this.turno
+              
 
               this.enroqueNegro0 = false
               this.enroqueNegro1 = false
@@ -4459,7 +5345,7 @@ moverPieza(pieza:pieza):boolean{
 
             }
         }
-
+        //console.log("fin enrrocar")
         //console.log("rey: " + this.puedeMover)
       }
 
@@ -4478,11 +5364,13 @@ moverPieza(pieza:pieza):boolean{
 
 
       if(this.puedeMover) {
+        //console.log("puedes mover")
 
         //guardamos por si acaso
         // var piezaAux:pieza = {"col":"", "fil":"", "img": "", "color":0};
         // piezaAux = this.tablero[this.filaFin][this.columnFin];
         var piezaAux:pieza = this.tablero[this.filaFin][this.columnFin];
+        var piezaIni:pieza = this.tablero[this.filaIni][this.columnIni];
         //console.log(piezaAux2)
         //amenaza comprueba los .col y .fil de pieza
 
@@ -4491,65 +5379,7 @@ moverPieza(pieza:pieza):boolean{
         this.tablero[this.filaFin][this.columnFin] = this.tablero[this.filaIni][this.columnIni]
         this.tablero[this.filaIni][this.columnIni] = this.v
         //crear una aux y comprobar si esta en jaque?
-        //comporbar si es jaque
-
-        // if(this.turno){ //true, han movido blancas, comprobar si es jaque al blanco
-        //   //console.log(this.jaque(this.reyBlanco))
-        //   if(this.pieza == "reyBlanco"){
-        //     //console.log("aui")
-        //     var piezaAux2:pieza = {"col":this.columna[this.columnFin].toString()+"%", "fil":this.fila[this.filaFin].toString()+"%", "img": "", "color":1};
-        //     if(this.jaque(piezaAux2) == this.v){
-        //       //console.log("bien")
-        //       this.tablero[this.filaIni][this.columnIni] = this.v
-        //     } else {
-        //       //console.log("malmal")
-        //       this.tablero[this.filaFin][this.columnFin] = piezaAux
-        //       return
-        //     }
-        //   }
-        //   else{
-        //       if(this.jaque(this.reyBlanco) != this.v){
-        //         //deshacer movimiento
-        //         //console.log("mal1")
-        //         this.tablero[this.filaFin][this.columnFin] = piezaAux
-        //         //console.log("------------")
-        //         return;
-
-        //       }else{
-        //         //limpiar inicio
-        //         this.tablero[this.filaIni][this.columnIni] = this.v
-        //       }
-        //     }
-        // } 
-        
-        // else{
-        //   if(this.pieza == "reyNegro"){
-        //     //console.log("aui")
-        //     var piezaAux2:pieza = {"col":this.columna[this.columnFin].toString()+"%", "fil":this.fila[this.filaFin].toString()+"%", "img": "", "color":-1};
-        //     if(this.jaque(piezaAux2) == this.v){
-        //       //console.log("bien")
-        //       this.tablero[this.filaIni][this.columnIni] = this.v
-        //     } else {
-        //       //console.log("malmal")
-        //       this.tablero[this.filaFin][this.columnFin] = piezaAux
-        //       return
-        //     }
-        //   }
-        //   else{
-        //     if(this.jaque(this.reyNegro) != this.v){
-        //       //deshacer movimiento
-        //         //console.log("mal1")
-        //       this.tablero[this.filaFin][this.columnFin] = piezaAux
-        //       //console.log("------------")
-        //       return;
-        //     }else{
-        //       //limpiear inicio
-        //       this.tablero[this.filaIni][this.columnIni] = this.v
-        //     }
-        //   } 
-        // }       
-
-
+        //comporbar si es jaque      
 
         if(this.pieza == "peonNegro0") {  
           this.peonNegro0.img  = JuegoComponent.peonNegro    
@@ -4742,28 +5572,165 @@ moverPieza(pieza:pieza):boolean{
           this.enroqueBlanco0 = false
         }
         
-        //fin de la partida?
+
+        //me quedo en jaque?
+        if(this.jaque(this.reyNegro)!= this.v){
+
+          this.enroqueNegro0 = false
+          this.enroqueNegro1 = false
+         
+          if(this.jaque(this.reyNegro).color != 0 && this.turno == false){
+            console.log("mal")
+  
+            var auxY:number = this.fila[this.filaIni]
+            var auxX:number = this.columna[this.columnIni]
+            piezaIni.fil = auxY.toString() + "%"
+            piezaIni.col =  auxX.toString() + "%"
+            console.log(piezaIni)
+  
+            this.tablero[this.filaFin][this.columnFin] = piezaAux
+            this.tablero[this.filaFin][this.columnFin].color = 1
+            this.tablero[this.filaIni][this.columnIni] = piezaIni
+  
+            this.seleccionada = !this.seleccionada
+  
+            return
+          }
+        }
+
+        if(this.jaque(this.reyBlanco)!= this.v){
+
+          this.enroqueBlanco0 = false
+          this.enroqueBlanco1 = false
+         
+          if(this.jaque(this.reyBlanco).color != 0 && this.turno == true){
+            console.log("mal")
+  
+            var auxY:number = this.fila[this.filaIni]
+            var auxX:number = this.columna[this.columnIni]
+            piezaIni.fil = auxY.toString() + "%"
+            piezaIni.col =  auxX.toString() + "%"
+            console.log(piezaIni)
+  
+            this.tablero[this.filaFin][this.columnFin] = piezaAux
+            this.tablero[this.filaFin][this.columnFin].color = -1
+            this.tablero[this.filaIni][this.columnIni] = piezaIni
+  
+            this.seleccionada = !this.seleccionada
+  
+            return
+          }
+        }
+
+
         // if(online) -> enviar movimiento, esperar al suyo, miturno=false 
         // if(JuegoComponent.online){
         //   this.socketService.sendGameMove(this.opponent, this.filaIni, this.columnIni, this.filaFin, this.columnFin);
         //   this.miTurno = false;
         // }
 
-        //if he ganado
-        //this.mate = this.jaqueMate(this.reyBlanco)
+        if(JuegoComponent.finTiempo1){
+          this.pierde = true;
+          this.timer.stop();
+          this.timer.stop2();
+          if(JuegoComponent.online){
+            this.servicioCliente.SaveMatchResult(LoginComponent.user.nickname, this.rival.nickname, "lose");
+          }
+      }
 
+
+        if(JuegoComponent.finTiempo2){
+            this.gana = true;
+            this.timer.stop();
+            this.timer.stop2();
+            if(JuegoComponent.online){
+              this.servicioCliente.SaveMatchResult(LoginComponent.user.nickname, this.rival.nickname, "win");
+            }
+        }
+        
+        //fin de la partida?
+        // SaveMatchResult(nickname:string, rival:string, result: string): Observable<any>{
+        //   const body = {nickname,rival, result }
+        //   const headers = new HttpHeaders(
+        //     {
+        //         'Content-Type': 'application/json',
+        //         'Access-Control-Allow-Origin': '*'
+        //     });
+        //   return this.servicio.post(this.servidor1+"/saveMatchResult" ,body, {headers});
+        // }
+      
+        if(this.jaqueMate(this.reyBlanco) || this.reyBlanco.color == 0){
+          console.log("mateblancco")
+          if(this.blanco){
+            this.pierde = true;
+            this.timer.stop();
+            this.timer.stop2();
+            if(JuegoComponent.online){
+              this.servicioCliente.SaveMatchResult(LoginComponent.user.nickname, this.rival.nickname, "lose");
+            }
+            return
+          }else {
+            this.gana = true
+            this.timer.stop();
+            this.timer.stop2();
+
+            if(JuegoComponent.online){
+              this.servicioCliente.SaveMatchResult(LoginComponent.user.nickname, this.rival.nickname, "win");
+            }
+
+          return
+          }
+        }
+        if(this.jaqueMate(this.reyNegro) || this.reyNegro.color == 0){
+          console.log(this.jaque(this.reyNegro))
+          console.log("matenegro")
+          if(this.negro){
+            this.pierde = true;
+            this.timer.stop();
+            this.timer.stop2();
+
+            if(JuegoComponent.online){
+              this.servicioCliente.SaveMatchResult(LoginComponent.user.nickname, this.rival.nickname, "lose");
+            }
+
+            return
+          }else {
+            this.gana = true
+            this.timer.stop();
+            this.timer.stop2();
+
+            if(JuegoComponent.online){
+              this.servicioCliente.SaveMatchResult(LoginComponent.user.nickname, this.rival.nickname, "win");
+            }
+
+          return
+          }
+        }
+
+        //comporbar si es empate
+        if(this.empate()){
+          this.empatado = true;
+          this.timer.stop();
+          this.timer.stop2();
+
+          if(JuegoComponent.online){
+            this.servicioCliente.SaveMatchResult(LoginComponent.user.nickname, this.rival.nickname, "draw");
+          }
+
+            return
+        }
+        
+
+        //variables para el cambio de turno
         this.seleccionada = !this.seleccionada
         this.puedeMover = false;
         this.cambiarTimer();
         this.turno = !this.turno
-        this.empatado = this.empate()
-        //console.log(this.jaque(this.reyBlanco))
-        
 
+        //pasar el turno
         if(JuegoComponent.ia)
           {this.IA()}
 
-        //console.log(this.jaque(this.caballoNegro0))
         //if(online)->esperar turno, my turno= true, cambair timer, comporbar fin partida
         //getGameMove { op: "", fI: 1, cI: 2, fF: 3, cF: 4 }
         // if(JuegoComponent.online){
@@ -4782,10 +5749,51 @@ moverPieza(pieza:pieza):boolean{
         //   this.turno = !this.turno}
         //   })
         // }
+
+        
+        //fin de la partida?
+        {          
+          if(this.jaqueMate(this.reyBlanco) || this.reyBlanco.color == 0){
+            console.log("mateblancco1")
+            if(this.blanco){
+              this.pierde = true;
+              this.timer.stop();
+              this.timer.stop2();
+              return
+            }else {
+              this.gana = true
+              this.timer.stop();
+              this.timer.stop2();
+            return
+            }
+          }
+          if(this.jaqueMate(this.reyNegro) || this.reyNegro.color == 0){
+            console.log(this.jaque(this.reyNegro))
+            console.log("matenegro2")
+            if(this.negro){
+              this.pierde = true;
+              this.timer.stop();
+              this.timer.stop2();
+              return
+            }else {
+              this.gana = true
+              this.timer.stop();
+              this.timer.stop2();
+            return
+            }
+          }
+  
+          //comporbar si es empate
+          if(this.empate()){
+            this.empatado = true;
+            this.timer.stop();
+            this.timer.stop2();
+              return
+          }
+        }
+        
       }
     }
   }
-  seguro:pieza | undefined;
-  empatado:boolean = false;
 }
 

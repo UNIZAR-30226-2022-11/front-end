@@ -203,15 +203,24 @@
   </div>
 </body>
 
+<div *ngIf="gana == true" style="font-size: 6vh; border:10px solid #575757; border-color: black; position: absolute; top: 30%; left: 40%; background-color: rgb(154, 154, 154); width: 20%; height: 20%; text-align: center;">
+  <a routerLink="/play" style="font-size: inherit; position: relative; top: 30%; color: whitesmoke;">WIN</a>
+</div>
+
+<div *ngIf="pierde == true" style="font-size: 6vh; border:10px solid #575757; border-color: black; position: absolute; top: 30%; left: 40%; background-color: rgb(154, 154, 154); width: 20%; height: 20%; text-align: center;">
+  <a routerLink="/play" style="font-size: inherit; position: relative; top: 30%; color: whitesmoke;">LOSE</a>
+</div>
+
+<div *ngIf="empatado == true" style="font-size: 6vh; border:10px solid #575757; border-color: black; position: absolute; top: 30%; left: 40%; background-color: rgb(154, 154, 154); width: 20%; height: 20%; text-align: center;">
+  <a routerLink="/play" style="font-size: inherit; position: relative; top: 30%; color: whitesmoke;">DRAW</a>
+</div>
+
 <div style="position: absolute; left: 76%; top: 15%;">
   <button (click)="elegirLado(true)" style="width: 120px; height: 60px;"><strong>Blanco</strong></button>
   <br><br>
   <button (click)="elegirLado(false)" style="width: 120px; height: 60px; background-color: rgb(37, 37, 37); color: whitesmoke;"><strong>Negro</strong></button>
   <p>{{pieza}}</p>
   <p>{{miTurno}}</p>
-  <p>{{turno}}</p>
-  <p>{{seleccionada}}</p>
-  <p>{{perder}}</p>
-  <p>{{pieza}}</p>
-  <p>{{empatado}}</p>
+  <p>Turno: {{turno}}</p>
+  <p>Tie: {{empatado}}</p>
 </div>

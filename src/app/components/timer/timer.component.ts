@@ -34,7 +34,7 @@ export class TimerComponent {
 
 
 
-
+finTiempo1:boolean = false;
   updateTimer(){
     this.date.setMinutes(this.minutes);
     this.date.setSeconds(this.seconds);
@@ -46,11 +46,12 @@ export class TimerComponent {
 
     if(this.date.getMinutes() === 0 && this.date.getSeconds() ===0 ){
       //stop the count
-      JuegoComponent.finTiempo = true;
+      JuegoComponent.finTiempo1 = true;
       clearInterval(TimerComponent.timer);
     }
   }
 
+  finTiempo2:boolean = false;
   updateTimer2(){
     this.date2.setMinutes(this.minutes2);
     this.date2.setSeconds(this.seconds2);
@@ -62,8 +63,7 @@ export class TimerComponent {
 
     if(this.date2.getMinutes() === 0 && this.date2.getSeconds() ===0 ){
       //stop the count
-      JuegoComponent.finTiempo = true;
-      console.log("fin del tiempo")
+      JuegoComponent.finTiempo2 = true;
       clearInterval(this.timer2);
     }
   }
