@@ -169,7 +169,11 @@ export class JuegoComponent implements OnInit{
   
   //piezas del tablero 
 
-  tableroImg:string = "./assets/ajedrez/tablero.png"
+  static tableroImg:string = "./assets/ajedrez/tablero.png"
+  get tableroImg(){
+    return JuegoComponent.tableroImg;
+  }
+
 
   static peonBlanco:string = "./assets/ajedrez/peon_blanco.png"
   static alfilBlanco:string = "./assets/ajedrez/alfil_blanco.png"

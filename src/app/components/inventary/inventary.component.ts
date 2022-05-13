@@ -3,6 +3,7 @@ import { LoginComponent } from '../login/login.component';
 import { articulo, tablePath, piecesPath, avatarPath } from 'src/app/other/interfaces';
 import { reduce } from 'rxjs';
 import { JuegoComponent } from '../juego/juego.component';
+import { ServiceClientService } from 'src/app/services/service-client.service';
 
 @Component({
   selector: 'app-inventary',
@@ -18,12 +19,21 @@ export class InventaryComponent implements OnInit {
   showTables : boolean = true;
   showPieces: boolean = false;
   showAvatars: boolean = false;
-  selectedTable: string = "standart_table";
-  selectedPieza: string = "default_Piezas";
-  selectedAvatar: string = "star";
+  static selectedTable: string = "BoardGris";
+  static selectedPieza: string = "default_Piezas";
+  static selectedAvatar: string = "knight_avatar";
   tablesList: Array<articulo>=[
-    {   nombre: "standart_table",
+    {   nombre: "BoardMarron",
         precio: 0,
+        tipo: "table"},
+    {   nombre: "BoardGris",
+        precio: 5,
+        tipo: "table"},
+    {   nombre: "BoardAzul",
+        precio: 10,
+        tipo: "table"},
+    {   nombre: "BoardRojoAzul",
+        precio: 15,
         tipo: "table"}
     ];
   piecesList: Array<articulo>=[
@@ -35,11 +45,17 @@ export class InventaryComponent implements OnInit {
         precio: 0,
         tipo: "piece"}
     ];
-  avatarsList: Array<articulo> = [
-    {   nombre: "star",
+  avatarsList: Array<articulo> =  [
+    {   nombre: "star_avatar",
         precio: 0,
+        tipo: "avatar"},
+    {   nombre: "heart_avatar",
+        precio: 120,
         tipo: "table"},
-    {   nombre: "heart",
+    {   nombre: "soccer_avatar",
+        precio: 120,
+        tipo: "table"},
+    {   nombre: "knight_avatar",
         precio: 120,
         tipo: "table"},
     ];
@@ -107,12 +123,21 @@ export class InventaryComponent implements OnInit {
       element?.classList.add('shopping')
   }
 
+  get selectedTable(){
+    return InventaryComponent.selectedTable;
+  }
+
   selectTable(table:string){
-    
+    InventaryComponent.selectedTable = table;
+    JuegoComponent.tableroImg = tablePath[table];
+  }
+
+  get selectedPieza(){
+    return InventaryComponent.selectedPieza;
   }
 
   selectPieces(pieza:string){
-    
+    InventaryComponent.selectedPieza = pieza;
     if(pieza == "default_Piezas"){
       console.log("default")
        JuegoComponent.peonBlanco = "./assets/ajedrez/peon_blanco.png"
@@ -151,8 +176,32 @@ export class InventaryComponent implements OnInit {
     }
   }
 
-  selectAvatar(avatar:string){
+  get selectedAvatar(){
+    return InventaryComponent.selectedAvatar;
+  }
 
+  selectAvatar(avatar:string){
+    InventaryComponent.selectedAvatar = avatar;
+    //JuegoComponent.tableroImg = avatarPath[table];
+  }
+
+  constructor(private servicioCliente:ServiceClientService) { }
+
+  getInventary(){
+    this.servicioCliente.GetInventary(LoginComponent.user.nickname).subscribe(datos=>{
+      this.tablesList = [];
+      this.piecesList = [];
+      this.avatarsList = [];
+      for(let i=0;i<datos;i++){
+        if (datos.articulos[i].tipo == "table"){
+          this.tablesList.push(datos.articulos[i]);
+        }else if (datos.articulos[i].tipo == "pieces"){
+          this.piecesList.push(datos.articulos[i]);
+        }else if (datos.articulos[i].tipo == "avatar"){
+          this.avatarsList.push(datos.articulos[i]);
+        }
+      }
+    })
   }
 
 }
