@@ -3686,7 +3686,10 @@ moverPieza(pieza:pieza):boolean{
     //podemos comer peiza amenaza? si existe es falso
     console.log("esta")
     console.log(piezaAmenaza)
-    if(piezaAmenaza.color != 0 && this.jaque(piezaAmenaza) != this.v && (this.jaque(piezaAmenaza))!=pieza){return false}
+    if(piezaAmenaza.color != 0 && piezaAmenaza.col == '' && piezaAmenaza.fil == ''){
+      piezaAmenaza.color = 0
+    }
+    else if(this.jaque(piezaAmenaza) != this.v && (this.jaque(piezaAmenaza))!=pieza){return false}
     console.log("tier 1")
 
     //movimientos del rey evitar jaque mate
@@ -4346,7 +4349,7 @@ moverPieza(pieza:pieza):boolean{
 
   //devuelve la pieza amenaza al parametro
   jaque(pieza:pieza):pieza {
-
+    
     if(pieza.color == 1){  //la pieza es blanca, amenezan negras
       if(this.amenazaPieza(this.peonNegro0, pieza) && this.peonNegro0.color == -1) {
         return this.peonNegro0
@@ -5090,7 +5093,7 @@ moverPieza(pieza:pieza):boolean{
   }
 
 
-  mover(event:MouseEvent) {
+  async mover(event:MouseEvent) {
     //if(JuegoComponent.finTiempo) {return;} //se acabo el tiempo
     this.w = window.innerWidth;
     this.h = window.innerHeight;
@@ -5762,9 +5765,13 @@ moverPieza(pieza:pieza):boolean{
         this.cambiarTimer();
         this.turno = !this.turno
 
+        function delay(ms: number) {
+          return new Promise( resolve => setTimeout(resolve, ms) );
+        }
         //pasar el turno
         if(JuegoComponent.ia)
-          {this.IA()}
+          { await delay(500);
+            this.IA()}
 
         //if(online)->esperar turno, my turno= true, cambair timer, comporbar fin partida
         //getGameMove { op: "", fI: 1, cI: 2, fF: 3, cF: 4 }
@@ -5785,47 +5792,47 @@ moverPieza(pieza:pieza):boolean{
         //   })
         // }
 
-        
+        if(!JuegoComponent.ia){return}
         //fin de la partida?
-        // {          
-        //   if(this.jaqueMate(this.reyBlanco) || this.reyBlanco.color == 0){
-        //     console.log("mateblancco1")
-        //     if(this.blanco){
-        //       this.pierde = true;
-        //       this.timer.stop();
-        //       this.timer.stop2();
-        //       return
-        //     }else {
-        //       this.gana = true
-        //       this.timer.stop();
-        //       this.timer.stop2();
-        //     return
-        //     }
-        //   }
-        //   if(this.jaqueMate(this.reyNegro) || this.reyNegro.color == 0){
-        //     console.log(this.jaque(this.reyNegro))
-        //     console.log("matenegro2")
-        //     if(this.negro){
-        //       this.pierde = true;
-        //       this.timer.stop();
-        //       this.timer.stop2();
-        //       return
-        //     }else {
-        //       this.gana = true
-        //       this.timer.stop();
-        //       this.timer.stop2();
-        //     return
-        //     }
-        //   }
+        {          
+          if(this.jaqueMate(this.reyBlanco) || this.reyBlanco.color == 0){
+            console.log("mateblancco1")
+            if(this.blanco){
+              this.pierde = true;
+              this.timer.stop();
+              this.timer.stop2();
+              return
+            }else {
+              this.gana = true
+              this.timer.stop();
+              this.timer.stop2();
+            return
+            }
+          }
+          if(this.jaqueMate(this.reyNegro) || this.reyNegro.color == 0){
+            console.log(this.jaque(this.reyNegro))
+            console.log("matenegro2")
+            if(this.negro){
+              this.pierde = true;
+              this.timer.stop();
+              this.timer.stop2();
+              return
+            }else {
+              this.gana = true
+              this.timer.stop();
+              this.timer.stop2();
+            return
+            }
+          }
   
-        //   //comporbar si es empate
-        //   if(this.empate()){
-        //     this.empatado = true;
-        //     this.timer.stop();
-        //     this.timer.stop2();
-        //       return
-        //   }
-        // }
+          //comporbar si es empate
+          if(this.empate()){
+            this.empatado = true;
+            this.timer.stop();
+            this.timer.stop2();
+              return
+          }
+        }
         
       }
     }

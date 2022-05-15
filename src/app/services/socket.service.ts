@@ -25,4 +25,14 @@ export class SocketService {
 		return this.socket.fromEvent('getGameMove');	
 	}
 
+	//getMessage {msg: ""}
+	getMessage() {
+		return this.socket.fromEvent('getMessage');	
+	}
+
+	//sendMessage(opponent:string, msg:string)
+	sendMessage(opponent:string, msg:string) {
+		return this.socket.fromEvent('sendMessage');	
+	}
+
 }

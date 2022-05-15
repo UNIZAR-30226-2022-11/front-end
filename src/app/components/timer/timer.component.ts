@@ -21,7 +21,7 @@ export class TimerComponent {
   private date2 = new Date();
 
   //posicion en funcion de piezas; timer => blancas || timer2=> negras
-  public blancas:number = 90;
+  public blancas:number = 85;
   public negras:number = 10;
 
   resetTimer(){
