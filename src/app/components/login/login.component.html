@@ -30,8 +30,6 @@
                         <form [formGroup]="signupForm" (ngSubmit)="register(signupForm)">
                             <input formControlName="user" type="text" placeholder="Username" required>
     
-                            <!--<input formControlName="fullName" type="text" placeholder="Full Name" required>-->
-    
                             <input formControlName="email" type="text" placeholder="Email Address" required>
                                <div class="advertencia" *ngIf="signupForm.get('email')!.hasError('email') && signupForm.get('email')!.touched">Email incorrecto</div>
                             <input formControlName="password" type="password" placeholder="Password" required>

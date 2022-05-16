@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ServiceClientService } from '../../services/service-client.service';
-import { LoginComponent } from '../login/login.component';
+import { UserServiceService } from 'src/app/services/user-service.service';
+import { FriendListServiceService } from 'src/app/services/friend-list-service.service';
 @Component({
   selector: 'app-friend-list',
   templateUrl: './friend-list.component.html',
@@ -36,14 +37,14 @@ export class FriendListComponent implements OnInit {
   }
 
 
-  constructor(private servicioCliente:ServiceClientService
+  constructor(private servicioCliente:FriendListServiceService
     ) {console.log(servicioCliente)}
 
   ngOnInit(): void {
-    if (LoginComponent.logged) {
+    /*if (UserServiceService.logged) {
       this.getFriendList();
       this.getFriendRequests();
-    }
+    }*/
     //Traer todos los amigos del backend
     /*this.servicioCliente.GetFriendList("QWER").subscribe(datos=>{
       for(let i=0;i<datos;i++){
@@ -77,27 +78,11 @@ export class FriendListComponent implements OnInit {
     }
   }
 
-  getFriendList (){
-    this.servicioCliente.GetFriendList(LoginComponent.user.nickname).subscribe(datos=>{
-      this.friendList = [];
-      for(let i=0;i<datos;i++){
-        this.friendList.push(datos.friendList[i]);
-      }
-    })
-  }
 
-  getFriendRequests (){
-    this.servicioCliente.GetFriendRequests(LoginComponent.user.nickname).subscribe(datos=>{
-      this.friendRequests = [];
-      for(let i=0;i<datos;i++){
-        this.friendRequests.push(datos.friendRequests[i]);
-      }
-    })
-  }
 
   InvitarAmigo(user:string){
     //SOCKETS
-    //LoginComponent.user.nickname contiene el nombre del usuario logeado (por si lo necesitas)
+    //UserServiceService.user.nickname contiene el nombre del usuario logeado (por si lo necesitas)
     var val = confirm("Type your text here.");
 if (val == true) {
 alert("You pressed OK.");
@@ -107,17 +92,19 @@ alert("You pressed Cancel.");
   }
 
   AceptarSolicitud(user:string){
-    this.servicioCliente.AcceptFriendRequest(LoginComponent.user.nickname, user).subscribe(datos=>{
-      this.getFriendList();
-      this.getFriendRequests();
+    this.servicioCliente.AcceptFriendRequest(UserServiceService.user.nickname, user).subscribe(datos=>{
+      this.servicioCliente.getFriendList();
+      this.servicioCliente.getFriendRequests();
     })
   }
 
   RechazarSolicitud(user:string){
-    this.servicioCliente.DeclineFriendRequest(LoginComponent.user.nickname, user).subscribe(datos=>{
-      this.getFriendList();
-      this.getFriendRequests();
+    this.servicioCliente.DeclineFriendRequest(UserServiceService.user.nickname, user).subscribe(datos=>{
+      this.servicioCliente.getFriendList();
+      this.servicioCliente.getFriendRequests();
     })
   }
+
+  
 
 }

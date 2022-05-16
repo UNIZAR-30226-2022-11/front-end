@@ -177,8 +177,8 @@ export const tablePath: {[index:string]: string}= {
 };
 
 export const piecesPath: {[index:string]: string}= {
-    'default_Piezas': "./assets/ajedrez/default_Piezas.png",
-    'rojiAzul_Piezas': "./assets/ajedrez/rojiAzul_Piezas.png",
+    'default_Piezas': "./assets/articles/pieces/default_Piezas.png",
+    'rojiAzul_Piezas': "./assets/articles/pieces/rojiAzul_Piezas.png",
 };
 
 export const avatarPath:  {[index:string]: string}= {

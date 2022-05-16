@@ -11,71 +11,10 @@ export class ServiceClientService {
 
   constructor(private servicio:HttpClient) { }
 
-  //Devolver lista de amigos con los mismos campos que la BD
-  // Enviar { "nickname": "<nombre>" }
-  // Devolver { "friendList": [{string}*] } (solo me interesa el nombre de usuario de los amigos)
-  GetFriendList(nickname:string):Observable<any>{
-    //const body = { nickname}
-    const headers = new HttpHeaders(
-      {
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*'
-      });
-      return this.servicio.get(this.servidor2+"/getFriendList?nickname="+nickname, {headers});
-  }
+  
 
-  //Devolver lista de peticiones con los mismos campos que la BD
-  // Enviar { "nickname": "<nombre>" }
-  // Devolver { "friendRequests": [{string}*] } (solo me interesa el nombre de usuario de las peticiones)
-  GetFriendRequests(nickname: string):Observable<any>{
-    //const body = { nickname}
-    const headers = new HttpHeaders(
-      {
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*'
-      });
-    return this.servicio.get(this.servidor2+"/getFriendRequest?nickname="+ nickname, {headers});
-  }
-
-  //Devolver string en los siguientes casos:
-  // Enviar { "nickname": "<nombre del usuario que envia la peticion>", 
-  //          "amigo": "<nombre del usuario que recibe la peticion>" }
-  // Devolver { "resultado":string }
-  //  "La solicitud se ha mandado correctamente" en caso de exitir
-  //  "El usuario no existe" si no existe 
-  //  "El usuario existe pero ya es amigo tuyo" en caso de que exista pero sea tu amigo ya
-  SendFriendRequest(nickname: string, amigo:string): Observable<any>{
-    const body = { nickname, amigo}
-    const headers = new HttpHeaders(
-      {
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*'
-      });
-    return this.servicio.post(this.servidor2+"/sendFriendRequest", body, {headers});
-  }
-
-  //deberia devolver un booleano para saber si ha sido un exito o no
-  // Enviar { "nickname": "<nickname>",
-  //          "password": "<password (ya cifrado)>",
-  //          "email": "<email>"}
-  // Devolver { "exito":boolean, "user": {
-  //                               "nickname": "<nickname>",}
-  //                               "puntos": "<puntos>",
-  //                               "monedas": "<monedas>",
-  //                               "avatar": "<avatar>",
-  //                               "piezas": "<piezas>",
-  //                               "tablero": "<tablero>"} }
-  //Devolver usuario creado con los mismos campos que la BD
-  Register(nickname:string, password:string, email:string):Observable<any>{
-    const body = {nickname, password, email }
-    const headers = new HttpHeaders(
-      {
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*'
-      });
-    return this.servicio.post(this.servidor1+"/register",  body, {headers});
-  }
-
+ 
+  /*
   //deberia devolver un booleano para saber si ha sido un exito o no
   // Enviar { "nickname": "<nickname>",
   //          "password": "<password (ya cifrado)>" }
@@ -88,14 +27,14 @@ export class ServiceClientService {
   //                               "tablero": "<tablero>"} }
   Login(nickname:string, password:string):Observable<any>{
     //bcrypt
-    //const body = { nickname, password }
+    const body = { nickname, password }
     const headers = new HttpHeaders(
       {
           'Content-Type': 'application/json',
           'Access-Control-Allow-Origin': '*'
       });
-    return this.servicio.get(this.servidor1+"/login?nickname="+nickname+"&password="+password,{headers});
-  }
+    return this.servicio.post(this.servidor1+"/login", body, {headers});
+  }*/
 
 
   //deberia devolver las ultimas 20 partidas
@@ -120,32 +59,21 @@ export class ServiceClientService {
     return this.servicio.get(this.servidor1+"/getMatchHistory?nickname="+nickname, {headers});
   }
 
-  // Devolver true si se ha añadido correctamente el nuevo amigo
-  // Enviar { "nickname": "<nickname>",
-  //          "request": "<request>"}
-  // Devolver { "exito" : "<exito: boolean>"}
-  AcceptFriendRequest(nickname:string, request:string): Observable<any>{
-    const body = {nickname,request }
+//Devolver string en los siguientes casos:
+  // Enviar { "nickname": "<nombre del usuario que envia la peticion>", 
+  //          "amigo": "<nombre del usuario que recibe la peticion>" }
+  // Devolver { "resultado":string }
+  //  "La solicitud se ha mandado correctamente" en caso de exitir
+  //  "El usuario no existe" si no existe 
+  //  "El usuario existe pero ya es amigo tuyo" en caso de que exista pero sea tu amigo ya
+  SendFriendRequest(nickname: string, amigo:string): Observable<any>{
+    const body = { nickname, amigo}
     const headers = new HttpHeaders(
       {
           'Content-Type': 'application/json',
           'Access-Control-Allow-Origin': '*'
       });
-    return this.servicio.post(this.servidor1+"/acceptFriendRequest" ,body, {headers});
-  }
-
-  // Devolver true si se ha eliminado correctamente la solicitud de amistad
-  // Enviar { "nickname": "<nickname>",
-  //          "request": "<request>"}
-  // Devolver { "exito" : "<exito: boolean>"}
-  DeclineFriendRequest(nickname:string, request:string): Observable<any>{
-    const body = {nickname,request }
-    const headers = new HttpHeaders(
-      {
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*'
-      });
-    return this.servicio.post(this.servidor1+"/declineFriendRequest" ,body, {headers});
+    return this.servicio.post(this.servidor1+"/sendFriendRequest", body, {headers});
   }
 
   // "result" es un string que puede tomar los valores:
@@ -265,6 +193,48 @@ export class ServiceClientService {
           'Access-Control-Allow-Origin': '*'
       });
     return this.servicio.post(this.servidor1+"/buyItem" ,body, {headers});
+  }
+
+  // Actualiza el tablero del usuario <nickname>
+  // Enviar { "nickname": "<nickname:string>",
+  //          "table": "<table:string>"}
+  // Devolver { "exito": "<exito:boolean>" }
+  UpdateTable(nickname:string, table:string): Observable<any>{
+    const body = {nickname, table }
+    const headers = new HttpHeaders(
+      {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*'
+      });
+    return this.servicio.post(this.servidor1+"/updateTable" ,body, {headers});
+  }
+
+  // Actualiza las piezas del usuario <nickname>
+  // Enviar { "nickname": "<nickname:string>",
+  //          "pieces": "<pieces:string>"}
+  // Devolver { "exito": "<exito:boolean>" }
+  UpdatePieces(nickname:string, pieces:string): Observable<any>{
+    const body = {nickname, pieces }
+    const headers = new HttpHeaders(
+      {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*'
+      });
+    return this.servicio.post(this.servidor1+"/updatePieces" ,body, {headers});
+  }
+
+  // Actualiza el avatar del usuario <nickname>
+  // Enviar { "nickname": "<nickname:string>",
+  //          "avatar": "<avatar:string>"}
+  // Devolver { "exito": "<exito:boolean>" }
+  UpdateAvatar(nickname:string, avatar:string): Observable<any>{
+    const body = {nickname, avatar }
+    const headers = new HttpHeaders(
+      {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*'
+      });
+    return this.servicio.post(this.servidor1+"/updateAvatar" ,body, {headers});
   }
 
 }

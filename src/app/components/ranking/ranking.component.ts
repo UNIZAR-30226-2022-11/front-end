@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { rankingItem } from 'src/app/other/interfaces';
-import { LoginComponent } from '../login/login.component';
 import { ServiceClientService } from 'src/app/services/service-client.service';
+import { UserServiceService } from 'src/app/services/user-service.service';
 @Component({
   selector: 'app-ranking',
   templateUrl: './ranking.component.html',
@@ -25,13 +25,13 @@ export class RankingComponent implements OnInit {
   constructor(private servicioCliente:ServiceClientService) { }
 
   ngOnInit(): void {
-    if (LoginComponent.logged) {
+    if (UserServiceService.logged) {
       this.getRankingList();
     }
   }
 
   getRankingList(){
-    this.servicioCliente.GetRankingList(LoginComponent.user.nickname).subscribe(datos=>{
+    this.servicioCliente.GetRankingList(UserServiceService.user.nickname).subscribe(datos=>{
       this.rankingList = [];
       for(let i=0;i<datos;i++){
         this.rankingList.push(datos.rankingList[i]);
@@ -40,7 +40,7 @@ export class RankingComponent implements OnInit {
   }
 
   get getUserName():string{
-    return LoginComponent.user.nickname;
+    return UserServiceService.user.nickname;
   }
   
 }

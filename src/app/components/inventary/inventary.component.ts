@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { LoginComponent } from '../login/login.component';
+import { UserServiceService } from 'src/app/services/user-service.service';
 import { articulo, tablePath, piecesPath, avatarPath } from 'src/app/other/interfaces';
 import { reduce } from 'rxjs';
 import { JuegoComponent } from '../juego/juego.component';
@@ -75,28 +75,9 @@ export class InventaryComponent implements OnInit {
     }
 
   get userCoins() {
-    return LoginComponent.user.monedas
+    return UserServiceService.user.monedas
   }
 
-  /*modifyButtonsClasses (event:MouseEvent){
-    var obj : any = event.target;
-    //Quitamos la clase selector de todos los selectores
-    var class_name="inventary";
-    const collection = document.getElementsByClassName(class_name);
-    for (let i = 0; i < collection.length; i++) {
-      collection[i].classList.remove(class_name);
-    } 
-    //Le damos la clase selector al boton clickado
-    if (obj.id == "tablesSelector"){
-      this.showTables = true;
-      
-    }else{
-      this.showTables = false;
-    }
-    var element=document.getElementById(obj.id)
-      element?.classList.add('inventary')
-  }
-*/
   modifyButtonsClasses (event:MouseEvent){
     var obj : any = event.target;
     //Quitamos la clase selector de todos los selectores
@@ -128,8 +109,13 @@ export class InventaryComponent implements OnInit {
   }
 
   selectTable(table:string){
-    InventaryComponent.selectedTable = table;
-    JuegoComponent.tableroImg = tablePath[table];
+    this.servicioCliente.UpdateTable(UserServiceService.user.nickname, table).subscribe(datos=>{
+      if (datos.exito == true){
+        InventaryComponent.selectedTable = table;
+        UserServiceService.user.tablero = table;
+        JuegoComponent.tableroImg = tablePath[table];
+      }
+    })
   }
 
   get selectedPieza(){
@@ -137,43 +123,48 @@ export class InventaryComponent implements OnInit {
   }
 
   selectPieces(pieza:string){
-    InventaryComponent.selectedPieza = pieza;
-    if(pieza == "default_Piezas"){
-      console.log("default")
-       JuegoComponent.peonBlanco = "./assets/ajedrez/peon_blanco.png"
-       JuegoComponent.alfilBlanco = "./assets/ajedrez/alfil_blanco.png"
-       JuegoComponent.caballoBlanco = "./assets/ajedrez/caballo_blanco.png"
-       JuegoComponent.torreBlanca = "./assets/ajedrez/torre_blanca.png"
-       JuegoComponent.reinaBlanca = "./assets/ajedrez/reina_blanca.png"
-       JuegoComponent.reyBlanco = "./assets/ajedrez/rey_blanco.png"
+    this.servicioCliente.UpdatePieces(UserServiceService.user.nickname, pieza).subscribe(datos=>{
+      if (datos.exito == true){
+        InventaryComponent.selectedPieza = pieza;
+        UserServiceService.user.piezas = pieza;
+        if(pieza == "default_Piezas"){
+          console.log("default")
+           JuegoComponent.peonBlanco = "./assets/ajedrez/peon_blanco.png"
+           JuegoComponent.alfilBlanco = "./assets/ajedrez/alfil_blanco.png"
+           JuegoComponent.caballoBlanco = "./assets/ajedrez/caballo_blanco.png"
+           JuegoComponent.torreBlanca = "./assets/ajedrez/torre_blanca.png"
+           JuegoComponent.reinaBlanca = "./assets/ajedrez/reina_blanca.png"
+           JuegoComponent.reyBlanco = "./assets/ajedrez/rey_blanco.png"
+        
+           JuegoComponent.peonNegro = "./assets/ajedrez/peon_negro.png"
+           JuegoComponent.alfilNegro = "./assets/ajedrez/alfil_negro.png"
+           JuegoComponent.caballoNegro = "./assets/ajedrez/caballo_negro.png"
+           JuegoComponent.torreNegra = "./assets/ajedrez/torre_negra.png"
+           JuegoComponent.reinaNegra = "./assets/ajedrez/reina_negra.png"
+           JuegoComponent.reyNegro = "./assets/ajedrez/rey_negro.png"
     
-       JuegoComponent.peonNegro = "./assets/ajedrez/peon_negro.png"
-       JuegoComponent.alfilNegro = "./assets/ajedrez/alfil_negro.png"
-       JuegoComponent.caballoNegro = "./assets/ajedrez/caballo_negro.png"
-       JuegoComponent.torreNegra = "./assets/ajedrez/torre_negra.png"
-       JuegoComponent.reinaNegra = "./assets/ajedrez/reina_negra.png"
-       JuegoComponent.reyNegro = "./assets/ajedrez/rey_negro.png"
-
-    }
-
-    else if(pieza == "rojiAzul_Piezas"){
-      console.log("red")
-
-      JuegoComponent.peonBlanco = "./assets/ajedrez/peon_rojo.png"
-      JuegoComponent.alfilBlanco = "./assets/ajedrez/alfil_rojo.png"
-      JuegoComponent.caballoBlanco = "./assets/ajedrez/caballo_rojo.png"
-      JuegoComponent.torreBlanca = "./assets/ajedrez/torre_roja.png"
-      JuegoComponent.reinaBlanca = "./assets/ajedrez/reina_roja.png"
-      JuegoComponent.reyBlanco = "./assets/ajedrez/rey_rojo.png"
-   
-      JuegoComponent.peonNegro = "./assets/ajedrez/peon_blue.png"
-      JuegoComponent.alfilNegro = "./assets/ajedrez/alfil_blue.png"
-      JuegoComponent.caballoNegro = "./assets/ajedrez/caballo_blue.png"
-      JuegoComponent.torreNegra = "./assets/ajedrez/torre_blue.png"
-      JuegoComponent.reinaNegra = "./assets/ajedrez/reina_blue.png"
-      JuegoComponent.reyNegro = "./assets/ajedrez/rey_blue.png"
-
-    }
+        }
+    
+        else if(pieza == "rojiAzul_Piezas"){
+          console.log("red")
+    
+          JuegoComponent.peonBlanco = "./assets/ajedrez/peon_rojo.png"
+          JuegoComponent.alfilBlanco = "./assets/ajedrez/alfil_rojo.png"
+          JuegoComponent.caballoBlanco = "./assets/ajedrez/caballo_rojo.png"
+          JuegoComponent.torreBlanca = "./assets/ajedrez/torre_roja.png"
+          JuegoComponent.reinaBlanca = "./assets/ajedrez/reina_roja.png"
+          JuegoComponent.reyBlanco = "./assets/ajedrez/rey_rojo.png"
+       
+          JuegoComponent.peonNegro = "./assets/ajedrez/peon_blue.png"
+          JuegoComponent.alfilNegro = "./assets/ajedrez/alfil_blue.png"
+          JuegoComponent.caballoNegro = "./assets/ajedrez/caballo_blue.png"
+          JuegoComponent.torreNegra = "./assets/ajedrez/torre_blue.png"
+          JuegoComponent.reinaNegra = "./assets/ajedrez/reina_blue.png"
+          JuegoComponent.reyNegro = "./assets/ajedrez/rey_blue.png"
+    
+        }
+      }
+    }) 
   }
 
   get selectedAvatar(){
@@ -181,14 +172,19 @@ export class InventaryComponent implements OnInit {
   }
 
   selectAvatar(avatar:string){
-    InventaryComponent.selectedAvatar = avatar;
-    //JuegoComponent.tableroImg = avatarPath[table];
+    this.servicioCliente.UpdateAvatar(UserServiceService.user.nickname, avatar).subscribe(datos=>{
+      if (datos.exito == true){
+        InventaryComponent.selectedAvatar = avatar;
+        UserServiceService.user.avatar = avatar;
+        JuegoComponent.avatarImg = avatarPath[avatar];
+      }
+    })
   }
 
   constructor(private servicioCliente:ServiceClientService) { }
 
   getInventary(){
-    this.servicioCliente.GetInventary(LoginComponent.user.nickname).subscribe(datos=>{
+    this.servicioCliente.GetInventary(UserServiceService.user.nickname).subscribe(datos=>{
       this.tablesList = [];
       this.piecesList = [];
       this.avatarsList = [];

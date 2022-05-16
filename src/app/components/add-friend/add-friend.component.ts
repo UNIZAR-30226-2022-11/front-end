@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ServiceClientService } from '../../services/service-client.service';
-import { LoginComponent } from '../login/login.component';
+import { UserServiceService } from 'src/app/services/user-service.service';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
@@ -24,8 +24,8 @@ export class AddFriendComponent implements OnInit {
   }
 
   SendFriendRequest(g: FormGroup){
-    if (LoginComponent.logged){
-      this.servicioCliente.SendFriendRequest(LoginComponent.user.nickname, g.get('amigo')!.value).subscribe(datos=>{
+    if (UserServiceService.logged){
+      this.servicioCliente.SendFriendRequest(UserServiceService.user.nickname, g.get('amigo')!.value).subscribe(datos=>{
           if (datos.resultado == "La solicitud se ha mandado correctamente") {
             g.reset();
           }else{
