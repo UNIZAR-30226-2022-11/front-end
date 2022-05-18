@@ -6,6 +6,7 @@ import { SocketService } from 'src/app/services/socket.service';
 import { flush } from '@angular/core/testing';
 import { LoginComponent } from '../login/login.component';
 import { ServiceClientService } from 'src/app/services/service-client.service';
+import { ChatComponent } from '../chat/chat.component';
 
 @Component({
   selector: 'app-juego',
@@ -15,12 +16,15 @@ import { ServiceClientService } from 'src/app/services/service-client.service';
 export class JuegoComponent implements OnInit{
 
   constructor(
-		private socketService: SocketService,
+		protected socketService: SocketService,
     private servicioCliente:ServiceClientService
 	) { }
 
+  //export socket : SocketService =  this.socketService;
+
   ngOnInit(): void {
     if(JuegoComponent.online) {
+
       this.online()
     } else {
       //this.elegirLado(true)
@@ -68,6 +72,7 @@ tablero: ""
   online():void {
       this.socketService.getOpponent().subscribe((data: any) => {
         this.opponent = data.op
+        ChatComponent.conectado = true;
         if(data.side == "1"){ //si soy blanco
           this.miTurno = true; //mi turno
           this.elegirLado(this.miTurno) // lado config para blancas

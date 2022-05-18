@@ -32,7 +32,7 @@ export class SocketService {
 
 	//sendMessage(opponent:string, msg:string)
 	sendMessage(opponent:string, msg:string) {
-		return this.socket.fromEvent('sendMessage');	
+		this.socket.emit('sendMessage', opponent, msg);	
 	}
 
 }
