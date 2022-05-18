@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { LoginComponent } from '../login/login.component';
 import { articulo, tablePath, piecesPath, avatarPath } from 'src/app/other/interfaces';
 import { ServiceClientService } from 'src/app/services/service-client.service';
+import { UserServiceService } from 'src/app/services/user-service.service';
 @Component({
   selector: 'app-shop',
   templateUrl: './shop.component.html',
@@ -82,13 +82,13 @@ export class ShopComponent implements OnInit {
   }
 
   get userCoins() {
-    return LoginComponent.user.monedas
+    return UserServiceService.user.monedas
   }
 
   constructor(private servicioCliente:ServiceClientService) { }
 
   ngOnInit(): void {
-    if (LoginComponent.logged) {
+    if (UserServiceService.logged) {
       this.getShop();
     }
 
@@ -107,18 +107,18 @@ export class ShopComponent implements OnInit {
 
   buy(nombre: string, tipo:string){
     console.log(nombre, tipo);
-    this.servicioCliente.BuyItem(LoginComponent.user.nickname, nombre,tipo).subscribe(datos=>{
+    this.servicioCliente.BuyItem(UserServiceService.user.nickname, nombre,tipo).subscribe(datos=>{
       if (datos.exito == true){
         this.getShop();
-        this.servicioCliente.GetCoins(LoginComponent.user.nickname).subscribe(datos=>{
-          LoginComponent.user.monedas = datos.coins;
+        this.servicioCliente.GetCoins(UserServiceService.user.nickname).subscribe(datos=>{
+          UserServiceService.user.monedas = datos.coins;
         })
       }
     })
   }
 
   getShop(){
-    this.servicioCliente.GetShop(LoginComponent.user.nickname).subscribe(datos=>{
+    this.servicioCliente.GetShop(UserServiceService.user.nickname).subscribe(datos=>{
       this.tablesList = [];
       this.piecesList = [];
       this.avatarsList = [];

@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { pieza, usuario } from 'src/app/other/interfaces';
+import { piecesPath, pieza, usuario, tablePath, avatarPath } from 'src/app/other/interfaces';
 import { ViewChild } from '@angular/core';
 import { TimerComponent } from '../timer/timer.component';
 import { SocketService } from 'src/app/services/socket.service';
 import { flush } from '@angular/core/testing';
-import { LoginComponent } from '../login/login.component';
+import { UserServiceService } from 'src/app/services/user-service.service';
 import { ServiceClientService } from 'src/app/services/service-client.service';
 import { ChatComponent } from '../chat/chat.component';
 
@@ -56,7 +56,7 @@ export class JuegoComponent implements OnInit{
   static ia:boolean = false;
   static online:boolean = false;
 
-  user: usuario = LoginComponent.user;
+  user: usuario = UserServiceService.user;
 
  rival: usuario ={ nickname: "",
 puntos: 0,
@@ -199,6 +199,8 @@ tablero: ""
   //valor para casillas vacias
   v:pieza = {"col":"", "fil":"", "img": "", "color":0};
   
+  static avatarImg:string = avatarPath[UserServiceService.user.avatar]
+
   //piezas del tablero 
 
   static tableroImg:string = "./assets/ajedrez/tablero.png"
@@ -5694,7 +5696,7 @@ moverPieza(pieza:pieza):boolean{
           this.timer.stop();
           this.timer.stop2();
           if(JuegoComponent.online){
-            this.servicioCliente.SaveMatchResult(LoginComponent.user.nickname, this.rival.nickname, "lose");
+            this.servicioCliente.SaveMatchResult(UserServiceService.user.nickname, this.rival.nickname, "lose");
           }
       }
 
@@ -5704,7 +5706,7 @@ moverPieza(pieza:pieza):boolean{
             this.timer.stop();
             this.timer.stop2();
             if(JuegoComponent.online){
-              this.servicioCliente.SaveMatchResult(LoginComponent.user.nickname, this.rival.nickname, "win");
+              this.servicioCliente.SaveMatchResult(UserServiceService.user.nickname, this.rival.nickname, "win");
             }
         }
         
@@ -5727,7 +5729,7 @@ moverPieza(pieza:pieza):boolean{
             this.timer.stop();
             this.timer.stop2();
             if(JuegoComponent.online){
-              this.servicioCliente.SaveMatchResult(LoginComponent.user.nickname, this.rival.nickname, "lose");
+              this.servicioCliente.SaveMatchResult(UserServiceService.user.nickname, this.rival.nickname, "lose");
             }
             return
           }else {
@@ -5736,7 +5738,7 @@ moverPieza(pieza:pieza):boolean{
             this.timer.stop2();
 
             if(JuegoComponent.online){
-              this.servicioCliente.SaveMatchResult(LoginComponent.user.nickname, this.rival.nickname, "win");
+              this.servicioCliente.SaveMatchResult(UserServiceService.user.nickname, this.rival.nickname, "win");
             }
 
           return
@@ -5752,7 +5754,7 @@ moverPieza(pieza:pieza):boolean{
             this.timer.stop2();
 
             if(JuegoComponent.online){
-              this.servicioCliente.SaveMatchResult(LoginComponent.user.nickname, this.rival.nickname, "lose");
+              this.servicioCliente.SaveMatchResult(UserServiceService.user.nickname, this.rival.nickname, "lose");
             }
 
             return
@@ -5762,7 +5764,7 @@ moverPieza(pieza:pieza):boolean{
             this.timer.stop2();
 
             if(JuegoComponent.online){
-              this.servicioCliente.SaveMatchResult(LoginComponent.user.nickname, this.rival.nickname, "win");
+              this.servicioCliente.SaveMatchResult(UserServiceService.user.nickname, this.rival.nickname, "win");
             }
 
           return
@@ -5776,7 +5778,7 @@ moverPieza(pieza:pieza):boolean{
           this.timer.stop2();
 
           if(JuegoComponent.online){
-            this.servicioCliente.SaveMatchResult(LoginComponent.user.nickname, this.rival.nickname, "draw");
+            this.servicioCliente.SaveMatchResult(UserServiceService.user.nickname, this.rival.nickname, "draw");
           }
 
             return

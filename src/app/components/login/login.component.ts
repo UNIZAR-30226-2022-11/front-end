@@ -6,6 +6,8 @@ import { ServiceClientService } from '../../services/service-client.service';
 import * as bcrypt from 'bcryptjs';
 import { FriendListComponent } from '../friend-list/friend-list.component';
 import { PasswordValidatorService } from 'src/app/services/password-validator.service';
+import { UserServiceService } from 'src/app/services/user-service.service';
+import { FriendListServiceService } from 'src/app/services/friend-list-service.service';
 const salt = bcrypt.genSaltSync(10);
 
 
@@ -20,14 +22,14 @@ export class LoginComponent implements OnInit {
 
   signupForm: FormGroup
 
-  static logged: boolean = false;
+  /*static logged: boolean = false;
   static user: usuario ={ nickname: "",
                         puntos: 0,
                         monedas: 0,
                         avatar: "",
                         piezas: "",
                         tablero: ""
-  }
+  }*/
 
 
   constructor(
@@ -35,6 +37,8 @@ export class LoginComponent implements OnInit {
     private _builderSignin: FormBuilder,
     private _builderSignup: FormBuilder,
     private servicioCliente:ServiceClientService,
+    private userVerification:UserServiceService,
+    private friendListService:FriendListServiceService,
     ) { 
       console.log(servicioCliente)
       this.signinForm = this._builderSignin.group({
@@ -56,7 +60,7 @@ export class LoginComponent implements OnInit {
         //fullName: ['', Validators.required],
         user: ['', Validators.required],
         email: ['', Validators.compose([Validators.required, Validators.email])],
-        password: ['', Validators.compose([Validators.required,  PasswordValidatorService.strong])],
+        password: ['', Validators.compose([Validators.required])],
         passwordConfirm: ['', [Validators.required]]
       });
     }
@@ -67,13 +71,14 @@ export class LoginComponent implements OnInit {
     //var pass = bcrypt.hash(g.get('password')!.value, 10);
     var pass = bcrypt.hashSync(g.get('password')!.value, salt);
     console.log(pass);
-    this.servicioCliente.Login(g.get('user')!.value, pass).subscribe(resp =>{
+    this.userVerification.Login(g.get('user')!.value, pass).subscribe(resp =>{
       if (resp.exito == true) {
         this.signinForm.reset();
-        LoginComponent.logged = true;
-        LoginComponent.user = resp.user;
+        UserServiceService.logged = true;
+        UserServiceService.user = resp.user;
        // FriendListComponent.getFriendList();
        // SI NO SE CARGAN LOS AMIGOS Y SOLICITUDES AL LOGEARSE SE DEBE EJECUTAR DESDE AQUI
+        this.friendListService.refreshLists();
       }else{
         console.log(resp.exito);
       }
@@ -84,14 +89,17 @@ export class LoginComponent implements OnInit {
   }
 
   register(g: FormGroup){
+    console.log("no va");
     //Este deberia ser el codigo bueno
     var pass = bcrypt.hashSync(g.get('password')!.value, salt);
-    this.servicioCliente.Register( g.get('user')!.value,  pass, g.get('email')!.value).subscribe(resp =>{
+    this.userVerification.Register( g.get('user')!.value,  pass, g.get('email')!.value).subscribe(resp =>{
       if (resp.exito == true) {
         this.signupForm.reset();
-        LoginComponent.logged = true;
-        LoginComponent.user = resp.user; 
+        UserServiceService.logged = true;
+        UserServiceService.user = resp.user; 
         // SI NO SE CARGAN LOS AMIGOS Y SOLICITUDES AL REGISTRARSE SE DEBE EJECUTAR DESDE AQUI
+        //FriendListComponent.
+        this.friendListService.refreshLists();
       }else{
         console.log(resp.exito);
       }
@@ -112,14 +120,14 @@ export class LoginComponent implements OnInit {
 
 
   get staticUsuario():usuario{
-    return LoginComponent.user;
+    return UserServiceService.user;
   }
 
   get staticLogged():boolean{
-    return LoginComponent.logged;
+    return UserServiceService.logged;
   }
 
   get staticUsername():string{
-    return LoginComponent.user.nickname;
+    return UserServiceService.user.nickname;
   }
 }
