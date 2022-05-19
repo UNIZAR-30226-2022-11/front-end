@@ -8,14 +8,18 @@ import { JuegoComponent } from '../juego/juego.component';
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.css']
 })
-export class ChatComponent extends JuegoComponent{
+export class ChatComponent{
 
+
+  static socketService: SocketService
+  static opponent: string
   show:boolean=false;
   propio:boolean=true;
   msg:msgChat = {texto:"hi hi", side:false}
   listMsg: Array<msgChat>=[{texto:"fd", side:true}, this.msg] //30 caracters por linea
   
-  override ngOnInit(): void {
+
+  ngOnInit(): void {
     ChatComponent.conectado = false;
     this.show = false;
   }
@@ -42,7 +46,7 @@ export class ChatComponent extends JuegoComponent{
         newMsg = {texto:lineaNew, side:true}
         this.listMsg.push(newMsg)
         //send
-        this.socketService.sendMessage(this.opponent, newMsg.texto)
+        ChatComponent.socketService.sendMessage(ChatComponent.opponent, newMsg.texto)
         j = 0
         lineaNew = ""
       }
@@ -52,7 +56,7 @@ export class ChatComponent extends JuegoComponent{
       newMsg = {texto:lineaNew, side:true}
       this.listMsg.push(newMsg)
       //send
-      this.socketService.sendMessage(this.opponent, newMsg.texto)
+      ChatComponent.socketService.sendMessage(ChatComponent.opponent, newMsg.texto)
     }
   }
 
@@ -63,7 +67,7 @@ export class ChatComponent extends JuegoComponent{
     var lineaNew:string = ""
     var i,j:number = 0;
 
-    this.socketService.getMessage().subscribe((data: any) => {
+    ChatComponent.socketService.getMessage().subscribe((data: any) => {
       //pillar cadena de websocket
       linea = data.msg
       for(i = 0; linea[i] != null; i++){

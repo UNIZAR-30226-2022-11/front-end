@@ -73,6 +73,8 @@ tablero: ""
       this.socketService.getOpponent().subscribe((data: any) => {
         this.opponent = data.op
         ChatComponent.conectado = true;
+        ChatComponent.socketService = this.socketService
+        ChatComponent.opponent = this.opponent
         if(data.side == "1"){ //si soy blanco
           this.miTurno = true; //mi turno
           this.elegirLado(this.miTurno) // lado config para blancas
@@ -100,7 +102,7 @@ tablero: ""
             
             this.miTurno = true;
             console.log("mi turno es true")
-            this.seleccionada = !this.seleccionada
+            this.seleccionada = false
             this.puedeMover = false;
             this.cambiarTimer();
             this.turno = !this.turno
@@ -5786,7 +5788,7 @@ moverPieza(pieza:pieza):boolean{
 
 
         //variables para el cambio de turno
-        this.seleccionada = !this.seleccionada
+        this.seleccionada = false
         this.puedeMover = false;
         this.cambiarTimer();
         this.turno = !this.turno
@@ -5811,7 +5813,7 @@ moverPieza(pieza:pieza):boolean{
           this.moverRival()
 
           this.miTurno = true;
-          {this.seleccionada = !this.seleccionada
+          {this.seleccionada = false
           this.puedeMover = false;
           this.cambiarTimer();
           this.turno = !this.turno}
