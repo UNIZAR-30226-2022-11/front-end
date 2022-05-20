@@ -1,0 +1,36 @@
+.owner{
+    width:100px;
+}
+
+.players{
+    width:100px;
+}
+
+.join{
+    width:100px;
+}
+
+.header{
+    display:flex;
+    align-items: flex-start; 
+    justify-content: space-between;
+    border-bottom: 1px solid black; 
+    font-size: large; 
+    text-align: center;
+    padding: 1rem 0;
+}
+
+.row{
+    display:flex;
+    align-items: flex-start; 
+    justify-content: space-between;
+    font-size: large; 
+    text-align: center;
+    padding: 1rem 0;
+}
+
+.user{
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    background-color: gold;
+}

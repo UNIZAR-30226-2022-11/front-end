@@ -72,6 +72,9 @@ export class InventaryComponent implements OnInit {
         var element=document.getElementById("avatarsSelector")
         element?.classList.add('shopping')
       }
+      if (UserServiceService.logged) {
+        this.getInventary();
+      }
     }
 
   get userCoins() {

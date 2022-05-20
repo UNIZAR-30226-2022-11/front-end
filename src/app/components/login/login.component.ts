@@ -70,12 +70,14 @@ export class LoginComponent implements OnInit {
     //const salt = bcrypt.genSalt(10);
     //var pass = bcrypt.hash(g.get('password')!.value, 10);
     var pass = bcrypt.hashSync(g.get('password')!.value, salt);
-    console.log(pass);
-    this.userVerification.Login(g.get('user')!.value, pass).subscribe(resp =>{
-      if (resp.exito == true) {
+    //console.log(pass);
+    console.log(g.get('password')!.value)
+    //this.userVerification.Login(g.get('user')!.value, pass).subscribe(resp =>{
+    this.userVerification.Login(g.get('user')!.value, g.get('password')!.value).subscribe(resp =>{
+      if (resp.nickname == g.get('user')!.value) {
         this.signinForm.reset();
         UserServiceService.logged = true;
-        UserServiceService.user = resp.user;
+        UserServiceService.user = resp;
        // FriendListComponent.getFriendList();
        // SI NO SE CARGAN LOS AMIGOS Y SOLICITUDES AL LOGEARSE SE DEBE EJECUTAR DESDE AQUI
         this.friendListService.refreshLists();
@@ -89,10 +91,10 @@ export class LoginComponent implements OnInit {
   }
 
   register(g: FormGroup){
-    console.log("no va");
     //Este deberia ser el codigo bueno
     var pass = bcrypt.hashSync(g.get('password')!.value, salt);
-    this.userVerification.Register( g.get('user')!.value,  pass, g.get('email')!.value).subscribe(resp =>{
+    //this.userVerification.Register( g.get('user')!.value,  pass, g.get('email')!.value).subscribe(resp =>{
+    this.userVerification.Register( g.get('user')!.value,  g.get('password')!.value, g.get('email')!.value).subscribe(resp =>{
       if (resp.exito == true) {
         this.signupForm.reset();
         UserServiceService.logged = true;
@@ -129,5 +131,15 @@ export class LoginComponent implements OnInit {
 
   get staticUsername():string{
     return UserServiceService.user.nickname;
+  }
+
+  logOut(){
+    this.userVerification.LogOut(UserServiceService.user.nickname).subscribe(resp=>{
+      console.log(resp);
+      if (resp.exito){
+        window.location.reload();
+      }
+    });
+    
   }
 }

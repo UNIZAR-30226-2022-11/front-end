@@ -111,7 +111,7 @@ export class ShopComponent implements OnInit {
       if (datos.exito == true){
         this.getShop();
         this.servicioCliente.GetCoins(UserServiceService.user.nickname).subscribe(datos=>{
-          UserServiceService.user.monedas = datos.coins;
+          UserServiceService.user.monedas = datos.coins.coins;
         })
       }
     })
@@ -122,13 +122,23 @@ export class ShopComponent implements OnInit {
       this.tablesList = [];
       this.piecesList = [];
       this.avatarsList = [];
-      for(let i=0;i<datos;i++){
+      var a:Array<articulo> = [datos.articulos];
+      console.log(a)
+      console.log(datos.articulos[1])
+      for(let i=0;i<datos.articulos.length;i++){
+        console.log(datos)
+        var articulo:articulo= {
+          nombre: datos.articulos[i].nombre,
+          precio:datos.articulos[i].precio,
+          tipo:datos.articulos[i].tipo
+        }
+        console.log(articulo)
         if (datos.articulos[i].tipo == "table"){
-          this.tablesList.push(datos.articulos[i]);
+          this.tablesList.push(articulo);
         }else if (datos.articulos[i].tipo == "pieces"){
-          this.piecesList.push(datos.articulos[i]);
+          this.piecesList.push(articulo);
         }else if (datos.articulos[i].tipo == "avatar"){
-          this.avatarsList.push(datos.articulos[i]);
+          this.avatarsList.push(articulo);
         }
       }
     })

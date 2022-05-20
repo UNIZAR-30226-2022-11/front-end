@@ -73,7 +73,7 @@ export class ServiceClientService {
           'Content-Type': 'application/json',
           'Access-Control-Allow-Origin': '*'
       });
-    return this.servicio.post(this.servidor1+"/sendFriendRequest", body, {headers});
+    return this.servicio.post(this.servidor1+"/getFriendRequest", body, {headers});
   }
 
   // "result" es un string que puede tomar los valores:
@@ -150,13 +150,23 @@ export class ServiceClientService {
   //                            "tipo": <tipo: string>}
   //                            ]*}
   GetInventary(nickname: string): Observable<any>{
+    const body = { nickname}
+    const headers = new HttpHeaders(
+      {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*'
+      });
+    return this.servicio.post(this.servidor1+"/getInventary" ,body, {headers});
+  }
+  /*
+  GetInventary(nickname: string): Observable<any>{
     const headers = new HttpHeaders(
       {
           'Content-Type': 'application/json',
           'Access-Control-Allow-Origin': '*'
       });
     return this.servicio.get(this.servidor1+"/getInventary?nickname="+nickname , {headers});
-  }
+  }*/
 
   // Devuelve los todos los items que no posee el user <nickname>, ya sean de tipo "table", "pieces" o "avatar"
   // Enviar { "nickname": "<nickname>"}

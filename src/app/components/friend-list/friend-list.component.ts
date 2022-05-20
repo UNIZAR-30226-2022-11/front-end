@@ -10,8 +10,8 @@ import { FriendListServiceService } from 'src/app/services/friend-list-service.s
 export class FriendListComponent implements OnInit {
   
   showFriendList : boolean = true;
-  friendList: Array<string>=["hola"]; //DEJAR LISTA VACIA
-  friendRequests: Array<string>=["adios"]; //DEJAR LISTA VACIA
+  //friendList: Array<string>=["hola"]; //DEJAR LISTA VACIA
+  //friendRequests: Array<string>=["adios"]; //DEJAR LISTA VACIA
   //friendRequests: Array<any> = [];
   //personajes: any=[];
   //prueba: Array<any>=[];
@@ -93,18 +93,28 @@ alert("You pressed Cancel.");
 
   AceptarSolicitud(user:string){
     this.servicioCliente.AcceptFriendRequest(UserServiceService.user.nickname, user).subscribe(datos=>{
-      this.servicioCliente.getFriendList();
-      this.servicioCliente.getFriendRequests();
+      if (datos.exito){
+        this.servicioCliente.getFriendList();
+        this.servicioCliente.getFriendRequests();
+      }
     })
   }
 
   RechazarSolicitud(user:string){
     this.servicioCliente.DeclineFriendRequest(UserServiceService.user.nickname, user).subscribe(datos=>{
-      this.servicioCliente.getFriendList();
-      this.servicioCliente.getFriendRequests();
+      if (datos.exito){
+        this.servicioCliente.getFriendList();
+        this.servicioCliente.getFriendRequests();
+      }
     })
   }
 
-  
+  get friendList(){
+    return FriendListServiceService.friendList;
+  }
+
+  get friendRequests(){
+    return FriendListServiceService.friendRequests;
+  }
 
 }

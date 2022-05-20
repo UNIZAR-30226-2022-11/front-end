@@ -44,4 +44,6 @@
     }
   }
 
-  
+  .column input{
+    text-align: center;
+  }
