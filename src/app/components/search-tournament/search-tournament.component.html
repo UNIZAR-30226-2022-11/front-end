@@ -1,0 +1,14 @@
+<div class="header">
+    <div class="owner">OWNER</div> 
+    <div class="players">PLAYERS</div>
+    <div class="join"></div>
+</div>
+
+<div *ngFor="let tournament of tournaments">
+    <div class="row">
+        <div class="owner">{{tournament.owner}}</div> 
+        <div class="players">{{tournament.players}}/4</div>
+        <button class="join" (click)="join(tournament.owner)">JOIN</button>
+    </div>
+
+</div>

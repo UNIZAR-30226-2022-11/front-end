@@ -25,6 +25,7 @@ export class FriendListServiceService {
           'Content-Type': 'application/json',
           'Access-Control-Allow-Origin': '*'
       });
+      //return this.servicio.get(this.servidor1+"/getFriendList?nickname="+nickname, {headers});
       return this.servicio.get(this.servidor1+"/getFriendList?nickname="+nickname, {headers});
   }
 
@@ -38,7 +39,8 @@ export class FriendListServiceService {
           'Content-Type': 'application/json',
           'Access-Control-Allow-Origin': '*'
       });
-    return this.servicio.get(this.servidor1+"/getFriendRequest?nickname="+ nickname, {headers});
+    //return this.servicio.get(this.servidor1+"/getFriendRequest?nickname="+ nickname, {headers});
+    return this.servicio.get(this.servidor1+"/getFriendRequest?nickname="+nickname,{headers});
   }
 
   
@@ -74,7 +76,7 @@ export class FriendListServiceService {
   getFriendList (){
     this.GetFriendList(UserServiceService.user.nickname).subscribe(datos=>{
       FriendListServiceService.friendList = [];
-      for(let i=0;i<datos;i++){
+      for(let i=0;i<datos.length;i++){
         FriendListServiceService.friendList.push(datos.friendList[i]);
       }
     })
@@ -82,10 +84,12 @@ export class FriendListServiceService {
 
   getFriendRequests (){
     this.GetFriendRequests(UserServiceService.user.nickname).subscribe(datos=>{
+      console.log("getfriendrequest")
       FriendListServiceService.friendRequests = [];
-      for(let i=0;i<datos;i++){
-        FriendListServiceService.friendRequests.push(datos.friendRequests[i]);
+      for(let i=0;i<datos.friendRequests.length;i++){
+        FriendListServiceService.friendRequests.push(datos.friendRequests[i].valor);
       }
+      console.log(FriendListServiceService.friendRequests)
     })
   }
 

@@ -58,5 +58,6 @@
     </script>
     </div>
     <div class="loggedUser" *ngIf="staticLogged">
-        {{staticUsuario.nickname}} ({{staticUsuario.puntos}})
+        {{staticUsuario.nickname}} ({{staticUsuario.puntos}})<br>
+        <button (click)="logOut()">LOG OUT</button>
     </div>

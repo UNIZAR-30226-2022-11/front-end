@@ -56,6 +56,7 @@ export class UserServiceService {
   //                               "avatar": "<avatar>",
   //                               "piezas": "<piezas>",
   //                               "tablero": "<tablero>"} }
+  /*
   Login(nickname:string, password:string):Observable<any>{
     //bcrypt
     //const body = { nickname, password }
@@ -65,8 +66,28 @@ export class UserServiceService {
           'Access-Control-Allow-Origin': '*'
       });
     return this.servicio.get(this.servidor1+"/login?nickname="+nickname+"&password="+password,{headers});
+  }*/
+
+  Login(nickname:string, password:string):Observable<any>{
+    //bcrypt
+    const body = { nickname, password }
+    const headers = new HttpHeaders(
+      {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*'
+      });
+    return this.servicio.post(this.servidor1+"/login", body,{headers});
   }
 
-  
+  LogOut(nickname:string):Observable<any>{
+    console.log("logout")
+    const body = { }
+    const headers = new HttpHeaders(
+      {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*'
+      });
+    return this.servicio.post(this.servidor1+"/logOut",body,{headers});
+  }
 
 }
