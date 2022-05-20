@@ -2828,7 +2828,7 @@ randomInt(min:number, max:number) {
 getBlanca():pieza{
   var vector:pieza[] = [this.peonBlanco0, this.peonBlanco1, this.peonBlanco2, this.peonBlanco3, this.peonBlanco4, this.peonBlanco5,
                     this.peonBlanco6, this.peonBlanco7, this.alfilBlanco0, this.alfilBlanco1, this.caballoBlanco0, this.caballoBlanco1,
-                    this.torreBlanca0, this.torreBlanca1, this.reinaBlanca]
+                    this.torreBlanca0, this.torreBlanca1, this.reinaBlanca, this.reyBlanco]
  
   var num:number = this.randomInt(0, 14);
 
@@ -2841,7 +2841,7 @@ getBlanca():pieza{
 getNegra():pieza{
   var vector:pieza[] = [this.peonNegro0, this.peonNegro1, this.peonNegro2, this.peonNegro3, this.peonNegro4, this.peonNegro5,
     this.peonNegro6, this.peonNegro7, this.alfilNegro0, this.alfilNegro1, this.caballoNegro0, this.caballoNegro1,
-    this.torreNegra0, this.torreNegra1, this.reinaNegra]
+    this.torreNegra0, this.torreNegra1, this.reinaNegra, this.reyNegro]
 
   var num:number = this.randomInt(0, 14);
 
@@ -5712,17 +5712,6 @@ moverPieza(pieza:pieza):boolean{
             }
         }
         
-        //fin de la partida?
-        // SaveMatchResult(nickname:string, rival:string, result: string): Observable<any>{
-        //   const body = {nickname,rival, result }
-        //   const headers = new HttpHeaders(
-        //     {
-        //         'Content-Type': 'application/json',
-        //         'Access-Control-Allow-Origin': '*'
-        //     });
-        //   return this.servicio.post(this.servidor1+"/saveMatchResult" ,body, {headers});
-        // }
-      
         //console.log(this.reyBlanco)
         if(this.jaqueMate(this.reyBlanco) || this.reyBlanco.color == 0){
           console.log("mateblancco")
@@ -5811,6 +5800,11 @@ moverPieza(pieza:pieza):boolean{
             this.columnFin = 7 - data.cF
           //mover pieza
           this.moverRival()
+
+          {this.filaIni = 0
+          this.columnIni = 0
+          this.filaFin = 0
+          this.columnFin = 0}
 
           this.miTurno = true;
           {this.seleccionada = false
