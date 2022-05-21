@@ -46,6 +46,11 @@ export class ChatComponent{
         newMsg = {texto:lineaNew, side:true}
         this.listMsg.push(newMsg)
         //send
+        console.log("escribiendo")
+        console.log("socket")
+        console.log(ChatComponent.socketService)
+        console.log("opponent")
+        console.log(ChatComponent.opponent)
         ChatComponent.socketService.sendMessage(ChatComponent.opponent, newMsg.texto)
         j = 0
         lineaNew = ""

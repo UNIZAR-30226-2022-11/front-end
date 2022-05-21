@@ -79,34 +79,37 @@ tablero: ""
           this.miTurno = true; //mi turno
           this.elegirLado(this.miTurno) // lado config para blancas
           this.turno = true; //true es turno blancas
-          this.start(); //empieza timer
+          this.start(); //empieza timer(blancas)
         } else {
           this.miTurno = false; // no es mi turno
           this.elegirLado(this.miTurno) //config para negras
           this.turno= false;
-          this.start(); // empieza su timer
+          this.start(); // empieza su timer(blancas)
         }
       
         if(!this.miTurno){
           //esperar su movimiento
-            console.log("esperando move")
+            console.log("esperando move nicial")
               this.socketService.getGameMove().subscribe((data: any) => {
               this.filaIni = 7 - data.fI
               this.columnIni = 7 - data.cI
               this.filaFin = 7 - data.fF
               this.columnFin = 7 - data.cF
             //mover pieza
-            console.log("columna final: " + this.columnFin)
+            //console.log("columna final: " + this.columnFin)
             this.moverRival()
-  
+            {this.filaIni = 0
+              this.columnIni = 0
+              this.filaFin = 0
+              this.columnFin = 0}
             
             this.miTurno = true;
-            console.log("mi turno es true")
+            //console.log("mi turno es true")
             this.seleccionada = false
             this.puedeMover = false;
             this.cambiarTimer();
             this.turno = !this.turno
-            console.log("turno es: " + this.turno)
+            //console.log("turno es: " + this.turno)
             
             })
         }
@@ -116,7 +119,7 @@ tablero: ""
   }
 
   moverRival():void{
-    console.log("moverRival")
+    console.log("MoverRival")
     //borrar la pieza que este en la posicion final
     this.tablero[this.filaFin][this.columnFin].color = 0
     this.tablero[this.filaFin][this.columnFin] = this.v
@@ -319,8 +322,10 @@ tableroBlanco:pieza[][] =
     this.enroqueNegro1 = true;
     this.enroqueBlanco0 = true;
     this.enroqueBlanco1 = true;
+
     this.seleccionada = false
     this.turno = true
+
     this.resetTimer()
     if(JuegoComponent.ia)
       this.IA()
@@ -5432,14 +5437,16 @@ moverPieza(pieza:pieza):boolean{
         //amenaza comprueba los .col y .fil de pieza
 
         //movemos
+        console.log("pieza en la posicion final")
         console.log(this.tablero[this.filaFin][this.columnFin])
         this.tablero[this.filaFin][this.columnFin].color = 0
         this.tablero[this.filaFin][this.columnFin] = this.tablero[this.filaIni][this.columnIni]
         this.tablero[this.filaIni][this.columnIni] = this.v
+        console.log("pieza en la posicion final tras el movimiento")
         console.log(this.tablero[this.filaFin][this.columnFin])
         //crear una aux y comprobar si esta en jaque?
         //comporbar si es jaque      
-
+      {
         if(this.pieza == "peonNegro0") {  
           this.peonNegro0.img  = JuegoComponent.peonNegro    
           this.peonNegro0.fil = this.auxY.toString() + "%"
@@ -5630,7 +5637,7 @@ moverPieza(pieza:pieza):boolean{
           this.enroqueBlanco1 = false
           this.enroqueBlanco0 = false
         }
-        
+      }
 
         //me quedo en jaque?
         if(this.jaque(this.reyNegro)!= this.v){
@@ -5689,6 +5696,8 @@ moverPieza(pieza:pieza):boolean{
 
         // if(online) -> enviar movimiento, esperar al suyo, miturno=false 
         if(JuegoComponent.online){
+          console.log("he enviado: ")
+          console.log(this.opponent, this.filaIni, this.columnIni, this.filaFin, this.columnFin)
           this.socketService.sendGameMove(this.opponent, this.filaIni, this.columnIni, this.filaFin, this.columnFin);
           this.miTurno = false;
         }
@@ -5780,7 +5789,7 @@ moverPieza(pieza:pieza):boolean{
         this.seleccionada = false
         this.puedeMover = false;
         this.cambiarTimer();
-        this.turno = !this.turno
+        this.turno = !this.turno;
 
         function delay(ms: number) {
           return new Promise( resolve => setTimeout(resolve, ms) );
@@ -5790,16 +5799,23 @@ moverPieza(pieza:pieza):boolean{
           { await delay(500);
             this.IA()}
 
+
         // if(online)->esperar turno, my turno= true, cambair timer, comporbar fin partida
         // getGameMove { op: "", fI: 1, cI: 2, fF: 3, cF: 4 }
         if(JuegoComponent.online){
+          console.log("Esperando movimiento")
           this.socketService.getGameMove().subscribe((data: any) => {
+            console.log("Me ha llegado su movimiento")
             this.filaIni = 7 - data.fI
             this.columnIni = 7 - data.cI
             this.filaFin = 7 - data.fF
             this.columnFin = 7 - data.cF
           //mover pieza
           this.moverRival()
+          console.log("pieza inicial")
+          console.log(this.tablero[this.filaIni][this.columnIni])
+          console.log("pieza final")
+          console.log(this.tablero[this.filaFin][this.columnFin])
 
           {this.filaIni = 0
           this.columnIni = 0
@@ -5814,7 +5830,7 @@ moverPieza(pieza:pieza):boolean{
           })
         }
 
-        if(!JuegoComponent.ia){return}
+        if(JuegoComponent.ia || JuegoComponent.online)
         //fin de la partida?
         {          
           if(this.jaqueMate(this.reyBlanco) || this.reyBlanco.color == 0){
@@ -5846,7 +5862,6 @@ moverPieza(pieza:pieza):boolean{
             return
             }
           }
-  
           //comporbar si es empate
           if(this.empate()){
             this.empatado = true;
