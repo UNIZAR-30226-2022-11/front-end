@@ -9,18 +9,9 @@ import { UserServiceService } from 'src/app/services/user-service.service';
 })
 export class RankingComponent implements OnInit {
 
-
-  rankingList: Array<rankingItem> = [
-    {
-      position:1,username:"asf",points:10
-    },
-    {
-      position:2,username:"",points:10
-    },
-    {
-      position:3,username:"Ernesto",points:10
-    }
-  ];
+  rankingBefore: Array<rankingItem>=[]
+  
+  rankingList: Array<rankingItem> = []
 
   constructor(private servicioCliente:ServiceClientService) { }
 
@@ -33,10 +24,15 @@ export class RankingComponent implements OnInit {
   getRankingList(){
     this.servicioCliente.GetRankingList(UserServiceService.user.nickname).subscribe(datos=>{
       console.log(datos.rankingList[3]);
-      this.rankingList = [];
-      for(let i=0;i<datos;i++){
-        this.rankingList.push(datos.rankingList[i]);
+      this.rankingList = []
+      for(let i=0;i<datos.rankingList.length;i++){
+        console.log(datos.rankingList[i]);
+        if (datos.rankingList[i] == null){continue;}
+        
+          this.rankingList.push(datos.rankingList[i]);
+        
       }
+      console.log(this.rankingList);
     })
   }
 

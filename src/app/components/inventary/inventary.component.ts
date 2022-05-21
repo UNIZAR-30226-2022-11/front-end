@@ -191,14 +191,20 @@ export class InventaryComponent implements OnInit {
       this.tablesList = [];
       this.piecesList = [];
       this.avatarsList = [];
-      for(let i=0;i<datos;i++){
-        if (datos.articulos[i].tipo == "table"){
-          this.tablesList.push(datos.articulos[i]);
-        }else if (datos.articulos[i].tipo == "pieces"){
-          this.piecesList.push(datos.articulos[i]);
-        }else if (datos.articulos[i].tipo == "avatar"){
-          this.avatarsList.push(datos.articulos[i]);
+      for(let i=0;i<datos.articulos.length;i++){
+        var articulo:articulo= {
+          nombre: datos.articulos[i].ARTICULO_nombre,
+          precio: 0,
+          tipo:datos.articulos[i].tipo
         }
+        if (datos.articulos[i].tipo == "table"){
+          this.tablesList.push(articulo);
+        }else if (datos.articulos[i].tipo == "pieces"){
+          this.piecesList.push(articulo);
+        }else if (datos.articulos[i].tipo == "avatar"){
+          this.avatarsList.push(articulo);
+        }
+
       }
     })
   }
