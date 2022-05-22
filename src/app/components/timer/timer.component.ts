@@ -44,7 +44,7 @@ finTiempo1:boolean = false;
     this.minutes = this.date.getMinutes();
     this.seconds = this.date.getSeconds();
 
-    if(this.date.getMinutes() === 0 && this.date.getSeconds() ===0 ){
+    if(this.date.getMinutes() === 0 && this.date.getSeconds() === 0 ){
       //stop the count
       JuegoComponent.finTiempo1 = true;
       clearInterval(TimerComponent.timer);

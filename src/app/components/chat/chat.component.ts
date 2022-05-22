@@ -15,8 +15,7 @@ export class ChatComponent{
   static opponent: string
   show:boolean=false;
   propio:boolean=true;
-  msg:msgChat = {texto:"hi hi", side:false}
-  listMsg: Array<msgChat>=[{texto:"fd", side:true}, this.msg] //30 caracters por linea
+  listMsg: Array<msgChat>=[] //30 caracters por linea
   
 
   ngOnInit(): void {
@@ -24,9 +23,11 @@ export class ChatComponent{
     this.show = false;
   }
   static conectado: boolean = false;
+  primera:boolean = false
 
   mostrar(){
     if(ChatComponent.conectado)
+    if(!this.primera){ this.recibir(); this.primera = true}
     this.show = !this.show;
   }
 
@@ -67,6 +68,7 @@ export class ChatComponent{
 
   recibir(){
 
+
     var linea:string =""
     var newMsg:msgChat;
     var lineaNew:string = ""
@@ -91,12 +93,9 @@ export class ChatComponent{
 
       if(j!=0){
         lineaNew = linea.substring(i-j, i)
-        newMsg = {texto:lineaNew, side:true}
+        newMsg = {texto:lineaNew, side:false}
         this.listMsg.push(newMsg)
       }
-    
-    this.recibir()
-
     })
 
   }

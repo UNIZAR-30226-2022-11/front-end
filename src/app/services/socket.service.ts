@@ -35,4 +35,8 @@ export class SocketService {
 		this.socket.emit('sendMessage', opponent, msg);	
 	}
 
+	blanck() {
+		return this.socket.fromEvent('blanck');	
+	}
+
 }
