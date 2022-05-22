@@ -122,9 +122,6 @@ export class ShopComponent implements OnInit {
       this.tablesList = [];
       this.piecesList = [];
       this.avatarsList = [];
-      var a:Array<articulo> = [datos.articulos];
-      console.log(a)
-      console.log(datos.articulos[1])
       for(let i=0;i<datos.articulos.length;i++){
         console.log(datos)
         var articulo:articulo= {

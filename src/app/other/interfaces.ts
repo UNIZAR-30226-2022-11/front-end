@@ -195,9 +195,8 @@ export interface matchHistory{
 }
 
 export interface rankingItem{
-    position: number;
-    username: string;
-    points: number;
+    Nickname: string;
+    puntos: number;
 }
 
 export type msgChat = {

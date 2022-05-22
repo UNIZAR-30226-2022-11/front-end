@@ -5,7 +5,6 @@ import { usuario } from 'src/app/other/interfaces';
 import { ServiceClientService } from '../../services/service-client.service';
 import * as bcrypt from 'bcryptjs';
 import { FriendListComponent } from '../friend-list/friend-list.component';
-import { PasswordValidatorService } from 'src/app/services/password-validator.service';
 import { UserServiceService } from 'src/app/services/user-service.service';
 import { FriendListServiceService } from 'src/app/services/friend-list-service.service';
 const salt = bcrypt.genSaltSync(10);
@@ -60,7 +59,7 @@ export class LoginComponent implements OnInit {
         //fullName: ['', Validators.required],
         user: ['', Validators.required],
         email: ['', Validators.compose([Validators.required, Validators.email])],
-        password: ['', Validators.compose([Validators.required])],
+        password: ['', Validators.compose([Validators.required, Validators.minLength(5),Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9]+$')])],
         passwordConfirm: ['', [Validators.required]]
       });
     }
@@ -96,9 +95,13 @@ export class LoginComponent implements OnInit {
     //this.userVerification.Register( g.get('user')!.value,  pass, g.get('email')!.value).subscribe(resp =>{
     this.userVerification.Register( g.get('user')!.value,  g.get('password')!.value, g.get('email')!.value).subscribe(resp =>{
       if (resp.exito == true) {
+        var user = g.get('user')!.value
         this.signupForm.reset();
         UserServiceService.logged = true;
         UserServiceService.user = resp.user; 
+        this.servicioCliente.GetPoints(user).subscribe(resp=>{
+          UserServiceService.user.puntos = resp.points.points;
+        });
         // SI NO SE CARGAN LOS AMIGOS Y SOLICITUDES AL REGISTRARSE SE DEBE EJECUTAR DESDE AQUI
         //FriendListComponent.
         this.friendListService.refreshLists();
