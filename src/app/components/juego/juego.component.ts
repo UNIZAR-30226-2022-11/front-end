@@ -24,14 +24,16 @@ export class JuegoComponent implements OnInit{
 
   ngOnInit(): void {
     //reset
-
+  //variable estática de victoria
+  JuegoComponent.finTiempo1 = false;
+  JuegoComponent.finTiempo2 = false;
 
     console.log("buenas")
     if(JuegoComponent.online) {
 
       this.online()
     } else {
-      //this.elegirLado(true)
+      this.elegirLado(true)
     }
   }
 
