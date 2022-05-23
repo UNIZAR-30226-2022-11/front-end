@@ -167,3 +167,9 @@ button:hover {
     padding: 14px  0px;
  
 }
+
+.img{
+    height: 20px;
+    width:20px;
+    z-index: 2;
+}

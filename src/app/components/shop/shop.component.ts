@@ -15,45 +15,9 @@ export class ShopComponent implements OnInit {
   showTables : boolean = true;
   showPieces: boolean = false;
   showAvatars: boolean = false;
-  tablesList: Array<articulo>=[
-    {   nombre: "BoardMarron",
-        precio: 0,
-        tipo: "table"},
-    {   nombre: "BoardGris",
-        precio: 5,
-        tipo: "table"},
-    {   nombre: "BoardAzul",
-        precio: 10,
-        tipo: "table"},
-    {   nombre: "BoardRojoAzul",
-        precio: 15,
-        tipo: "table"}
-    ];
-  piecesList: Array<articulo>=[
-    {   nombre: "standart_table",
-        precio: 0,
-        tipo: "table"},
-    {   nombre: "standart_table",
-        precio: 120,
-        tipo: "table"},
-    {   nombre: "standart_table",
-        precio: 25,
-        tipo: "table"}
-    ];
-  avatarsList: Array<articulo> = [
-    {   nombre: "star_avatar",
-        precio: 0,
-        tipo: "avatar"},
-    {   nombre: "heart",
-        precio: 120,
-        tipo: "table"},
-    {   nombre: "soccer",
-        precio: 120,
-        tipo: "table"},
-    {   nombre: "knight",
-        precio: 120,
-        tipo: "table"},
-    ];
+  tablesList: Array<articulo>=[];
+  piecesList: Array<articulo>=[];
+  avatarsList: Array<articulo> = [];
 
   modifyButtonsClasses (event:MouseEvent){
     var obj : any = event.target;

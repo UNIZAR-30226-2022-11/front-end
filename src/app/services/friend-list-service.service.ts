@@ -12,8 +12,8 @@ export class FriendListServiceService {
 
   constructor(private servicio:HttpClient) { }
 
-  static friendList: Array<string>=["hola"]; //DEJAR LISTA VACIA
-  static friendRequests: Array<string>=["adios"]; //DEJAR LISTA VACIA
+  static friendList: Array<string>=[]; //DEJAR LISTA VACIA
+  static friendRequests: Array<string>=[]; //DEJAR LISTA VACIA
 
   //Devolver lista de amigos con los mismos campos que la BD
   // Enviar { "nickname": "<nombre>" }
@@ -49,8 +49,8 @@ export class FriendListServiceService {
   // Enviar { "nickname": "<nickname>",
   //          "request": "<request>"}
   // Devolver { "exito" : "<exito: boolean>"}
-  AcceptFriendRequest(nickname:string, request:string): Observable<any>{
-    const body = {nickname,request }
+  AcceptFriendRequest(nickname:string, amigo:string): Observable<any>{
+    const body = {nickname,amigo }
     const headers = new HttpHeaders(
       {
           'Content-Type': 'application/json',
@@ -63,8 +63,8 @@ export class FriendListServiceService {
   // Enviar { "nickname": "<nickname>",
   //          "request": "<request>"}
   // Devolver { "exito" : "<exito: boolean>"}
-  DeclineFriendRequest(nickname:string, request:string): Observable<any>{
-    const body = {nickname,request }
+  DeclineFriendRequest(nickname:string, amigo:string): Observable<any>{
+    const body = {nickname,amigo }
     const headers = new HttpHeaders(
       {
           'Content-Type': 'application/json',
@@ -76,8 +76,8 @@ export class FriendListServiceService {
   getFriendList (){
     this.GetFriendList(UserServiceService.user.nickname).subscribe(datos=>{
       FriendListServiceService.friendList = [];
-      for(let i=0;i<datos.length;i++){
-        FriendListServiceService.friendList.push(datos.friendList[i]);
+      for(let i=0;i<datos.friendList.length;i++){
+        FriendListServiceService.friendList.push(datos.friendList[i].valor);
       }
     })
   }
@@ -89,7 +89,6 @@ export class FriendListServiceService {
       for(let i=0;i<datos.friendRequests.length;i++){
         FriendListServiceService.friendRequests.push(datos.friendRequests[i].valor);
       }
-      console.log(FriendListServiceService.friendRequests)
     })
   }
 

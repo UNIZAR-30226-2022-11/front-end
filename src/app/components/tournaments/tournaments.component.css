@@ -1,0 +1,42 @@
+table.bracket {
+    margin-top :15px;
+    border-collapse: collapse;
+    border: none;
+    text-align: center;
+}
+
+.bracket td {
+    vertical-align: middle;
+    width: 40em;
+    margin: 0;
+    padding: 10px;
+}
+
+.bracket td p {
+    border-bottom: solid 1px black;
+    margin: 0;
+    padding: 5px 5px 5px 5px;
+}
+
+.bracket th{
+    text-align:center;
+}
+
+.header{
+    text-align: left;
+    font-size: large;
+    border-bottom: 1px solid black; 
+    padding: 10px;
+}
+
+.header button{
+    float: right;
+    height: 40px;
+    width:100px;
+    background-color: skyblue;
+    cursor: pointer;
+}
+
+.header button:hover{
+    background-color: aquamarine;
+}

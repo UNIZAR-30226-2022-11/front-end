@@ -15,4 +15,8 @@ export class AppComponent {
     }
     
   }
+
+  get logged(){
+    return UserServiceService.logged;
+  }
 }

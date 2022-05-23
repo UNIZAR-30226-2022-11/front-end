@@ -15,3 +15,10 @@
     padding: 5px 0px 5px 20px;
     background-color: rgb(216, 216, 95);
 }
+
+.header{
+    text-align: center;
+    font-size: large;
+    border-bottom: 1px solid black; 
+    padding: 10px;
+}

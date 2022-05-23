@@ -57,21 +57,36 @@ export class JuegoComponent implements OnInit{
   pierde:boolean = false;
   gana:boolean = false;
 
+  static modoJuego: string;
 
 
   static ia:boolean = false;
+  get IAGame(){
+    return JuegoComponent.ia;
+  }
   static online:boolean = false;
-  static modoJuego: string;
-  user: usuario = UserServiceService.user;
-  
-  rival: usuario ={ nickname: "",
-  puntos: 0,
-  monedas: 0,
-  avatar: "",
-  piezas: "",
-  tablero: ""
+  get OnlineGame(){
+    return JuegoComponent.online;
   }
 
+  user: usuario = UserServiceService.user;
+
+ rival: usuario ={ nickname: "",
+puntos: 0,
+monedas: 0,
+avatar: "knight_board",
+piezas: "",
+tablero: ""
+}
+
+//static avatarImg:string = avatarPath[UserServiceService.user.avatar]
+get avatarUser():string{
+  return "../../."+avatarPath[this.user.avatar];
+}
+
+  get avatarRival():string{
+    return "../../."+avatarPath[this.rival.avatar];
+  }
 
   opponent:string = ""
   miTurno:boolean = true;  //si no es mi turno no puedo seleccionar
@@ -383,14 +398,14 @@ export class JuegoComponent implements OnInit{
   //valor para casillas vacias
   v:pieza = {"col":"", "fil":"", "img": "", "color":0};
   
-  static avatarImg:string = avatarPath[UserServiceService.user.avatar]
 
   //piezas del tablero 
 
-  static tableroImg:string = "./assets/ajedrez/tablero.png"
+  //static tableroImg:string = "./assets/ajedrez/tablero.png"
   get tableroImg(){
-    return JuegoComponent.tableroImg;
+    return "../../."+tablePath[this.user.tablero];
   }
+
 
 
   static peonBlanco:string = "./assets/ajedrez/peon_blanco.png"

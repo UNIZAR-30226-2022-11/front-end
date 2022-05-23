@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { usuario } from 'src/app/other/interfaces';
+import { avatarPath, usuario } from 'src/app/other/interfaces';
 import { ServiceClientService } from '../../services/service-client.service';
 import * as bcrypt from 'bcryptjs';
 import { FriendListComponent } from '../friend-list/friend-list.component';
@@ -98,10 +98,14 @@ export class LoginComponent implements OnInit {
         var user = g.get('user')!.value
         this.signupForm.reset();
         UserServiceService.logged = true;
-        UserServiceService.user = resp.user; 
+        UserServiceService.user.nickname = resp.user.nickname; 
         this.servicioCliente.GetPoints(user).subscribe(resp=>{
           UserServiceService.user.puntos = resp.points.points;
         });
+        this.servicioCliente.BuyItem(user,"BoardGris","table").subscribe(resp=>{})
+        //this.servicioCliente.BuyItem(user,"","pieces").subscribe(resp=>{})
+        this.servicioCliente.BuyItem(user,"knight_avatar","avatar").subscribe(resp=>{})
+
         // SI NO SE CARGAN LOS AMIGOS Y SOLICITUDES AL REGISTRARSE SE DEBE EJECUTAR DESDE AQUI
         //FriendListComponent.
         this.friendListService.refreshLists();
@@ -134,6 +138,11 @@ export class LoginComponent implements OnInit {
 
   get staticUsername():string{
     return UserServiceService.user.nickname;
+  }
+
+  avatarPath = avatarPath;
+  get avatar(){
+    return this.avatarPath[UserServiceService.user.avatar];
   }
 
   logOut(){
