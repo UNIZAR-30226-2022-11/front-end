@@ -18,6 +18,7 @@ export class PlayComponent implements OnInit {
     JuegoComponent.segundos = 0;
     JuegoComponent.ia = false;
     JuegoComponent.online = false;
+    JuegoComponent.modoJuego = t.toString()
   }
 
   ponerTiempoIA(t:number){
@@ -25,6 +26,7 @@ export class PlayComponent implements OnInit {
     JuegoComponent.segundos = 0;
     JuegoComponent.ia = true;
     JuegoComponent.online = false;
+    JuegoComponent.modoJuego = t.toString()
   }
 
   ponerTiempoOnline(t:number){
@@ -32,6 +34,7 @@ export class PlayComponent implements OnInit {
     JuegoComponent.segundos = 0;
     JuegoComponent.online = true;
     JuegoComponent.ia = false;
+    JuegoComponent.modoJuego = t.toString()
   }
 
 

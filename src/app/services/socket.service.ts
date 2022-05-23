@@ -9,12 +9,12 @@ export class SocketService {
 
   	
 	//(opponent, moveFI, moveCI, moveFF, moveCF)
-	sendGameMove(opponent:string, moveFI:number, moveCI:number, moveFF:number, moveCF:number) {
-		this.socket.emit('sendGameMove', opponent, moveFI, moveCI, moveFF, moveCF);
+	sendGameMove(moveFI:number, moveCI:number, moveFF:number, moveCF:number) {
+		this.socket.emit('sendGameMove', moveFI, moveCI, moveFF, moveCF);
 		
 	} 
 
-	//op: "", side: ""
+	//op: "", side: "", tablero: ""
 	getOpponent() {
 		return this.socket.fromEvent('getOpponent');
 		
@@ -30,13 +30,13 @@ export class SocketService {
 		return this.socket.fromEvent('getMessage');	
 	}
 
-	//sendMessage(opponent:string, msg:string)
-	sendMessage(opponent:string, msg:string) {
-		this.socket.emit('sendMessage', opponent, msg);	
+	//sendMessage(msg:string)
+	sendMessage(msg:string) {
+		this.socket.emit('sendMessage', msg);	
 	}
 
-	blanck() {
-		return this.socket.fromEvent('blanck');	
+	buscarPartida(nickname:string, modoJuego:string){
+		this.socket.emit('buscarPartida', nickname, modoJuego);	
 	}
 
 }

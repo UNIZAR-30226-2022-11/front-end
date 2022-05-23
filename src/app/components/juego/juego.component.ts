@@ -61,16 +61,16 @@ export class JuegoComponent implements OnInit{
 
   static ia:boolean = false;
   static online:boolean = false;
-
+  static modoJuego: string;
   user: usuario = UserServiceService.user;
-
- rival: usuario ={ nickname: "",
-puntos: 0,
-monedas: 0,
-avatar: "",
-piezas: "",
-tablero: ""
-}
+  
+  rival: usuario ={ nickname: "",
+  puntos: 0,
+  monedas: 0,
+  avatar: "",
+  piezas: "",
+  tablero: ""
+  }
 
 
   opponent:string = ""
@@ -79,8 +79,14 @@ tablero: ""
   primeraSub:boolean = false;
 
   online():void {
+    this.user.nickname = this.randomInt(0, 100).toString()
+    //console.log(JuegoComponent.modoJuego)
+    console.log(this.user.nickname)
+      this.socketService.buscarPartida(this.user.nickname, JuegoComponent.modoJuego)
+
       this.socketService.getOpponent().subscribe((data: any) => {
-        this.opponent = data.id
+        //this.opponent = data.id
+        this.rival.nickname = data.opNick
         ChatComponent.conectado = true;
         ChatComponent.socketService = this.socketService
         ChatComponent.opponent = this.opponent
@@ -5344,10 +5350,10 @@ moverPieza(pieza:pieza):boolean{
               this.torreBlanca0.col = this.columna[3] + "%"
 
               if(JuegoComponent.online)
-              {this.socketService.sendGameMove(this.opponent, this.filaIni, this.columnIni, this.filaFin, this.columnFin);}
+              {this.socketService.sendGameMove(this.filaIni, this.columnIni, this.filaFin, this.columnFin);}
               if(JuegoComponent.online)
               {
-                this.socketService.sendGameMove(this.opponent, this.filaIni, this.columnIni, this.filaFin, this.columnFin);
+                this.socketService.sendGameMove(this.filaIni, this.columnIni, this.filaFin, this.columnFin);
                 this.miTurno = false;
               }
               this.seleccionada = !this.seleccionada
@@ -5381,7 +5387,7 @@ moverPieza(pieza:pieza):boolean{
               this.torreBlanca1.col = this.columna[5] + "%"
               if(JuegoComponent.online)
               {
-                this.socketService.sendGameMove(this.opponent, this.filaIni, this.columnIni, this.filaFin, this.columnFin);
+                this.socketService.sendGameMove(this.filaIni, this.columnIni, this.filaFin, this.columnFin);
                 this.miTurno = false;
               }
               this.seleccionada = !this.seleccionada
@@ -5418,7 +5424,7 @@ moverPieza(pieza:pieza):boolean{
               this.torreBlanca0.col = this.columna[4] + "%"
               if(JuegoComponent.online)
               {
-                this.socketService.sendGameMove(this.opponent, this.filaIni, this.columnIni, this.filaFin, this.columnFin);
+                this.socketService.sendGameMove(this.filaIni, this.columnIni, this.filaFin, this.columnFin);
                 this.miTurno = false;
               }
               this.seleccionada = !this.seleccionada
@@ -5454,7 +5460,7 @@ moverPieza(pieza:pieza):boolean{
               this.torreBlanca1.col = this.columna[2] + "%"
               if(JuegoComponent.online)
               {
-                this.socketService.sendGameMove(this.opponent, this.filaIni, this.columnIni, this.filaFin, this.columnFin);
+                this.socketService.sendGameMove(this.filaIni, this.columnIni, this.filaFin, this.columnFin);
                 this.miTurno = false;
               }
               this.seleccionada = !this.seleccionada
@@ -5491,7 +5497,7 @@ moverPieza(pieza:pieza):boolean{
               this.torreNegra0.col = this.columna[5] + "%"
               if(JuegoComponent.online)
               {
-                this.socketService.sendGameMove(this.opponent, this.filaIni, this.columnIni, this.filaFin, this.columnFin);
+                this.socketService.sendGameMove(this.filaIni, this.columnIni, this.filaFin, this.columnFin);
                 this.miTurno = false;
               }
               this.seleccionada = !this.seleccionada
@@ -5527,7 +5533,7 @@ moverPieza(pieza:pieza):boolean{
               this.torreNegra1.col = this.columna[3] + "%"
               if(JuegoComponent.online)
               {
-                this.socketService.sendGameMove(this.opponent, this.filaIni, this.columnIni, this.filaFin, this.columnFin);
+                this.socketService.sendGameMove(this.filaIni, this.columnIni, this.filaFin, this.columnFin);
                 this.miTurno = false;
               }
               this.seleccionada = !this.seleccionada
@@ -5564,7 +5570,7 @@ moverPieza(pieza:pieza):boolean{
 
               if(JuegoComponent.online)
               {
-                this.socketService.sendGameMove(this.opponent, this.filaIni, this.columnIni, this.filaFin, this.columnFin);
+                this.socketService.sendGameMove(this.filaIni, this.columnIni, this.filaFin, this.columnFin);
                 this.miTurno = false;
               }
 
@@ -5604,7 +5610,7 @@ moverPieza(pieza:pieza):boolean{
 
               if(JuegoComponent.online)
               {
-                this.socketService.sendGameMove(this.opponent, this.filaIni, this.columnIni, this.filaFin, this.columnFin);
+                this.socketService.sendGameMove(this.filaIni, this.columnIni, this.filaFin, this.columnFin);
                 this.miTurno = false;
               }
 
@@ -5920,7 +5926,7 @@ moverPieza(pieza:pieza):boolean{
         if(JuegoComponent.online){
           console.log("he enviado: ")
           console.log(this.opponent, this.filaIni, this.columnIni, this.filaFin, this.columnFin)
-          this.socketService.sendGameMove(this.opponent, this.filaIni, this.columnIni, this.filaFin, this.columnFin);
+          this.socketService.sendGameMove(this.filaIni, this.columnIni, this.filaFin, this.columnFin);
           this.miTurno = false;
         }
 
