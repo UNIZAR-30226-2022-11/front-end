@@ -22,7 +22,7 @@
     clear: both;
   }
 
-  .column a {
+  .column a{
     text-decoration: none;
     border:white; border-width:5px; border-style:solid;
     color:black;
@@ -46,4 +46,51 @@
 
   .column input{
     text-align: center;
+  }
+
+  /*.column input{
+    text-decoration: none;
+    border:white; border-width:5px; border-style:solid;
+    color:black;
+    margin: 10px 0px 15px 0px;
+    display: table;
+    border-radius: 20px;
+    width: 100%;
+    font-size:1.2em;
+  }*/
+
+
+  .example input[type=text] {
+    padding: 10px;
+    font-size: 17px;
+    border: 1px solid grey;
+    float: left;
+    width: 80%;
+    background: #f1f1f1;
+    border-radius: 20px 0 0 20px;
+    text-align: left;
+  }
+  
+  .example button {
+    float: left;
+    width: 20%;
+    padding: 0px;
+
+    background: #2196F3;
+    color: white;
+    font-size: 17px;
+    border: 1px solid grey;
+    border-left: none;
+    cursor: pointer;
+    border-radius: 0 20px 20px 0;
+  }
+  
+  .example button:hover {
+    background: #0b7dda;
+  }
+  
+  .example :after {
+    content: "";
+    clear: both;
+    display: table;
   }

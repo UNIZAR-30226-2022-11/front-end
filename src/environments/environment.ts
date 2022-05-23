@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  socketUrl: 'http://localhost:3000/'
+ // socketUrl: 'http://localhost:3000/'
+  socketUrl: 'http://ec2-18-206-137-85.compute-1.amazonaws.com:3000'
 };
 
 

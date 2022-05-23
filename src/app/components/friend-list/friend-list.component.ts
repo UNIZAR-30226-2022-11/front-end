@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ServiceClientService } from '../../services/service-client.service';
 import { UserServiceService } from 'src/app/services/user-service.service';
 import { FriendListServiceService } from 'src/app/services/friend-list-service.service';
+import { SocketService } from 'src/app/services/socket.service';
 @Component({
   selector: 'app-friend-list',
   templateUrl: './friend-list.component.html',
@@ -37,38 +38,12 @@ export class FriendListComponent implements OnInit {
   }
 
 
-  constructor(private servicioCliente:FriendListServiceService
+  constructor(private servicioCliente:FriendListServiceService,
+    protected socketService: SocketService,
     ) {console.log(servicioCliente)}
 
   ngOnInit(): void {
-    /*if (UserServiceService.logged) {
-      this.getFriendList();
-      this.getFriendRequests();
-    }*/
-    //Traer todos los amigos del backend
-    /*this.servicioCliente.GetFriendList("QWER").subscribe(datos=>{
-      for(let i=0;i<datos;i++){
-        this.friendList.push(datos[i]);
-      }
-    })*/
-/*
-    this.servicioCliente.GetFriendRequests("borrar").subscribe(datos=>{
-      for(let i=0;i<datos;i++){
-        this.friendRequests.push(datos[i]);
-      }
-    })*/
 
-    /*Codigo de prueba que funciona
-    this.servicioCliente.getAllPersonajes().subscribe((datos : any)=>{
-      this.personajes = datos;
-      console.log(this.personajes)
-      for(let i=0;i<datos.results.length;i++){
-        this.prueba.push(datos.results[i]);
-      }
-      console.log(datos.results)
-      console.log(this.prueba);
-    })
-    */
     if (this.showFriendList){
       var element=document.getElementById("friendSelector")
       element?.classList.add('showing')
@@ -76,19 +51,20 @@ export class FriendListComponent implements OnInit {
       var element=document.getElementById("requestSelector")
       element?.classList.add('showing')
     }
+    this.socketService.getGameInvites().subscribe((data: any) => {
+      var val = confirm(data + " te ha invitado a una partida online.");
+      if (val == true) {
+        alert("Partida aceptada.");
+      } else {
+        alert("Partida rechazada.");
+      }
+    });
   }
 
 
 
-  InvitarAmigo(user:string){
-    //SOCKETS
-    //UserServiceService.user.nickname contiene el nombre del usuario logeado (por si lo necesitas)
-    var val = confirm("Type your text here.");
-if (val == true) {
-alert("You pressed OK.");
-} else {
-alert("You pressed Cancel.");
-}
+  InvitarAmigo(friend:string){
+    this.socketService.inviteFriend(friend);
   }
 
   AceptarSolicitud(user:string){

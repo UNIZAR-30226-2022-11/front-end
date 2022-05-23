@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { JuegoComponent } from '../juego/juego.component';
+import { TournamentsComponent } from '../tournaments/tournaments.component';
 
 @Component({
   selector: 'app-play',
@@ -8,7 +10,13 @@ import { JuegoComponent } from '../juego/juego.component';
 })
 export class PlayComponent implements OnInit {
 
-  constructor() { }
+  codigoForm: FormGroup
+
+  constructor(private _builderCodigo: FormBuilder) { 
+    this.codigoForm = this._builderCodigo.group({
+      codigo: ['', Validators.required]
+    })
+  }
 
   ngOnInit(): void {
   }
@@ -33,6 +41,20 @@ export class PlayComponent implements OnInit {
     JuegoComponent.online = true;
     JuegoComponent.ia = false;
   }
+
+  buscarCodigo(g: FormGroup){
+    console.log(g.get('codigo')!.value);
+    this.codigoForm.reset()
+  }
+
+  torneoPublico(){
+    TournamentsComponent.crearTorneo(false)
+  }
+
+  torneoPrivado(){
+    TournamentsComponent.crearTorneo(true)
+  }
+
 
 
 

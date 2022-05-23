@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io';  
+import { UserServiceService } from './user-service.service';
 
 @Injectable({
 	providedIn: 'root'
@@ -37,6 +38,20 @@ export class SocketService {
 
 	blanck() {
 		return this.socket.fromEvent('blanck');	
+	}
+
+	//envio {'inviteFriend', <nombre de usuario de quien invita>, <nombre de usuario a qn le debe llegar la invitacion>}
+	inviteFriend(friend:string){
+		this.socket.emit('inviteFriend', UserServiceService.user.nickname, friend);
+	}
+
+	//quiero recibir {<nombre de usuario de qn me ha invitado>}
+	getGameInvites(){
+		return this.socket.fromEvent('getGameInvites')
+	}
+
+	getFriendOpponent(){
+		return this.socket.fromEvent('getFriendOpponent')
 	}
 
 }

@@ -25,6 +25,7 @@ import { MatchHistoryComponent } from './components/match-history/match-history.
 import { RankingComponent } from './components/ranking/ranking.component';
 import { ChatComponent } from './components/chat/chat.component';
 import { SearchTournamentComponent } from './components/search-tournament/search-tournament.component';
+import { TournamentsComponent } from './components/tournaments/tournaments.component';
 
 const rutas: Routes = [
   {
@@ -71,6 +72,10 @@ const rutas: Routes = [
   {
     path: 'searchTournament',
     component: SearchTournamentComponent
+  },
+  {
+    path: 'tournaments',
+    component: TournamentsComponent
   }
 ]
 
@@ -100,6 +105,7 @@ const config: SocketIoConfig = {
     RankingComponent,
     ChatComponent,
     SearchTournamentComponent,
+    TournamentsComponent,
   ],
   imports: [
     BrowserModule,

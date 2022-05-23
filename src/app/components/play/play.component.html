@@ -16,12 +16,14 @@
       </div>
       <div class="column" style="background-color:#ccc;">
         <h2>TOURNAMENTS</h2>
-        <a (click)="ponerTiempo(3)" routerLink="/juego">
-          <button>a</button>CREATE
-          <button>b</button>
-        </a>
+        <a (click)="torneoPublico()"routerLink="/tournaments">CREATE PUBLIC</a>
+        <a (click)="torneoPrivado()" routerLink="/tournaments">CREATE PRIVATE</a>
         <a routerLink="/searchTournament">SEARCH</a>
-        <input type="text" placeholder="Join Private Tournament">
-        <a routerLink="/shop">JOIN</a>
+        <div class="example">
+          <form [formGroup]="codigoForm" (ngSubmit)="buscarCodigo(codigoForm)">
+            <input formControlName="codigo" type="text" placeholder="Join Private Tournament" required>
+            <button type="submit"><img class="fa fa-search" style="height: 35px;width: 35px;" src="../../../assets/web/search-icon.png"></button>
+          </form>
+        </div>
       </div>
     </div>
