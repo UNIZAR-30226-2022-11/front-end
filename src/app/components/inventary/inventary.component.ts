@@ -22,43 +22,9 @@ export class InventaryComponent implements OnInit {
   static selectedTable: string = "BoardGris";
   static selectedPieza: string = "default_Piezas";
   static selectedAvatar: string = "knight_avatar";
-  tablesList: Array<articulo>=[
-    {   nombre: "BoardMarron",
-        precio: 0,
-        tipo: "table"},
-    {   nombre: "BoardGris",
-        precio: 5,
-        tipo: "table"},
-    {   nombre: "BoardAzul",
-        precio: 10,
-        tipo: "table"},
-    {   nombre: "BoardRojoAzul",
-        precio: 15,
-        tipo: "table"}
-    ];
-  piecesList: Array<articulo>=[
-    {   nombre: "default_Piezas",
-        precio: 0,
-        tipo: "piece"}, 
-
-    {   nombre: "rojiAzul_Piezas",
-        precio: 0,
-        tipo: "piece"}
-    ];
-  avatarsList: Array<articulo> =  [
-    {   nombre: "star_avatar",
-        precio: 0,
-        tipo: "avatar"},
-    {   nombre: "heart_avatar",
-        precio: 120,
-        tipo: "table"},
-    {   nombre: "soccer_avatar",
-        precio: 120,
-        tipo: "table"},
-    {   nombre: "knight_avatar",
-        precio: 120,
-        tipo: "table"},
-    ];
+  tablesList: Array<articulo>=[];
+  piecesList: Array<articulo>=[];
+  avatarsList: Array<articulo> =  [];
 
     ngOnInit(): void {
       if (this.showTables){
@@ -116,7 +82,7 @@ export class InventaryComponent implements OnInit {
       if (datos.exito == true){
         InventaryComponent.selectedTable = table;
         UserServiceService.user.tablero = table;
-        JuegoComponent.tableroImg = tablePath[table];
+        //JuegoComponent.tableroImg = tablePath[table];
       }
     })
   }
@@ -179,7 +145,7 @@ export class InventaryComponent implements OnInit {
       if (datos.exito == true){
         InventaryComponent.selectedAvatar = avatar;
         UserServiceService.user.avatar = avatar;
-        JuegoComponent.avatarImg = avatarPath[avatar];
+        //JuegoComponent.avatarImg = avatarPath[avatar];
       }
     })
   }
@@ -207,6 +173,7 @@ export class InventaryComponent implements OnInit {
 
       }
     })
+
   }
 
 }

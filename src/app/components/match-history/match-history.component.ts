@@ -12,17 +12,7 @@ export class MatchHistoryComponent implements OnInit {
   constructor(private servicioCliente:ServiceClientService
     ) {console.log(servicioCliente)}
 
-  matchHistory: Array<matchHistory> =[
-    {
-      rival:"a",ganador:true,empate:true
-    },
-    {
-      rival:"b",ganador:true,empate:false
-    },
-    {
-    rival:"c",ganador:false,empate:false
-    }
-  ];
+  matchHistory: Array<matchHistory> =[];
 
   ngOnInit(): void {
     if (UserServiceService.logged) {

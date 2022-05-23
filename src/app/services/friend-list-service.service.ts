@@ -12,8 +12,8 @@ export class FriendListServiceService {
 
   constructor(private servicio:HttpClient) { }
 
-  static friendList: Array<string>=["hola"]; //DEJAR LISTA VACIA
-  static friendRequests: Array<string>=["adios"]; //DEJAR LISTA VACIA
+  static friendList: Array<string>=[]; //DEJAR LISTA VACIA
+  static friendRequests: Array<string>=[]; //DEJAR LISTA VACIA
 
   //Devolver lista de amigos con los mismos campos que la BD
   // Enviar { "nickname": "<nombre>" }
