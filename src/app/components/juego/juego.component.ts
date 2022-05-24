@@ -686,6 +686,8 @@ tableroBlanco:pieza[][] =
     if(this.turno == true && this.negro == 1){ //turno = true para blancas, busca el jaque a las negras(ia es blanca) 
      
 
+      if(this.reyBlanco.color == 0){this.timer.stop();this.timer.stop2();this.gana = true; return}
+      if(this.reyNegro.color == 0){this.timer.stop();this.timer.stop2();this.pierde = true; return}
       var aux:pieza = this.jaque(this.reyBlanco)
     //if jaque a tu rey blanco
     //matar amenaza
@@ -1878,6 +1880,9 @@ tableroBlanco:pieza[][] =
 
       //if jaque a tu rey blanco
       //matar amenaza
+      if(this.reyBlanco.color == 0){this.timer.stop();this.timer.stop2();this.pierde = true; return}
+      if(this.reyNegro.color == 0){this.timer.stop();this.timer.stop2();this.gana = true; return}
+
       var aux:pieza = this.jaque(this.reyNegro)
       if(aux != this.v && aux.color== 1){
         //console.log(this.jaque(aux))
