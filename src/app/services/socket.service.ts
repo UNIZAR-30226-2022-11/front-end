@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io';  
+import { pieza } from '../other/interfaces';
 import { UserServiceService } from './user-service.service';
 
 @Injectable({
@@ -12,7 +13,6 @@ export class SocketService {
 	//(opponent, moveFI, moveCI, moveFF, moveCF)
 	sendGameMove(moveFI:number, moveCI:number, moveFF:number, moveCF:number) {
 		this.socket.emit('sendGameMove', moveFI, moveCI, moveFF, moveCF);
-		
 	} 
 
 	//op: "", side: "", tablero: ""
@@ -52,6 +52,18 @@ export class SocketService {
 
 	getFriendOpponent(){
 		return this.socket.fromEvent('getFriendOpponent')
+	}
+
+	enviarTablero(){
+		return this.socket.fromEvent('enviarTablero')
+	}
+
+	recibirTablero(side:boolean, tablero:pieza[][]){
+		this.socket.emit('enviarTablero', side, tablero)
+	}
+
+	oponenteDesconectado(){
+		return this.socket.fromEvent('oponenteDesconectado')
 	}
 
 }

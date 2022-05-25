@@ -99,7 +99,20 @@ get avatarUser():string{
     console.log(this.user.nickname)
       this.socketService.buscarPartida(this.user.nickname, JuegoComponent.modoJuego)
 
+      this.socketService.enviarTablero().subscribe(() => {
+        this.socketService.recibirTablero(this.side, this.tablero);
+      })
+
+      this.socketService.oponenteDesconectado().subscribe(() => {
+        this.gana = true
+        this.timer.stop();
+        this.timer.stop2();
+        //http save match
+
+      })
+
       this.socketService.getOpponent().subscribe((data: any) => {
+        //comporbar si ya tengo oponente??
         //this.opponent = data.id
         this.rival.nickname = data.opNick
         ChatComponent.conectado = true;
@@ -125,7 +138,7 @@ get avatarUser():string{
           this.columnIni = 7 - data.cI
           this.filaFin = 7 - data.fF
           this.columnFin = 7 - data.cF
-          console.log("he recibido OJITO")
+          //console.log("he recibido OJITO")
           // console.log("FI: ", this.filaIni)
           // console.log("CI: ", this.columnIni)
           // console.log("FF: ", this.filaFin)
