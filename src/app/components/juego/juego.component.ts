@@ -27,7 +27,6 @@ export class JuegoComponent implements OnInit{
   //variable estática de victoria
   JuegoComponent.finTiempo1 = false;
   JuegoComponent.finTiempo2 = false;
-
     console.log("buenas")
     if(JuegoComponent.online) {
 
@@ -98,11 +97,11 @@ get avatarUser():string{
     //console.log(JuegoComponent.modoJuego)
     console.log(this.user.nickname)
     console.log(UserServiceService.user.nickname)
-      this.socketService.buscarPartida(this.user.nickname, JuegoComponent.modoJuego, "this.user.avatar", "amigo")
+      this.socketService.buscarPartida(this.user.nickname, JuegoComponent.modoJuego, this.user.avatar, "amigo")
 
       this.socketService.enviarTablero().subscribe(() => {
         console.log("ME HAN PEDIDO EL TABLERO")
-        this.socketService.recibirTablero(this.side, this.tablero, this.turno, this.timer.minutes2, this.timer.seconds2);
+        this.socketService.recibirTablero(this.side, this.tablero, this.turno, this.timer);
       })
 
       this.socketService.oponenteDesconectado().subscribe(() => {
@@ -137,7 +136,12 @@ get avatarUser():string{
             this.side = data
             this.tablero = data.board
             this.turno = data.turno
-            //JuegoComponent.minutos = data.minutos
+            this.timer = data.t1
+            if(data.side == "1"){
+              this.miTurno = this.turno
+            } else{
+              this.miTurno = !this.turno
+            }
           }
 
           this.rival.avatar = data.avatar

@@ -2,6 +2,7 @@ import { Time } from '@angular/common';
 import { Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io';  
 import { SocketOne, SocketTwo } from '../app.module';
+import { TimerComponent } from '../components/timer/timer.component';
 import { pieza } from '../other/interfaces';
 import { UserServiceService } from './user-service.service';
 
@@ -60,8 +61,8 @@ export class SocketService{
 		return this.socket.fromEvent('enviarTablero')
 	}
 
-	recibirTablero(side:boolean, tablero:pieza[][], turno:boolean, timer1:number, timer2:number){
-		this.socket.emit('enviarTablero', side, tablero, turno, timer1, timer2)
+	recibirTablero(side:boolean, tablero:pieza[][], turno:boolean, t1:TimerComponent){
+		this.socket.emit('enviarTablero', side, tablero, turno, t1)
 	}
 
 	oponenteDesconectado(){
