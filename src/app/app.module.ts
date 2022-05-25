@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { Injectable, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -17,7 +17,7 @@ import { HttpClientModule } from '@angular/common/http'
 import { TimerComponent } from './components/timer/timer.component';
 import { ShopComponent } from './components/shop/shop.component';
 
-import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+import { SocketIoModule, SocketIoConfig, Socket } from 'ngx-socket-io';
 import { environment } from 'src/environments/environment';
 import { ListComponent } from './components/list/list.component';
 import { InventaryComponent } from './components/inventary/inventary.component';
@@ -26,6 +26,7 @@ import { RankingComponent } from './components/ranking/ranking.component';
 import { ChatComponent } from './components/chat/chat.component';
 import { SearchTournamentComponent } from './components/search-tournament/search-tournament.component';
 import { TournamentsComponent } from './components/tournaments/tournaments.component';
+import { SocketFriends, SocketService } from './services/socket.service';
 
 const rutas: Routes = [
   {
@@ -79,11 +80,33 @@ const rutas: Routes = [
   }
 ]
 
+/*const config2: SocketIoConfig = {
+  url: 'http://ec2-18-206-137-85.compute-1.amazonaws.com:3001', // socket server url;
+	options: {
+		transports: ['websocket']
+	}
+}
+
 const config: SocketIoConfig = {
 	url: environment.socketUrl, // socket server url;
 	options: {
 		transports: ['websocket']
 	}
+}
+*/
+
+@Injectable()
+export class SocketOne extends Socket {
+  constructor() {
+    super({ url:  'http://ec2-18-206-137-85.compute-1.amazonaws.com:3000',options: {transports: ['websocket']}});
+  }
+}
+
+@Injectable()
+export class SocketTwo extends Socket {
+  constructor() {
+    super({ url:  'http://ec2-18-206-137-85.compute-1.amazonaws.com:3001', options: {transports: ['websocket']} });
+  }
 }
 
 @NgModule({
@@ -112,12 +135,13 @@ const config: SocketIoConfig = {
     AppRoutingModule,
     ReactiveFormsModule,
     HttpClientModule,
-    SocketIoModule.forRoot(config),
+    //SocketIoModule.forRoot(config),
+    //SocketIoModule.forRoot(config2),
     RouterModule.forRoot(rutas, {
       paramsInheritanceStrategy:'always'
     })
   ],
-  providers: [],
+  providers: [SocketOne, SocketTwo],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

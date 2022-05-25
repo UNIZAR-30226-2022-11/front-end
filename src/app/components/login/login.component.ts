@@ -7,6 +7,7 @@ import * as bcrypt from 'bcryptjs';
 import { FriendListComponent } from '../friend-list/friend-list.component';
 import { UserServiceService } from 'src/app/services/user-service.service';
 import { FriendListServiceService } from 'src/app/services/friend-list-service.service';
+import { SocketFriends } from 'src/app/services/socket.service';
 const salt = bcrypt.genSaltSync(10);
 
 
@@ -38,6 +39,7 @@ export class LoginComponent implements OnInit {
     private servicioCliente:ServiceClientService,
     private userVerification:UserServiceService,
     private friendListService:FriendListServiceService,
+    private socket: SocketFriends,
     ) { 
       console.log(servicioCliente)
       this.signinForm = this._builderSignin.group({
@@ -77,6 +79,7 @@ export class LoginComponent implements OnInit {
         this.signinForm.reset();
         UserServiceService.logged = true;
         UserServiceService.user = resp;
+        this.socket.conect(UserServiceService.user.nickname);
        // FriendListComponent.getFriendList();
        // SI NO SE CARGAN LOS AMIGOS Y SOLICITUDES AL LOGEARSE SE DEBE EJECUTAR DESDE AQUI
         this.friendListService.refreshLists();
