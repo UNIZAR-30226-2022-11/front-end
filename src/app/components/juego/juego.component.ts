@@ -94,14 +94,15 @@ get avatarUser():string{
   primeraSub:boolean = false;
 
   online():void {
-    //this.user.nickname = this.randomInt(0, 100).toString()
+    this.user.nickname = this.randomInt(0, 100).toString()
     //console.log(JuegoComponent.modoJuego)
     console.log(this.user.nickname)
     console.log(UserServiceService.user.nickname)
-      this.socketService.buscarPartida(this.user.nickname, JuegoComponent.modoJuego)
+      this.socketService.buscarPartida(this.user.nickname, JuegoComponent.modoJuego, "this.user.avatar", "amigo")
 
       this.socketService.enviarTablero().subscribe(() => {
-        this.socketService.recibirTablero(this.side, this.tablero);
+        console.log("ME HAN PEDIDO EL TABLERO")
+        this.socketService.recibirTablero(this.side, this.tablero, this.turno, this.timer.minutes2, this.timer.seconds2);
       })
 
       this.socketService.oponenteDesconectado().subscribe(() => {
@@ -119,19 +120,27 @@ get avatarUser():string{
         ChatComponent.conectado = true;
         ChatComponent.socketService = this.socketService
         ChatComponent.opponent = this.opponent
-        if(data.side == "1"){ //si soy blanco
-          this.miTurno = true; //mi turno
-          this.side = true
-          this.elegirLado(this.miTurno) // lado config para blancas
-          this.turno = true; //true es turno blancas
-          this.start(); //empieza timer(blancas)
-        } else {
-          this.miTurno = false; // no es mi turno
-          this.side = false;
-          this.elegirLado(this.miTurno) //config para negras
-          this.turno= true;
-          this.start(); // empieza su timer(blancas)
-        }
+        if(data.load == 0){          
+            if(data.side == "1"){ //si soy blanco
+            this.miTurno = true; //mi turno
+            this.side = true
+            this.elegirLado(this.miTurno) // lado config para blancas
+            this.turno = true; //true es turno blancas
+            this.start(); //empieza timer(blancas)
+          } else {
+            this.miTurno = false; // no es mi turno
+            this.side = false;
+            this.elegirLado(this.miTurno) //config para negras
+            this.turno= true;
+            this.start(); // empieza su timer(blancas)
+          }} else{
+            this.side = data
+            this.tablero = data.board
+            this.turno = data.turno
+            //JuegoComponent.minutos = data.minutos
+          }
+
+          this.rival.avatar = data.avatar
             
           this.socketService.getGameMove().subscribe((data: any) => {
           this.primeraSub = true

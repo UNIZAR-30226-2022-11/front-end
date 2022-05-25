@@ -1,6 +1,8 @@
+import { Time } from '@angular/common';
 import { Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io';  
 import { SocketOne, SocketTwo } from '../app.module';
+import { pieza } from '../other/interfaces';
 import { UserServiceService } from './user-service.service';
 
 @Injectable({
@@ -15,7 +17,7 @@ export class SocketService{
 		this.socket.emit('sendGameMove', moveFI, moveCI, moveFF, moveCF);
 	} 
 
-	//op: "", side: "", tablero: ""
+	//op: "", side: "", load="", tablero: "", turn=, t1, t1, avatar, friends
 	getOpponent() {
 		return this.socket.fromEvent('getOpponent');
 		
@@ -36,8 +38,8 @@ export class SocketService{
 		this.socket.emit('sendMessage', msg);	
 	}
 
-	buscarPartida(nickname:string, modoJuego:string){
-		this.socket.emit('buscarPartida', nickname, modoJuego);	
+	buscarPartida(nickname:string, modoJuego:string, avatar:string, friend:string){
+		this.socket.emit('buscarPartida', nickname, modoJuego, avatar, friend);	
 	}
 
 	/*//envio {'inviteFriend', <nombre de usuario de quien invita>, <nombre de usuario a qn le debe llegar la invitacion>}
@@ -58,8 +60,8 @@ export class SocketService{
 		return this.socket.fromEvent('enviarTablero')
 	}
 
-	recibirTablero(side:boolean, tablero:pieza[][]){
-		this.socket.emit('enviarTablero', side, tablero)
+	recibirTablero(side:boolean, tablero:pieza[][], turno:boolean, timer1:number, timer2:number){
+		this.socket.emit('enviarTablero', side, tablero, turno, timer1, timer2)
 	}
 
 	oponenteDesconectado(){
