@@ -94,9 +94,10 @@ get avatarUser():string{
   primeraSub:boolean = false;
 
   online():void {
-    this.user.nickname = this.randomInt(0, 100).toString()
+    //this.user.nickname = this.randomInt(0, 100).toString()
     //console.log(JuegoComponent.modoJuego)
     console.log(this.user.nickname)
+    console.log(UserServiceService.user.nickname)
       this.socketService.buscarPartida(this.user.nickname, JuegoComponent.modoJuego)
 
       this.socketService.enviarTablero().subscribe(() => {

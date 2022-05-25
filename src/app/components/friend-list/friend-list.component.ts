@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ServiceClientService } from '../../services/service-client.service';
 import { UserServiceService } from 'src/app/services/user-service.service';
 import { FriendListServiceService } from 'src/app/services/friend-list-service.service';
-import { SocketService } from 'src/app/services/socket.service';
+import { SocketFriends, SocketService } from 'src/app/services/socket.service';
 @Component({
   selector: 'app-friend-list',
   templateUrl: './friend-list.component.html',
@@ -39,7 +39,7 @@ export class FriendListComponent implements OnInit {
 
 
   constructor(private servicioCliente:FriendListServiceService,
-    protected socketService: SocketService,
+    protected socketService: SocketFriends,
     ) {console.log(servicioCliente)}
 
   ngOnInit(): void {
@@ -51,14 +51,17 @@ export class FriendListComponent implements OnInit {
       var element=document.getElementById("requestSelector")
       element?.classList.add('showing')
     }
-    this.socketService.getGameInvites().subscribe((data: any) => {
-      var val = confirm(data + " te ha invitado a una partida online.");
-      if (val == true) {
-        alert("Partida aceptada.");
-      } else {
-        alert("Partida rechazada.");
-      }
-    });
+      //this.socketService.conect(UserServiceService.user.nickname);
+      this.socketService.getGameInvites().subscribe((data: any) => {
+        var val = confirm(data.nick + " te ha invitado a una partida online.");
+        if (val == true) {
+          alert("Partida aceptada.");
+        } else {
+          alert("Partida rechazada.");
+        }
+      });
+
+    
   }
 
 
