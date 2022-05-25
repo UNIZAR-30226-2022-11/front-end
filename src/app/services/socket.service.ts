@@ -87,6 +87,13 @@ export class SocketFriends {
 		return this.socket.fromEvent('getGameInvites')
 	}
 
+	//envia <nombre de quien ha aceptado>, <nombre de quien le envió la solicitud>}
+	confirmGameFriend(friend:string){
+		this.socket.emit('confirmGameFriend', UserServiceService.user.nickname, friend);
+	}
+	
+
+	//devuelve {<nombre de usuario de qn ha aceptado la partida>}
 	getFriendOpponent(){
 		return this.socket.fromEvent('getFriendOpponent')
 	}

@@ -41,7 +41,8 @@ export class FriendListComponent implements OnInit {
 
   constructor(private servicioCliente:FriendListServiceService,
     protected socketService: SocketFriends,
-    private router: Router
+    private router: Router,
+    protected socketPartidas: SocketService
     ) {console.log(servicioCliente)}
 
   ngOnInit(): void {
@@ -58,6 +59,8 @@ export class FriendListComponent implements OnInit {
         var val = confirm(data.nick + " te ha invitado a una partida online.");
         if (val == true) {
           this.router.navigate(['/juego']);
+          this.socketPartidas.buscarPartida(UserServiceService.user.nickname, "A", UserServiceService.user.avatar, data.nick);
+          this.socketService.confirmGameFriend(data.nick);
           alert("Partida aceptada.");
         } else {
           this.router.navigate(['/play']);
@@ -72,6 +75,9 @@ export class FriendListComponent implements OnInit {
 
   InvitarAmigo(friend:string){
     this.socketService.inviteFriend(friend);
+    this.socketService.getFriendOpponent().subscribe((data: any)=>{
+      this.socketPartidas.buscarPartida(UserServiceService.user.nickname, "A", UserServiceService.user.avatar, data.rival);
+    })
   }
 
   AceptarSolicitud(user:string){
