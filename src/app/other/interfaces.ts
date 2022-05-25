@@ -179,6 +179,8 @@ export const tablePath: {[index:string]: string}= {
 export const piecesPath: {[index:string]: string}= {
     'default_Piezas': "./assets/articles/pieces/default_Piezas.png",
     'rojiAzul_Piezas': "./assets/articles/pieces/rojiAzul_Piezas.png",
+    'blancoAzul_Piezas': "./assets/articles/pieces/blancoAzul_Piezas.png",
+    'blancoRojo_Piezas': "./assets/articles/pieces/blancoRojo_Piezas.png"
 };
 
 export const avatarPath:  {[index:string]: string}= {

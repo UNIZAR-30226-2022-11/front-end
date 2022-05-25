@@ -16,7 +16,12 @@ export class ShopComponent implements OnInit {
   showPieces: boolean = false;
   showAvatars: boolean = false;
   tablesList: Array<articulo>=[];
-  piecesList: Array<articulo>=[];
+  piecesList: Array<articulo>=[
+    {nombre:'default_Piezas',precio:0,tipo:'pieces'},
+    {nombre:'blancoAzul_Piezas',precio:5,tipo:'pieces'},
+    {nombre:'blancoRojo_Piezas',precio:10,tipo:'pieces'},
+    {nombre:'rojiAzul_Piezas',precio:15,tipo:'pieces'},
+  ];
   avatarsList: Array<articulo> = [];
 
   modifyButtonsClasses (event:MouseEvent){
@@ -84,7 +89,7 @@ export class ShopComponent implements OnInit {
   getShop(){
     this.servicioCliente.GetShop(UserServiceService.user.nickname).subscribe(datos=>{
       this.tablesList = [];
-      this.piecesList = [];
+      //this.piecesList = [];
       this.avatarsList = [];
       for(let i=0;i<datos.articulos.length;i++){
         console.log(datos)

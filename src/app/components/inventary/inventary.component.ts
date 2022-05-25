@@ -23,7 +23,10 @@ export class InventaryComponent implements OnInit {
   static selectedPieza: string = "default_Piezas";
   static selectedAvatar: string = "knight_avatar";
   tablesList: Array<articulo>=[];
-  piecesList: Array<articulo>=[];
+  piecesList: Array<articulo>=[    {nombre:'default_Piezas',precio:0,tipo:'pieces'},
+  {nombre:'blancoAzul_Piezas',precio:5,tipo:'pieces'},
+  {nombre:'blancoRojo_Piezas',precio:10,tipo:'pieces'},
+  {nombre:'rojiAzul_Piezas',precio:15,tipo:'pieces'}];
   avatarsList: Array<articulo> =  [];
 
     ngOnInit(): void {
@@ -132,6 +135,40 @@ export class InventaryComponent implements OnInit {
           JuegoComponent.reyNegro = "./assets/ajedrez/rey_blue.png"
     
         }
+        else if(pieza == "blancoAzul_Piezas"){
+          console.log("blancoazul")
+
+          JuegoComponent.peonBlanco = "./assets/ajedrez/peon_blanco.png"
+          JuegoComponent.alfilBlanco = "./assets/ajedrez/alfil_blanco.png"
+          JuegoComponent.caballoBlanco = "./assets/ajedrez/caballo_blanco.png"
+          JuegoComponent.torreBlanca = "./assets/ajedrez/torre_blanca.png"
+          JuegoComponent.reinaBlanca = "./assets/ajedrez/reina_blanca.png"
+          JuegoComponent.reyBlanco = "./assets/ajedrez/rey_blanco.png"
+       
+          JuegoComponent.peonNegro = "./assets/ajedrez/peon_blue.png"
+          JuegoComponent.alfilNegro = "./assets/ajedrez/alfil_blue.png"
+          JuegoComponent.caballoNegro = "./assets/ajedrez/caballo_blue.png"
+          JuegoComponent.torreNegra = "./assets/ajedrez/torre_blue.png"
+          JuegoComponent.reinaNegra = "./assets/ajedrez/reina_blue.png"
+          JuegoComponent.reyNegro = "./assets/ajedrez/rey_blue.png"
+    
+        }else if (pieza =="blancoRojo_Piezas"){
+          console.log("blancoazul")
+
+          JuegoComponent.peonBlanco = "./assets/ajedrez/peon_blanco.png"
+          JuegoComponent.alfilBlanco = "./assets/ajedrez/alfil_blanco.png"
+          JuegoComponent.caballoBlanco = "./assets/ajedrez/caballo_blanco.png"
+          JuegoComponent.torreBlanca = "./assets/ajedrez/torre_blanca.png"
+          JuegoComponent.reinaBlanca = "./assets/ajedrez/reina_blanca.png"
+          JuegoComponent.reyBlanco = "./assets/ajedrez/rey_blanco.png"
+       
+          JuegoComponent.peonNegro = "./assets/ajedrez/peon_rojo.png"
+          JuegoComponent.alfilNegro = "./assets/ajedrez/alfil_rojo.png"
+          JuegoComponent.caballoNegro = "./assets/ajedrez/caballo_rojo.png"
+          JuegoComponent.torreNegra = "./assets/ajedrez/torre_roja.png"
+          JuegoComponent.reinaNegra = "./assets/ajedrez/reina_roja.png"
+          JuegoComponent.reyNegro = "./assets/ajedrez/rey_rojo.png"
+        }
       }
     }) 
   }
@@ -155,7 +192,7 @@ export class InventaryComponent implements OnInit {
   getInventary(){
     this.servicioCliente.GetInventary(UserServiceService.user.nickname).subscribe(datos=>{
       this.tablesList = [];
-      this.piecesList = [];
+      //this.piecesList = [];
       this.avatarsList = [];
       for(let i=0;i<datos.articulos.length;i++){
         var articulo:articulo= {
