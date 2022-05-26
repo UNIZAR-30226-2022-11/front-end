@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { UserServiceService } from './user-service.service';
+import { amigos } from '../other/interfaces';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class FriendListServiceService {
 
   constructor(private servicio:HttpClient) { }
 
-  static friendList: Array<string>=[]; //DEJAR LISTA VACIA
+  static friendList: Array<amigos>=[]; //DEJAR LISTA VACIA
   static friendRequests: Array<string>=[]; //DEJAR LISTA VACIA
 
   //Devolver lista de amigos con los mismos campos que la BD
@@ -77,7 +78,12 @@ export class FriendListServiceService {
     this.GetFriendList(UserServiceService.user.nickname).subscribe(datos=>{
       FriendListServiceService.friendList = [];
       for(let i=0;i<datos.friendList.length;i++){
-        FriendListServiceService.friendList.push(datos.friendList[i].valor);
+        var amigo: amigos = {
+          nickname: datos.friendList[i].valor,
+          estado: "offline"
+        }
+        //FriendListServiceService.friendList.push(datos.friendList[i].valor);
+        FriendListServiceService.friendList.push(amigo);
       }
     })
   }

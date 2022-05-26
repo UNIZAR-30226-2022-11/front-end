@@ -102,6 +102,15 @@ export class SocketFriends {
 		this.socket.emit('conectarse', nickname);
 	}
 
+	inGame(nickname:string){
+		this.socket.emit('ingame', nickname);
+	}
+
+	//devuelve usuarios
+	obtenerEstados(){
+		return this.socket.fromEvent('usuariosConectados');
+	}
+
 }
 
 @Injectable({
@@ -114,13 +123,18 @@ export class SocketTournaments {
     return this.socket.fromEvent('esperarJugadores');
   }
 
-  empezar(nickname: string){
-    this.socket.emit('empezar',nickname);
+  
+
+  unirseTorneo(owner:string, nickname:string){
+    this.socket.emit('unirseTorneo',owner, nickname);
   }
 
-  unirseTorneo(nickname:string){
-    this.socket.emit('unirseTorneo', nickname);
+
+  empezar(owner: string){
+    this.socket.emit('empezar',owner);
   }
 
-
+  recibirOrden(){
+	  return this.socket.fromEvent('recibirOrden');
+  }
 }

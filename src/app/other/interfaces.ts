@@ -144,8 +144,8 @@ export interface usuario {
 }
 
 export interface amigos{
-    valor: string;
-    USUARIO_Nickname: string;
+    nickname: string;
+    estado: string;
 }
 
 export interface articulo{

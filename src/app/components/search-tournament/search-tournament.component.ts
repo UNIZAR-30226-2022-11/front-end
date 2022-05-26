@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { tournament } from 'src/app/other/interfaces';
 import { TournamentsService } from 'src/app/services/tournaments-service.service';
 import { UserServiceService } from 'src/app/services/user-service.service';
+import { TournamentsComponent } from '../tournaments/tournaments.component';
 @Component({
   selector: 'app-search-tournament',
   templateUrl: './search-tournament.component.html',
@@ -13,7 +15,8 @@ export class SearchTournamentComponent implements OnInit {
     {owner: 'pepito',players: 2}
   ]
 
-  constructor(private serviceTournaments: TournamentsService) { }
+  constructor(private serviceTournaments: TournamentsService,
+    private router: Router) { }
 
   ngOnInit(): void {
     if (UserServiceService.logged){
@@ -22,7 +25,10 @@ export class SearchTournamentComponent implements OnInit {
   }
 
   join(owner:string){
-    
+    console.log(owner);
+    TournamentsComponent.propietario = false;
+    TournamentsComponent.owner = owner;
+    this.router.navigate(['/tournaments'])
   }
 
   buscarTorneos(){

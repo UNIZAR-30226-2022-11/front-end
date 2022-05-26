@@ -21,8 +21,8 @@
 <div class="sidenav">
     <div *ngIf="showFriendList">
         <a *ngFor="let friend of friendList">
-            {{friend}}<br>
-            <button (click)="InvitarAmigo(friend)">Invitar a jugar</button>
+            {{friend.nickname}}<br>({{friend.estado}})<br>
+            <button *ngIf="friend.estado == 'online'" (click)="InvitarAmigo(friend.nickname)">Invitar a jugar</button>
         </a>
     </div>
     <div *ngIf="!showFriendList">

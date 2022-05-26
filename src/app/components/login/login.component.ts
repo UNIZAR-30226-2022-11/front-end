@@ -104,6 +104,7 @@ export class LoginComponent implements OnInit {
         this.signupForm.reset();
         UserServiceService.logged = true;
         UserServiceService.user.nickname = resp.user.nickname; 
+        this.socket.conect(UserServiceService.user.nickname);
         this.servicioCliente.GetPoints(user).subscribe(resp=>{
           UserServiceService.user.puntos = resp.points.points;
         });

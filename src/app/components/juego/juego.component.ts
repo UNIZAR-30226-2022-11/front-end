@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { piecesPath, pieza, usuario, tablePath, avatarPath } from 'src/app/other/interfaces';
 import { ViewChild } from '@angular/core';
 import { TimerComponent } from '../timer/timer.component';
-import { SocketService } from 'src/app/services/socket.service';
+import { SocketFriends, SocketService } from 'src/app/services/socket.service';
 import { flush } from '@angular/core/testing';
 import { UserServiceService } from 'src/app/services/user-service.service';
 import { ServiceClientService } from 'src/app/services/service-client.service';
@@ -17,7 +17,8 @@ export class JuegoComponent implements OnInit{
 
   constructor(
 		protected socketService: SocketService,
-    private servicioCliente:ServiceClientService
+    private servicioCliente:ServiceClientService,
+    protected socketTwo: SocketFriends,
 	) { }
 
   //export socket : SocketService =  this.socketService;
@@ -122,6 +123,7 @@ get avatarUser():string{
       })
 
       this.socketService.getOpponent().subscribe((data: any) => {
+        this.socketTwo.inGame(UserServiceService.user.nickname);
         //comporbar si ya tengo oponente??
         //this.opponent = data.id
         this.rival.nickname = data.opNick
