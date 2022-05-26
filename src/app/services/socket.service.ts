@@ -61,8 +61,8 @@ export class SocketService{
 		return this.socket.fromEvent('enviarTablero')
 	}
 
-	recibirTablero(side:boolean, tablero:pieza[][], turno:boolean, t1:TimerComponent){
-		this.socket.emit('enviarTablero', side, tablero, turno, t1)
+	recibirTablero(side:boolean, tablero:pieza[][], turno:boolean, t1:TimerComponent, t2:TimerComponent){
+		this.socket.emit('enviarTablero', side, tablero, turno, t1, t2)
 	}
 
 	oponenteDesconectado(){

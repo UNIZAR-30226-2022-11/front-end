@@ -57,7 +57,7 @@ export class JuegoComponent implements OnInit{
   gana:boolean = false;
 
   static modoJuego: string;
-
+  static torneo:boolean;
 
   static ia:boolean = false;
   get IAGame(){
@@ -104,15 +104,21 @@ get avatarUser():string{
 
       this.socketService.enviarTablero().subscribe(() => {
         console.log("ME HAN PEDIDO EL TABLERO")
-        this.socketService.recibirTablero(this.side, this.tablero, this.turno, this.timer);
+        this.socketService.recibirTablero(this.side, this.tablero, this.turno, this.timer, this.timer);
       })
 
       this.socketService.oponenteDesconectado().subscribe(() => {
+        console.log("GANAR POR TURNO")
         this.gana = true
         this.timer.stop();
         this.timer.stop2();
-        //http save match
-
+        if(JuegoComponent.online){
+          if(JuegoComponent.torneo){
+            //Victoria de torneo
+          } else{
+          this.servicioCliente.SaveMatchResult(UserServiceService.user.nickname, this.rival.nickname, "win");
+          }
+        }
       })
 
       this.socketService.getOpponent().subscribe((data: any) => {
@@ -136,6 +142,7 @@ get avatarUser():string{
             this.turno= true;
             this.start(); // empieza su timer(blancas)
           }} else{
+            console.log("ME RECUPERO")
             this.side = data
             this.tablero = data.board
             this.turno = data.turno
@@ -286,11 +293,21 @@ get avatarUser():string{
           this.pierde = true;
           this.timer.stop();
           this.timer.stop2();
+          if(JuegoComponent.online){
+            this.servicioCliente.SaveMatchResult(UserServiceService.user.nickname, this.rival.nickname, "lose");
+          }
           return
         }else {
           this.gana = true
           this.timer.stop();
           this.timer.stop2();
+          if(JuegoComponent.online){
+            if(JuegoComponent.torneo){
+              //Victoria de torneo
+            } else{
+            this.servicioCliente.SaveMatchResult(UserServiceService.user.nickname, this.rival.nickname, "win");
+            }
+          }
         return
         }
     }
@@ -302,11 +319,21 @@ get avatarUser():string{
           this.pierde = true;
           this.timer.stop();
           this.timer.stop2();
+          if(JuegoComponent.online){
+            this.servicioCliente.SaveMatchResult(UserServiceService.user.nickname, this.rival.nickname, "lose");
+          }
           return
         }else {
           this.gana = true
           this.timer.stop();
           this.timer.stop2();
+          if(JuegoComponent.online){
+            if(JuegoComponent.torneo){
+              //Victoria de torneo
+            } else{
+            this.servicioCliente.SaveMatchResult(UserServiceService.user.nickname, this.rival.nickname, "win");
+            }
+          }
         return
         }
     }
@@ -326,7 +353,7 @@ get avatarUser():string{
         this.timer.stop();
         this.timer.stop2();
         if(JuegoComponent.online){
-          //this.servicioCliente.SaveMatchResult(UserServiceService.user.nickname, this.rival.nickname, "lose");
+          this.servicioCliente.SaveMatchResult(UserServiceService.user.nickname, this.rival.nickname, "lose");
         }
       }else{
         console.log("caso 6")
@@ -334,7 +361,11 @@ get avatarUser():string{
         this.timer.stop();
         this.timer.stop2();
         if(JuegoComponent.online){
-          //this.servicioCliente.SaveMatchResult(UserServiceService.user.nickname, this.rival.nickname, "win");
+          if(JuegoComponent.torneo){
+            //Victoria de torneo
+          } else{
+          this.servicioCliente.SaveMatchResult(UserServiceService.user.nickname, this.rival.nickname, "win");
+          }
         }
       }
   }
@@ -347,7 +378,7 @@ get avatarUser():string{
         this.timer.stop();
         this.timer.stop2();
         if(JuegoComponent.online){
-          //this.servicioCliente.SaveMatchResult(UserServiceService.user.nickname, this.rival.nickname, "lose");
+          this.servicioCliente.SaveMatchResult(UserServiceService.user.nickname, this.rival.nickname, "lose");
         }
       }else{
         console.log("caso 8")
@@ -355,7 +386,11 @@ get avatarUser():string{
         this.timer.stop();
         this.timer.stop2();
         if(JuegoComponent.online){
-          //this.servicioCliente.SaveMatchResult(UserServiceService.user.nickname, this.rival.nickname, "win");
+          if(JuegoComponent.torneo){
+            //Victoria de torneo
+          } else{
+          this.servicioCliente.SaveMatchResult(UserServiceService.user.nickname, this.rival.nickname, "win");
+          }
         }
       }
     }
@@ -6018,7 +6053,7 @@ moverPieza(pieza:pieza):boolean{
                     this.timer.stop();
                     this.timer.stop2();
                     if(JuegoComponent.online){
-                      //this.servicioCliente.SaveMatchResult(UserServiceService.user.nickname, this.rival.nickname, "lose");
+                      this.servicioCliente.SaveMatchResult(UserServiceService.user.nickname, this.rival.nickname, "lose");
                     }
                   }else{
                     console.log("caso 2")
@@ -6026,7 +6061,11 @@ moverPieza(pieza:pieza):boolean{
                     this.timer.stop();
                     this.timer.stop2();
                     if(JuegoComponent.online){
-                      //this.servicioCliente.SaveMatchResult(UserServiceService.user.nickname, this.rival.nickname, "win");
+                      if(JuegoComponent.torneo){
+                        //Victoria de torneo
+                      } else{
+                      this.servicioCliente.SaveMatchResult(UserServiceService.user.nickname, this.rival.nickname, "win");
+                      }
                     }
                   }
               }
@@ -6039,7 +6078,7 @@ moverPieza(pieza:pieza):boolean{
                     this.timer.stop();
                     this.timer.stop2();
                     if(JuegoComponent.online){
-                      //this.servicioCliente.SaveMatchResult(UserServiceService.user.nickname, this.rival.nickname, "lose");
+                      this.servicioCliente.SaveMatchResult(UserServiceService.user.nickname, this.rival.nickname, "lose");
                     }
                   }else{
                     console.log("caso 4")
@@ -6047,7 +6086,11 @@ moverPieza(pieza:pieza):boolean{
                     this.timer.stop();
                     this.timer.stop2();
                     if(JuegoComponent.online){
-                      //this.servicioCliente.SaveMatchResult(UserServiceService.user.nickname, this.rival.nickname, "win");
+                      if(JuegoComponent.torneo){
+                        //Victoria de torneo
+                      } else{
+                      this.servicioCliente.SaveMatchResult(UserServiceService.user.nickname, this.rival.nickname, "win");
+                      }
                     }
                   }
                 }
@@ -6070,7 +6113,11 @@ moverPieza(pieza:pieza):boolean{
             this.timer.stop2();
 
             if(JuegoComponent.online){
+              if(JuegoComponent.torneo){
+                //Victoria de torneo
+              } else{
               this.servicioCliente.SaveMatchResult(UserServiceService.user.nickname, this.rival.nickname, "win");
+              }
             }
 
           return
@@ -6097,7 +6144,11 @@ moverPieza(pieza:pieza):boolean{
             this.timer.stop2();
 
             if(JuegoComponent.online){
+              if(JuegoComponent.torneo){
+                //Victoria de torneo
+              } else{
               this.servicioCliente.SaveMatchResult(UserServiceService.user.nickname, this.rival.nickname, "win");
+              }
             }
 
           return
