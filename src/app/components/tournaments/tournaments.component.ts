@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { usuario } from 'src/app/other/interfaces';
+import { SocketTournaments } from 'src/app/services/socket.service';
+import { TournamentsService } from 'src/app/services/tournaments-service.service';
 import { UserServiceService } from 'src/app/services/user-service.service';
 
 @Component({
@@ -13,6 +15,7 @@ export class TournamentsComponent implements OnInit {
   players:number = 1; 
   static privado: boolean;
   codigo:string ="GALKGSD";
+  static propietario: boolean = false;
 
   jugador1: usuario = UserServiceService.user;
   jugador2: usuario = {nickname:"Ines", avatar:"",monedas:0,piezas:"",puntos:0,tablero:""}
@@ -23,17 +26,35 @@ export class TournamentsComponent implements OnInit {
   ganador: usuario = {nickname:"Ernesto", avatar:"",monedas:0,piezas:"",puntos:0,tablero:""}
   
 
-  constructor() { }
+  constructor(private tournamentsService:TournamentsService,
+    protected socket:SocketTournaments) { }
 
   ngOnInit(): void {
-    if (this.getPrivate){
-      this.codigo = this.makeid();
+
+    if (TournamentsComponent.propietario){
+      //creo el torneo en la bd
+      var exito: boolean = false;
+      if (this.getPrivate){
+        this.codigo = this.makeid();
+        this.tournamentsService.crearTorneoPrivado(UserServiceService.user.nickname, this.codigo).subscribe(datos=>{exito = datos.exito;});
+      }else{
+        this.tournamentsService.crearTorneoPublico(UserServiceService.user.nickname).subscribe(datos=>{exito = datos.exito;});
+      }
+      if (exito){
+        this.socket.unirseTorneo(UserServiceService.user.nickname);
+        //continuar
+      }
+
     }
     
   }
 
-  static crearTorneo(privado: boolean) {
-    this.privado = privado;
+
+
+  haz(){
+    this.socket.esperarJugadores().subscribe((data:any)=>{
+
+    })
   }
 
   get getPrivate(){
@@ -51,6 +72,9 @@ export class TournamentsComponent implements OnInit {
 
   startTournament(){
     console.log(this.players);
+    //borramos el torneo para que no se pueda unir nadie mas
+    this.tournamentsService.borrarTorneo(UserServiceService.user.nickname).subscribe(datos=>{});
+
   }
 
   makeid() {
@@ -63,6 +87,12 @@ export class TournamentsComponent implements OnInit {
     return text;
   }
   
+  ngOnDelete(){
+    //Borramos el torneo si eramos el dueño
+    if (TournamentsComponent.propietario){
+      this.tournamentsService.borrarTorneo(UserServiceService.user.nickname).subscribe(datos=>{});
+    }
 
+  }
 
 }

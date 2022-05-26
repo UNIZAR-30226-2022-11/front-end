@@ -109,6 +109,13 @@ export class SocketTwo extends Socket {
   }
 }
 
+@Injectable()
+export class SocketThree extends Socket {
+  constructor() {
+    super({ url:  'http://ec2-18-206-137-85.compute-1.amazonaws.com:3002', options: {transports: ['websocket']} });
+  }
+}
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -141,7 +148,7 @@ export class SocketTwo extends Socket {
       paramsInheritanceStrategy:'always'
     })
   ],
-  providers: [SocketOne, SocketTwo],
+  providers: [SocketOne, SocketTwo, SocketThree],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

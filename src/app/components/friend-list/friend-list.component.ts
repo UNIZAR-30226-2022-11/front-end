@@ -4,6 +4,7 @@ import { UserServiceService } from 'src/app/services/user-service.service';
 import { FriendListServiceService } from 'src/app/services/friend-list-service.service';
 import { SocketFriends, SocketService } from 'src/app/services/socket.service';
 import { Router,NavigationStart} from '@angular/router';
+import { JuegoComponent } from '../juego/juego.component';
 @Component({
   selector: 'app-friend-list',
   templateUrl: './friend-list.component.html',
@@ -58,9 +59,16 @@ export class FriendListComponent implements OnInit {
       this.socketService.getGameInvites().subscribe((data: any) => {
         var val = confirm(data.nick + " te ha invitado a una partida online.");
         if (val == true) {
-          this.router.navigate(['/juego']);
-          this.socketPartidas.buscarPartida(UserServiceService.user.nickname, "A", UserServiceService.user.avatar, data.nick);
+          JuegoComponent.minutos = 3;
+          JuegoComponent.segundos = 0;
+          JuegoComponent.ia = false;
+          JuegoComponent.online = true;
+          JuegoComponent.modoJuego = "A"
+          JuegoComponent.amigo = data.nick;
           this.socketService.confirmGameFriend(data.nick);
+          this.router.navigate(['/juego']);
+          //this.socketPartidas.buscarPartida(UserServiceService.user.nickname, "A", UserServiceService.user.avatar, data.nick);
+          
           alert("Partida aceptada.");
         } else {
           this.router.navigate(['/play']);
@@ -76,7 +84,17 @@ export class FriendListComponent implements OnInit {
   InvitarAmigo(friend:string){
     this.socketService.inviteFriend(friend);
     this.socketService.getFriendOpponent().subscribe((data: any)=>{
-      this.socketPartidas.buscarPartida(UserServiceService.user.nickname, "A", UserServiceService.user.avatar, data.rival);
+      //this.socketPartidas.buscarPartida(UserServiceService.user.nickname, "A", UserServiceService.user.avatar, data.rival);
+
+        JuegoComponent.minutos = 3;
+        JuegoComponent.segundos = 0;
+        JuegoComponent.ia = false;
+        JuegoComponent.online = true;
+        JuegoComponent.modoJuego = "A"
+        JuegoComponent.amigo = data.rival;
+
+    
+      this.router.navigate(['/juego']);
     })
   }
 

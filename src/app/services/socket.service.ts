@@ -1,7 +1,7 @@
 import { Time } from '@angular/common';
 import { Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io';  
-import { SocketOne, SocketTwo } from '../app.module';
+import { SocketOne, SocketTwo, SocketThree } from '../app.module';
 import { TimerComponent } from '../components/timer/timer.component';
 import { pieza } from '../other/interfaces';
 import { UserServiceService } from './user-service.service';
@@ -101,5 +101,26 @@ export class SocketFriends {
 	conect(nickname:string){
 		this.socket.emit('conectarse', nickname);
 	}
+
+}
+
+@Injectable({
+	providedIn: 'root'
+  })
+export class SocketTournaments {
+  constructor(private socket: SocketThree) { }
+
+  esperarJugadores(){
+    return this.socket.fromEvent('esperarJugadores');
+  }
+
+  empezar(nickname: string){
+    this.socket.emit('empezar',nickname);
+  }
+
+  unirseTorneo(nickname:string){
+    this.socket.emit('unirseTorneo', nickname);
+  }
+
 
 }

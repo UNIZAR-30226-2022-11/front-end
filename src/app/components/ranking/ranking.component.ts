@@ -25,6 +25,7 @@ export class RankingComponent implements OnInit {
     this.servicioCliente.GetRankingList(UserServiceService.user.nickname).subscribe(datos=>{
       console.log(datos.rankingList[3]);
       this.rankingList = []
+      //var rankingAux = []
       for(let i=0;i<datos.rankingList.length;i++){
         console.log(datos.rankingList[i]);
         if (datos.rankingList[i] == null){continue;}
@@ -32,6 +33,7 @@ export class RankingComponent implements OnInit {
           this.rankingList.push(datos.rankingList[i]);
         
       }
+      //if 
       console.log(this.rankingList);
     })
   }

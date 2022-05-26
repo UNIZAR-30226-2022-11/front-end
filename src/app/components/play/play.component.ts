@@ -34,7 +34,11 @@ export class PlayComponent implements OnInit {
     JuegoComponent.segundos = 0;
     JuegoComponent.ia = true;
     JuegoComponent.online = false;
-    JuegoComponent.modoJuego = t.toString()
+    if (t == 0){
+      JuegoComponent.modoJuego = "NT"
+    }else{
+      JuegoComponent.modoJuego = t.toString()
+    }
   }
 
   ponerTiempoOnline(t:number){
@@ -42,7 +46,12 @@ export class PlayComponent implements OnInit {
     JuegoComponent.segundos = 0;
     JuegoComponent.online = true;
     JuegoComponent.ia = false;
-    JuegoComponent.modoJuego = t.toString()
+    if (t == 0){
+      JuegoComponent.modoJuego = "NT"
+    }else{
+      JuegoComponent.modoJuego = t.toString()
+    }
+    
   }
 
   buscarCodigo(g: FormGroup){
@@ -51,11 +60,13 @@ export class PlayComponent implements OnInit {
   }
 
   torneoPublico(){
-    TournamentsComponent.crearTorneo(false)
+    TournamentsComponent.privado = false;
+    TournamentsComponent.propietario = true;
   }
 
   torneoPrivado(){
-    TournamentsComponent.crearTorneo(true)
+    TournamentsComponent.privado = true;
+    TournamentsComponent.propietario = true;
   }
 
 
