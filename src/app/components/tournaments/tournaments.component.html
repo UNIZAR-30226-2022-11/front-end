@@ -1,7 +1,7 @@
-<div class="header" *ngIf="getPrivate"><div *ngIf="players >= 2"><button (click)="startTournament()">START</button></div>TORNEO PRIVADO<br>DUEÑO: {{getOwner}}<br>CODIGO: '{{codigo}}' </div>
-<div class="header" *ngIf="!getPrivate"><div *ngIf="players >= 2"><button (click)="startTournament()">START</button></div>TORNEO PUBLICO<br>DUEÑO: {{getOwner}}</div>
+<div class="header" *ngIf="getPrivate"><div *ngIf="players >= 3"><button (click)="startTournament()">START</button></div>TORNEO PRIVADO<br>DUEÑO: {{getOwner}}<br>CODIGO: '{{codigo}}' </div>
+<div class="header" *ngIf="!getPrivate"><div *ngIf="players >= 3"><button (click)="startTournament()">START</button></div>TORNEO PUBLICO<br>DUEÑO: {{getOwner}}</div>
 
-<div *ngIf="players > 2">
+
     <table summary="Tournament Bracket" class="bracket">
         <tr>
             <th>SEMI-FINALS</th>
@@ -9,37 +9,20 @@
             <th>TOURNAMENT CHAMPION</th>
         </tr>
         <tr>
-            <td><p>{{jugador1.nickname}}</p></td>
-            <td rowspan="2"><p>{{finalista1.nickname}}</p></td>
-            <td rowspan="4"><p>{{ganador.nickname}}</p></td>
+            <td><p>{{jugadores[0].nickname}}</p></td>
+            <td rowspan="2"><p>{{jugadores[4].nickname}}</p></td>
+            <td rowspan="4"><p>{{jugadores[6].nickname}}</p></td>
         </tr>
         <tr>
-            <td><p>{{jugador2.nickname}}</p></td>
+            <td><p>{{jugadores[1].nickname}}</p></td>
         </tr>
         <tr>
-            <td><p>{{jugador3.nickname}}</p></td>
-            <td rowspan="2"><p>{{finalista2.nickname}}</p></td>
+            <td><p>{{jugadores[2].nickname}}</p></td>
+            <td rowspan="2"><p>{{jugadores[5].nickname}}</p></td>
         </tr>
         <tr>
-            <td><p>{{jugador4.nickname}}</p></td>
+            <td><p>{{jugadores[3].nickname}}</p></td>
         </tr>
         </table>
-</div>
-
-<div *ngIf="players <= 2">
-    <table summary="Tournament Bracket" class="bracket">
-        <tr>
-            <th>FINAL</th>
-            <th>TOURNAMENT CHAMPION</th>
-        </tr>
-        <tr>
-            <td><p>{{jugador1.nickname}}</p></td>
-            <td rowspan="2"><p>{{ganador.nickname}}</p></td>
-        </tr>
-        <tr>
-            <td><p>{{jugador2.nickname}}</p></td>
-        </tr>
-        </table>
-</div>
 
 <button (click)="sumar()">sumar jugador</button>

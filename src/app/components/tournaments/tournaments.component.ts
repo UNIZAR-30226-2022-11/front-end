@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { usuario } from 'src/app/other/interfaces';
 import { SocketTournaments } from 'src/app/services/socket.service';
 import { TournamentsService } from 'src/app/services/tournaments-service.service';
 import { UserServiceService } from 'src/app/services/user-service.service';
+import { JuegoComponent } from '../juego/juego.component';
 
 @Component({
   selector: 'app-tournaments',
@@ -11,7 +13,7 @@ import { UserServiceService } from 'src/app/services/user-service.service';
 })
 export class TournamentsComponent implements OnInit {
   
-
+  static ronda: string = "semifinal";
   players:number = 1; 
   static privado: boolean;
   codigo:string ="GALKGSD";
@@ -26,12 +28,22 @@ export class TournamentsComponent implements OnInit {
   finalista2: usuario = {nickname:"Mariano", avatar:"",monedas:0,piezas:"",puntos:0,tablero:""}
   ganador: usuario = {nickname:"Ernesto", avatar:"",monedas:0,piezas:"",puntos:0,tablero:""}
   
+  jugadores: Array<usuario> = [
+    UserServiceService.user,
+    UserServiceService.user,
+    UserServiceService.user,
+    UserServiceService.user,
+    UserServiceService.user,
+    UserServiceService.user,
+    UserServiceService.user
+  ]
+
   get getOwner(){
     return TournamentsComponent.owner;
   }
 
   constructor(private tournamentsService:TournamentsService,
-    protected socket:SocketTournaments) { }
+    protected socket:SocketTournaments,protected router: Router) { }
 
   ngOnInit(): void {
     console.log(TournamentsComponent.owner)
@@ -45,12 +57,112 @@ export class TournamentsComponent implements OnInit {
         this.tournamentsService.crearTorneoPublico(UserServiceService.user.nickname).subscribe(datos=>{exito = datos.exito;});
       }
       if (exito){
-        this.socket.unirseTorneo(UserServiceService.user.nickname);
+        this.socket.unirseTorneo(TournamentsComponent.owner,UserServiceService.user.nickname);
         //continuar
       }
 
     }
     
+    this.socket.esperarJugadores().subscribe((data:any)=>{
+      for (let i = 0; data.length; i++){
+        this.jugadores[i].nickname = data[i]
+      }
+      /*
+      this.jugador1 = data[0];
+      this.jugador2 = data[1];
+      this.jugador3 = data[2];
+      this.jugador4 = data[3];
+      this.finalista1 = data[4];
+      this.finalista2 = data[5];
+      this.ganador = data[6];*/
+    })
+
+    this.socket.recibirOrden().subscribe((data:any) => {
+      var k = -1;
+      for (let i = this.jugadores.length -1; i >= 0; i--){
+        if (this.jugadores[i].nickname == UserServiceService.user.nickname){
+          k = i;
+          break;
+        }
+      }
+      switch (k){
+        case 0:
+          if (TournamentsComponent.ronda == "semifinal"){
+            JuegoComponent.minutos = 3;
+            JuegoComponent.segundos = 0;
+            JuegoComponent.ia = false;
+            JuegoComponent.online = true;
+            JuegoComponent.modoJuego = "A"
+            JuegoComponent.amigo = this.jugadores[1].nickname;
+            //JuegoComponent.torneo = true;
+            this.router.navigate(['/juego']);
+          }
+          break;
+        case 1:
+          if (TournamentsComponent.ronda == "semifinal"){
+            JuegoComponent.minutos = 3;
+            JuegoComponent.segundos = 0;
+            JuegoComponent.ia = false;
+            JuegoComponent.online = true;
+            JuegoComponent.modoJuego = "A"
+            JuegoComponent.amigo = this.jugadores[0].nickname;
+            //JuegoComponent.torneo = true;
+            this.router.navigate(['/juego']);
+          }
+          break;
+        case 2:
+          if (TournamentsComponent.ronda == "semifinal"){
+            JuegoComponent.minutos = 3;
+            JuegoComponent.segundos = 0;
+            JuegoComponent.ia = false;
+            JuegoComponent.online = true;
+            JuegoComponent.modoJuego = "A"
+            JuegoComponent.amigo = this.jugadores[3].nickname;
+            //JuegoComponent.torneo = true;
+            this.router.navigate(['/juego']);
+          }
+          break;
+        case 3:
+          if (TournamentsComponent.ronda == "semifinal"){
+            JuegoComponent.minutos = 3;
+            JuegoComponent.segundos = 0;
+            JuegoComponent.ia = false;
+            JuegoComponent.online = true;
+            JuegoComponent.modoJuego = "A"
+            JuegoComponent.amigo = this.jugadores[2].nickname;
+            //JuegoComponent.torneo = true;
+            this.router.navigate(['/juego']);
+          }
+          break;
+        case 4:
+          if (TournamentsComponent.ronda == "final"){
+            JuegoComponent.minutos = 3;
+            JuegoComponent.segundos = 0;
+            JuegoComponent.ia = false;
+            JuegoComponent.online = true;
+            JuegoComponent.modoJuego = "A"
+            JuegoComponent.amigo = this.jugadores[5].nickname;
+            //JuegoComponent.torneo = true;
+            this.router.navigate(['/juego']);
+          }
+          break;
+        case 5:
+          if (TournamentsComponent.ronda == "final"){
+            JuegoComponent.minutos = 3;
+            JuegoComponent.segundos = 0;
+            JuegoComponent.ia = false;
+            JuegoComponent.online = true;
+            JuegoComponent.modoJuego = "A"
+            JuegoComponent.amigo = this.jugadores[4].nickname;
+            //JuegoComponent.torneo = true;
+            this.router.navigate(['/juego']);
+          }
+          break;
+
+      }
+    })
+    
+
   }
 
 
@@ -78,6 +190,11 @@ export class TournamentsComponent implements OnInit {
     console.log(this.players);
     //borramos el torneo para que no se pueda unir nadie mas
     this.tournamentsService.borrarTorneo(UserServiceService.user.nickname).subscribe(datos=>{});
+    if (this.players == 3){
+      this.socket.unirseTorneo(TournamentsComponent.owner,'');
+    }
+    this.socket.empezar(UserServiceService.user.nickname);
+
 
   }
 

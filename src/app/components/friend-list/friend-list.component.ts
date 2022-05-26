@@ -87,10 +87,15 @@ export class FriendListComponent implements OnInit {
   ActualizarEstados(data:any){
     for(let i=0;i<FriendListServiceService.friendList.length;i++){
       var encontrado:boolean = false;
-      for (let j = 0; j < data.estados.length; j++){
+      for (let j = 0; j < data.usuarios.length; j++){
         if (FriendListServiceService.friendList[i].nickname == data.usuarios[j].nickname){
           encontrado = true;
-          FriendListServiceService.friendList[i].estado= data.usuarios[j].estado;
+          if (data.usuarios[j].partida == 1){
+            FriendListServiceService.friendList[i].estado= "ingame";
+          }
+          else{
+            FriendListServiceService.friendList[i].estado= "online";
+          }
           break;
         }
         
