@@ -82,6 +82,8 @@ export class LoginComponent implements OnInit {
         this.socket.conect(UserServiceService.user.nickname);
        // FriendListComponent.getFriendList();
        // SI NO SE CARGAN LOS AMIGOS Y SOLICITUDES AL LOGEARSE SE DEBE EJECUTAR DESDE AQUI
+       console.log("save match");
+       
         this.friendListService.refreshLists();
       }else{
         console.log(resp.exito);
@@ -106,8 +108,13 @@ export class LoginComponent implements OnInit {
           UserServiceService.user.puntos = resp.points.points;
         });
         this.servicioCliente.BuyItem(user,"BoardGris","table").subscribe(resp=>{})
-        //this.servicioCliente.BuyItem(user,"","pieces").subscribe(resp=>{})
+        this.servicioCliente.UpdateTable(user,"BoardGris").subscribe(resp=>{})
+        
         this.servicioCliente.BuyItem(user,"knight_avatar","avatar").subscribe(resp=>{})
+        this.servicioCliente.UpdatePieces(user,"knight_avatar").subscribe(resp=>{})
+
+        this.servicioCliente.BuyItem(user,"default_Piezas","pieces").subscribe(resp=>{})
+        this.servicioCliente.UpdatePieces(user,"default_Piezas").subscribe(resp=>{})
 
         // SI NO SE CARGAN LOS AMIGOS Y SOLICITUDES AL REGISTRARSE SE DEBE EJECUTAR DESDE AQUI
         //FriendListComponent.
@@ -155,6 +162,13 @@ export class LoginComponent implements OnInit {
         window.location.reload();
       }
     });
+    
+  }
+
+  hacedAlgo(){ //borrar
+    //console.log("pq no va")
+    //this.servicioCliente.SaveMatchResult("contra", "contra2", "lose").subscribe(resp=>{});
+    //this.servicioCliente.SaveMatchResult("contra2", "contra", "win").subscribe(resp=>{});
     
   }
 }

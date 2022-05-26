@@ -132,6 +132,40 @@ export class InventaryComponent implements OnInit {
           JuegoComponent.reyNegro = "./assets/ajedrez/rey_blue.png"
     
         }
+        else if(pieza == "blancoAzul_Piezas"){
+          console.log("blancoazul")
+
+          JuegoComponent.peonBlanco = "./assets/ajedrez/peon_blanco.png"
+          JuegoComponent.alfilBlanco = "./assets/ajedrez/alfil_blanco.png"
+          JuegoComponent.caballoBlanco = "./assets/ajedrez/caballo_blanco.png"
+          JuegoComponent.torreBlanca = "./assets/ajedrez/torre_blanca.png"
+          JuegoComponent.reinaBlanca = "./assets/ajedrez/reina_blanca.png"
+          JuegoComponent.reyBlanco = "./assets/ajedrez/rey_blanco.png"
+       
+          JuegoComponent.peonNegro = "./assets/ajedrez/peon_blue.png"
+          JuegoComponent.alfilNegro = "./assets/ajedrez/alfil_blue.png"
+          JuegoComponent.caballoNegro = "./assets/ajedrez/caballo_blue.png"
+          JuegoComponent.torreNegra = "./assets/ajedrez/torre_blue.png"
+          JuegoComponent.reinaNegra = "./assets/ajedrez/reina_blue.png"
+          JuegoComponent.reyNegro = "./assets/ajedrez/rey_blue.png"
+    
+        }else if (pieza =="blancoRojo_Piezas"){
+          console.log("blancoazul")
+
+          JuegoComponent.peonBlanco = "./assets/ajedrez/peon_blanco.png"
+          JuegoComponent.alfilBlanco = "./assets/ajedrez/alfil_blanco.png"
+          JuegoComponent.caballoBlanco = "./assets/ajedrez/caballo_blanco.png"
+          JuegoComponent.torreBlanca = "./assets/ajedrez/torre_blanca.png"
+          JuegoComponent.reinaBlanca = "./assets/ajedrez/reina_blanca.png"
+          JuegoComponent.reyBlanco = "./assets/ajedrez/rey_blanco.png"
+       
+          JuegoComponent.peonNegro = "./assets/ajedrez/peon_rojo.png"
+          JuegoComponent.alfilNegro = "./assets/ajedrez/alfil_rojo.png"
+          JuegoComponent.caballoNegro = "./assets/ajedrez/caballo_rojo.png"
+          JuegoComponent.torreNegra = "./assets/ajedrez/torre_roja.png"
+          JuegoComponent.reinaNegra = "./assets/ajedrez/reina_roja.png"
+          JuegoComponent.reyNegro = "./assets/ajedrez/rey_rojo.png"
+        }
       }
     }) 
   }

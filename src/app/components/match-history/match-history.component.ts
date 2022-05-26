@@ -24,8 +24,13 @@ export class MatchHistoryComponent implements OnInit {
   getMatchHistory(){
     this.servicioCliente.GetMatchHistory(UserServiceService.user.nickname).subscribe(datos=>{
       this.matchHistory = [];
-      for(let i=0;i<datos;i++){
-        this.matchHistory.push(datos.friendList[i]);
+      for(let i=0;i<datos.matchHistory.length;i++){
+        var aux: matchHistory = {
+          rival: datos.matchHistory[i].rival,
+          empate: datos.matchHistory[i].empate,
+          ganador: datos.matchHistory[i].ganador
+        }
+        this.matchHistory.push(aux);
       }
     })
   }
