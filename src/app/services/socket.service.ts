@@ -102,6 +102,15 @@ export class SocketFriends {
 		this.socket.emit('conectarse', nickname);
 	}
 
+	inGame(nickname:string){
+		this.socket.emit('ingame', nickname);
+	}
+
+	//devuelve usuarios
+	obtenerEstados(){
+		return this.socket.fromEvent('usuariosConectados');
+	}
+
 }
 
 @Injectable({

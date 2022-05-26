@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UserServiceService } from 'src/app/services/user-service.service';
 import { JuegoComponent } from '../juego/juego.component';
 import { TournamentsComponent } from '../tournaments/tournaments.component';
 
@@ -62,11 +63,13 @@ export class PlayComponent implements OnInit {
   torneoPublico(){
     TournamentsComponent.privado = false;
     TournamentsComponent.propietario = true;
+    TournamentsComponent.owner = UserServiceService.user.nickname;
   }
 
   torneoPrivado(){
     TournamentsComponent.privado = true;
     TournamentsComponent.propietario = true;
+    TournamentsComponent.owner = UserServiceService.user.nickname;
   }
 
 

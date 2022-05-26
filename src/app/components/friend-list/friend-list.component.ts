@@ -76,7 +76,29 @@ export class FriendListComponent implements OnInit {
         }
       });
 
+      this.socketService.obtenerEstados().subscribe((data:any) => {
+        this.ActualizarEstados(data);
+        
+      })
+
     
+  }
+
+  ActualizarEstados(data:any){
+    for(let i=0;i<FriendListServiceService.friendList.length;i++){
+      var encontrado:boolean = false;
+      for (let j = 0; j < data.estados.length; j++){
+        if (FriendListServiceService.friendList[i].nickname == data.usuarios[j].nickname){
+          encontrado = true;
+          FriendListServiceService.friendList[i].estado= data.usuarios[j].estado;
+          break;
+        }
+        
+      }
+      if (!encontrado){
+        FriendListServiceService.friendList[i].estado= "offline";
+      }
+    }
   }
 
 

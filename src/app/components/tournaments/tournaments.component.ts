@@ -16,6 +16,7 @@ export class TournamentsComponent implements OnInit {
   static privado: boolean;
   codigo:string ="GALKGSD";
   static propietario: boolean = false;
+  static owner: string = '';
 
   jugador1: usuario = UserServiceService.user;
   jugador2: usuario = {nickname:"Ines", avatar:"",monedas:0,piezas:"",puntos:0,tablero:""}
@@ -25,12 +26,15 @@ export class TournamentsComponent implements OnInit {
   finalista2: usuario = {nickname:"Mariano", avatar:"",monedas:0,piezas:"",puntos:0,tablero:""}
   ganador: usuario = {nickname:"Ernesto", avatar:"",monedas:0,piezas:"",puntos:0,tablero:""}
   
+  get getOwner(){
+    return TournamentsComponent.owner;
+  }
 
   constructor(private tournamentsService:TournamentsService,
     protected socket:SocketTournaments) { }
 
   ngOnInit(): void {
-
+    console.log(TournamentsComponent.owner)
     if (TournamentsComponent.propietario){
       //creo el torneo en la bd
       var exito: boolean = false;
