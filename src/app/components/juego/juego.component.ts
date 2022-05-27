@@ -28,6 +28,12 @@ export class JuegoComponent implements OnInit{
 
   //export socket : SocketService =  this.socketService;
 
+    ngOnDestroy(): void{
+      this.socketTwo.conect(UserServiceService.user.nickname);
+      JuegoComponent.finTiempo1 = false;
+      JuegoComponent.finTiempo2 = false;
+    }
+
   ngOnInit(): void {
     //reset
   //variable estática de victoria
@@ -307,7 +313,7 @@ get avatarUser():string{
           if(JuegoComponent.online){
             if(JuegoComponent.torneo){
               //derrota de torneo
-              
+              this.router.navigate(['/tournaments'])
             } else{
             this.servicioCliente.SaveMatchResult(UserServiceService.user.nickname, this.rival.nickname, "lose");
             this.socketTwo.conect(UserServiceService.user.nickname);
@@ -343,7 +349,7 @@ get avatarUser():string{
           if(JuegoComponent.online){
             if(JuegoComponent.torneo){
               //derrota de torneo
-             
+              this.router.navigate(['/tournaments'])
             } else{
             this.servicioCliente.SaveMatchResult(UserServiceService.user.nickname, this.rival.nickname, "lose");
             this.socketTwo.conect(UserServiceService.user.nickname);
@@ -386,7 +392,7 @@ get avatarUser():string{
         if(JuegoComponent.online){
           if(JuegoComponent.torneo){
             //derrota de torneo
-            
+            this.router.navigate(['/tournaments'])
           } else{
           this.servicioCliente.SaveMatchResult(UserServiceService.user.nickname, this.rival.nickname, "lose");
           this.socketTwo.conect(UserServiceService.user.nickname);
@@ -421,7 +427,7 @@ get avatarUser():string{
         if(JuegoComponent.online){
           if(JuegoComponent.torneo){
             //derrota de torneo
-            
+            this.router.navigate(['/tournaments'])
           } else{
           this.servicioCliente.SaveMatchResult(UserServiceService.user.nickname, this.rival.nickname, "lose");
           this.socketTwo.conect(UserServiceService.user.nickname);
@@ -6106,7 +6112,7 @@ moverPieza(pieza:pieza):boolean{
                     if(JuegoComponent.online){
                       if(JuegoComponent.torneo){
                         //derrota de torneo
-                        
+                        this.router.navigate(['/tournaments'])
                       } else{
                       this.servicioCliente.SaveMatchResult(UserServiceService.user.nickname, this.rival.nickname, "lose");
                       this.socketTwo.conect(UserServiceService.user.nickname);
@@ -6141,7 +6147,7 @@ moverPieza(pieza:pieza):boolean{
                     if(JuegoComponent.online){
                       if(JuegoComponent.torneo){
                         //derrota de torneo
-                        
+                        this.router.navigate(['/tournaments'])
                       } else{
                       this.servicioCliente.SaveMatchResult(UserServiceService.user.nickname, this.rival.nickname, "lose");
                       this.socketTwo.conect(UserServiceService.user.nickname);
@@ -6178,7 +6184,7 @@ moverPieza(pieza:pieza):boolean{
             if(JuegoComponent.online){
               if(JuegoComponent.torneo){
                 //derrota de torneo
-                
+                this.router.navigate(['/tournaments'])
               } else{
               this.servicioCliente.SaveMatchResult(UserServiceService.user.nickname, this.rival.nickname, "lose");
               this.socketTwo.conect(UserServiceService.user.nickname);
@@ -6218,7 +6224,7 @@ moverPieza(pieza:pieza):boolean{
             if(JuegoComponent.online){
               if(JuegoComponent.torneo){
                 //derrota de torneo
-                
+                this.router.navigate(['/tournaments'])
               } else{
               this.servicioCliente.SaveMatchResult(UserServiceService.user.nickname, this.rival.nickname, "lose");
               this.socketTwo.conect(UserServiceService.user.nickname);

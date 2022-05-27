@@ -30,6 +30,7 @@ export class SearchTournamentComponent implements OnInit {
       TournamentsComponent.propietario = false;
       TournamentsComponent.owner = owner;
       TournamentsComponent.primeraVez = true;
+      TournamentsComponent.players = 0;
       this.router.navigate(['/tournaments'])
     });
 

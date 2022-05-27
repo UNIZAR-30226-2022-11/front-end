@@ -1,5 +1,5 @@
-<div class="header" *ngIf="getPrivate"><div *ngIf="players >= 3 && getPropietario"><button (click)="startTournament()">START</button></div>TORNEO PRIVADO<br>DUEÑO: {{getOwner}}<br>CODIGO: '{{codigo}}' </div>
-<div class="header" *ngIf="!getPrivate"><div *ngIf="players >= 3 && getPropietario"><button (click)="startTournament()">START</button></div>TORNEO PUBLICO<br>DUEÑO: {{getOwner}}</div>
+<div class="header" *ngIf="getPrivate"><button *ngIf="getPropietario" (click)="eliminarTorneo()">eliminar torneo</button><div *ngIf="getPlayers >= 3 && getPropietario"><button (click)="startTournament()">START</button></div>TORNEO PRIVADO<br>DUEÑO: {{getOwner}}<br>CODIGO: '{{codigo}}' </div>
+<div class="header" *ngIf="!getPrivate"><button *ngIf="getPropietario" (click)="eliminarTorneo()">eliminar torneo</button><div *ngIf="getPlayers >= 3 && getPropietario"><button (click)="startTournament()">START</button></div>TORNEO PUBLICO<br>DUEÑO: {{getOwner}}</div>
 
 
     <table summary="Tournament Bracket" class="bracket">
@@ -25,4 +25,3 @@
         </tr>
         </table>
 
-<button *ngIf="getPropietario" (click)="eliminarTorneo()">eliminar torneo</button>

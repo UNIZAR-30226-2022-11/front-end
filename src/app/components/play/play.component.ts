@@ -66,6 +66,7 @@ export class PlayComponent implements OnInit {
           TournamentsComponent.propietario = false;
           TournamentsComponent.owner = data.creador;
           TournamentsComponent.primeraVez = true;
+          TournamentsComponent.players = 0;
           this.router.navigate(['/tournaments'])
         });
       }
@@ -79,6 +80,7 @@ export class PlayComponent implements OnInit {
     TournamentsComponent.propietario = true;
     TournamentsComponent.owner = UserServiceService.user.nickname;
     TournamentsComponent.primeraVez = true;
+    TournamentsComponent.players = 0;
   }
 
   torneoPrivado(){
@@ -86,6 +88,7 @@ export class PlayComponent implements OnInit {
     TournamentsComponent.propietario = true;
     TournamentsComponent.owner = UserServiceService.user.nickname;
     TournamentsComponent.primeraVez = true;
+    TournamentsComponent.players = 0;
   }
 
 

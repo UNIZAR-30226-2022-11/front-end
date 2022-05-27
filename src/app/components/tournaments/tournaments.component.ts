@@ -14,7 +14,7 @@ import { JuegoComponent } from '../juego/juego.component';
 export class TournamentsComponent implements OnInit {
   
   static ronda: number  = 0;
-  players:number = 0; 
+  static players:number = 0; 
   static privado: boolean;
   codigo:string ="";
   static propietario: boolean = false;
@@ -24,6 +24,9 @@ export class TournamentsComponent implements OnInit {
     return TournamentsComponent.propietario;
   }
 
+  get getPlayers(){
+    return TournamentsComponent.players;
+  }
   
   jugadores: Array<usuario> = [
     {nickname:"", avatar:"",monedas:0,piezas:"",puntos:0,tablero:""},
@@ -77,7 +80,7 @@ export class TournamentsComponent implements OnInit {
         this.jugadores[5].nickname = data.j5;
         this.jugadores[6].nickname = data.j6;
 
-      this.players = this.players + 1;
+      TournamentsComponent.players = TournamentsComponent.players + 1;
       /*
       this.jugador1 = data[0];
       this.jugador2 = data[1];
@@ -89,13 +92,7 @@ export class TournamentsComponent implements OnInit {
     })
 
     this.socket.recibirOrden().subscribe((data:any) => {
-      var k = -1;
-      for (let i = this.jugadores.length -1; i >= 0; i--){
-        if (this.jugadores[i].nickname == UserServiceService.user.nickname){
-          k = i;
-          break;
-        }
-      }
+      
 
       if (this.jugadores[6].nickname != ''){
         if (this.jugadores[6].nickname == UserServiceService.user.nickname){
@@ -115,6 +112,7 @@ export class TournamentsComponent implements OnInit {
           JuegoComponent.modoJuego = "A"
           JuegoComponent.amigo = this.jugadores[4].nickname;
           JuegoComponent.torneo = true;
+          console.log(this.jugadores[4].nickname + this.jugadores[5].nickname)
           this.router.navigate(['/juego']);
         }else if (this.jugadores[4].nickname == UserServiceService.user.nickname){
           JuegoComponent.minutos = 3;
@@ -122,6 +120,7 @@ export class TournamentsComponent implements OnInit {
           JuegoComponent.ia = false;
           JuegoComponent.online = true;
           JuegoComponent.modoJuego = "A"
+          console.log(this.jugadores[4].nickname + this.jugadores[5].nickname)
           JuegoComponent.amigo = this.jugadores[5].nickname;
           JuegoComponent.torneo = true;
           this.router.navigate(['/juego']);
@@ -263,6 +262,7 @@ export class TournamentsComponent implements OnInit {
     this.socket.esperarJugadores().subscribe((data:any)=>{
 
     })
+    
   }
 
   get getPrivate(){
@@ -283,11 +283,13 @@ export class TournamentsComponent implements OnInit {
     console.log("cerrarTorneo")
   }
 
+  
+
   startTournament(){
-    console.log(this.players);
+    console.log(TournamentsComponent.players);
     //borramos el torneo para que no se pueda unir nadie mas
     this.tournamentsService.borrarTorneo(UserServiceService.user.nickname).subscribe(datos=>{});
-    if (this.players == 3){
+    if (this.jugadores[3].nickname == '' ){
       console.log("unir a "+'')
       this.socket.unirseTorneo(TournamentsComponent.owner,'');
       this.socket.unirseTorneo(TournamentsComponent.owner,this.jugadores[2].nickname )
