@@ -50,6 +50,7 @@ export class TournamentsComponent implements OnInit {
     if (TournamentsComponent.propietario){
       //creo el torneo en la bd
       var exito: boolean = false;
+      this.tournamentsService.borrarTorneo(UserServiceService.user.nickname);
       if (this.getPrivate){
         this.codigo = this.makeid();
         this.tournamentsService.crearTorneoPrivado(UserServiceService.user.nickname, this.codigo).subscribe(datos=>{exito = datos.exito;});

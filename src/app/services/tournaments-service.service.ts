@@ -12,7 +12,7 @@ export class TournamentsService {
   constructor(private servicio:HttpClient) { }
 
   crearTorneoPublico(nickname:string):Observable<any>{
-    const body = {nickname, codigo:''}
+    const body = {nickname, codigo:0}
     const headers = new HttpHeaders(
       {
           'Content-Type': 'application/json',
@@ -59,7 +59,7 @@ export class TournamentsService {
           'Content-Type': 'application/json',
           'Access-Control-Allow-Origin': '*'
       });
-    return this.servicio.get(this.servidor1+"/entrarTorneo", {headers});
+    return this.servicio.post(this.servidor1+"/entrarTorneo",body, {headers});
   }
 
   comprobarCodigoTorneo(codigo:string):Observable<any>{
@@ -69,7 +69,16 @@ export class TournamentsService {
           'Content-Type': 'application/json',
           'Access-Control-Allow-Origin': '*'
       });
-    return this.servicio.get(this.servidor1+"/obtenerTorneos", {headers});
+    return this.servicio.post(this.servidor1+"/obtenerTorneos",body, {headers});
   }
  
+  resultadosTorneo(ganador:string, segundo:string):Observable<any>{
+    const body = {ganador, segundo}
+    const headers = new HttpHeaders(
+      {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*'
+      });
+    return this.servicio.post(this.servidor1+"/resultadosTorneo",body, {headers});
+  }
 }
