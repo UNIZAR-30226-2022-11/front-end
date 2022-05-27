@@ -26,6 +26,7 @@ export class SearchTournamentComponent implements OnInit {
 
   join(owner:string){
     console.log(owner);
+    this.serviceTournaments.entrarTorneo(owner);
     TournamentsComponent.propietario = false;
     TournamentsComponent.owner = owner;
     this.router.navigate(['/tournaments'])
@@ -34,8 +35,13 @@ export class SearchTournamentComponent implements OnInit {
   buscarTorneos(){
     this.serviceTournaments.obtenerTorneosPublicos().subscribe(datos=>{
       this.tournaments = [];
-      for(let i=0;i<datos.articulos.length;i++){
-          this.tournaments.push(datos.articulos[i]);
+      for(let i=0;i<datos.length;i++){
+        var aux:tournament= {
+          owner: datos[i].creador,
+          players: datos[i].jugadores,
+        }
+        console.log(aux);
+          this.tournaments.push(aux);
 
       }
     })

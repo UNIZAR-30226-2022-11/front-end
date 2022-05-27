@@ -40,6 +40,7 @@ export class TournamentsService {
           'Content-Type': 'application/json',
           'Access-Control-Allow-Origin': '*'
       });
+      console.log("borrar torneo 2")
     return this.servicio.post(this.servidor1+"/borrarTorneo" ,body, {headers});
   } 
 
@@ -59,6 +60,7 @@ export class TournamentsService {
           'Content-Type': 'application/json',
           'Access-Control-Allow-Origin': '*'
       });
+      console.log("entrar torneo 2")
     return this.servicio.post(this.servidor1+"/entrarTorneo",body, {headers});
   }
 

@@ -3,12 +3,10 @@ import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/fo
 import { Router } from '@angular/router';
 import { avatarPath, usuario } from 'src/app/other/interfaces';
 import { ServiceClientService } from '../../services/service-client.service';
-import * as bcrypt from 'bcryptjs';
 import { FriendListComponent } from '../friend-list/friend-list.component';
 import { UserServiceService } from 'src/app/services/user-service.service';
 import { FriendListServiceService } from 'src/app/services/friend-list-service.service';
 import { SocketFriends } from 'src/app/services/socket.service';
-const salt = bcrypt.genSaltSync(10);
 
 
 @Component({
@@ -68,9 +66,6 @@ export class LoginComponent implements OnInit {
 
   //Con esto se envia el formulario al back-end
   login(g: FormGroup) {
-    //const salt = bcrypt.genSalt(10);
-    //var pass = bcrypt.hash(g.get('password')!.value, 10);
-    var pass = bcrypt.hashSync(g.get('password')!.value, salt);
     //console.log(pass);
     console.log(g.get('password')!.value)
     //this.userVerification.Login(g.get('user')!.value, pass).subscribe(resp =>{
@@ -96,7 +91,6 @@ export class LoginComponent implements OnInit {
 
   register(g: FormGroup){
     //Este deberia ser el codigo bueno
-    var pass = bcrypt.hashSync(g.get('password')!.value, salt);
     //this.userVerification.Register( g.get('user')!.value,  pass, g.get('email')!.value).subscribe(resp =>{
     this.userVerification.Register( g.get('user')!.value,  g.get('password')!.value, g.get('email')!.value).subscribe(resp =>{
       if (resp.exito == true) {

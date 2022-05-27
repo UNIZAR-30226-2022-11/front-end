@@ -29,13 +29,13 @@ export class TournamentsComponent implements OnInit {
   ganador: usuario = {nickname:"Ernesto", avatar:"",monedas:0,piezas:"",puntos:0,tablero:""}
   
   jugadores: Array<usuario> = [
-    UserServiceService.user,
-    UserServiceService.user,
-    UserServiceService.user,
-    UserServiceService.user,
-    UserServiceService.user,
-    UserServiceService.user,
-    UserServiceService.user
+    {nickname:"", avatar:"",monedas:0,piezas:"",puntos:0,tablero:""},
+    {nickname:"", avatar:"",monedas:0,piezas:"",puntos:0,tablero:""},
+    {nickname:"", avatar:"",monedas:0,piezas:"",puntos:0,tablero:""},
+    {nickname:"", avatar:"",monedas:0,piezas:"",puntos:0,tablero:""},
+    {nickname:"", avatar:"",monedas:0,piezas:"",puntos:0,tablero:""},
+    {nickname:"", avatar:"",monedas:0,piezas:"",puntos:0,tablero:""},
+    {nickname:"", avatar:"",monedas:0,piezas:"",puntos:0,tablero:""},
   ]
 
   get getOwner(){
@@ -51,6 +51,7 @@ export class TournamentsComponent implements OnInit {
       //creo el torneo en la bd
       var exito: boolean = false;
       this.tournamentsService.borrarTorneo(UserServiceService.user.nickname);
+      console.log("borrar torneo");
       if (this.getPrivate){
         this.codigo = this.makeid();
         this.tournamentsService.crearTorneoPrivado(UserServiceService.user.nickname, this.codigo).subscribe(datos=>{exito = datos.exito;});
@@ -180,11 +181,14 @@ export class TournamentsComponent implements OnInit {
   }
 
   sumar(){
-    this.socket.unirseTorneo(TournamentsComponent.owner,'');
+    this.tournamentsService.borrarTorneo('contra');
   }
 
   ngOnDestroy(){
     //cerrar torneo
+    if (TournamentsComponent.propietario){
+      this.tournamentsService.borrarTorneo(UserServiceService.user.nickname)
+    }
     console.log("cerrarTorneo")
   }
 
