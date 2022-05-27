@@ -775,8 +775,8 @@ tableroBlanco:pieza[][] =
     if(this.turno == true && this.negro == 1){ //turno = true para blancas, busca el jaque a las negras(ia es blanca) 
      
 
-      if(this.reyBlanco.color == 0){this.timer.stop();this.timer.stop2();this.gana = true; return}
-      if(this.reyNegro.color == 0){this.timer.stop();this.timer.stop2();this.pierde = true; return}
+      if(this.reyBlanco.color == 0 || this.reyBlanco.col == ''){this.timer.stop();this.timer.stop2();this.gana = true; return}
+      if(this.reyNegro.color == 0 || this.reyNegro.col == ''){this.timer.stop();this.timer.stop2();this.pierde = true; return}
       var aux:pieza = this.jaque(this.reyBlanco)
     //if jaque a tu rey blanco
     //matar amenaza
@@ -1970,8 +1970,8 @@ tableroBlanco:pieza[][] =
 
       //if jaque a tu rey blanco
       //matar amenaza
-      if(this.reyBlanco.color == 0){this.timer.stop();this.timer.stop2();this.pierde = true; return}
-      if(this.reyNegro.color == 0){this.timer.stop();this.timer.stop2();this.gana = true; return}
+      if(this.reyBlanco.color == 0 || this.reyBlanco.col == ''){this.timer.stop();this.timer.stop2();this.pierde = true; return}
+      if(this.reyNegro.color == 0 || this.reyNegro.col == ''){this.timer.stop();this.timer.stop2();this.gana = true; return}
 
       var aux:pieza = this.jaque(this.reyNegro)
       if(aux != this.v && aux.color== 1){
@@ -6208,8 +6208,23 @@ moverPieza(pieza:pieza):boolean{
           { await delay(500);
             this.IA()}
           
-            if(this.reyBlanco.color == 0){
-              if(this.jaqueMate(this.reyBlanco)){
+            if(this.reyBlanco.color == 0 || this.reyBlanco.col == ''){ 
+              console.log("mateblancco1")
+              console.log(this.reyBlanco)
+              if(this.blanco){
+                this.pierde = true;
+                this.timer.stop();
+                this.timer.stop2();
+                return
+              }else {
+                this.gana = true
+                this.timer.stop();
+                this.timer.stop2();
+              return
+              }
+            }
+            
+            if(this.jaqueMate(this.reyBlanco)){
                 console.log("mateblancco1")
                 console.log(this.reyBlanco)
                 if(this.blanco){
@@ -6224,9 +6239,24 @@ moverPieza(pieza:pieza):boolean{
                 return
                 }
               }
-            }
+            
 
-            if(this.reyNegro.color == 0){
+            if(this.reyNegro.color == 0 || this.reyNegro.col ==''){
+              console.log(this.jaque(this.reyNegro))
+              console.log(this.reyNegro)
+              console.log("matenegro2")
+              if(this.negro){
+                this.pierde = true;
+                this.timer.stop();
+                this.timer.stop2();
+                return
+              }else {
+                this.gana = true
+                this.timer.stop();
+                this.timer.stop2();
+              return
+              }
+            }
               if(this.jaqueMate(this.reyNegro)){
                 console.log(this.jaque(this.reyNegro))
                 console.log(this.reyNegro)
@@ -6243,7 +6273,7 @@ moverPieza(pieza:pieza):boolean{
                 return
                 }
               }
-            }
+            
 
             //comporbar si es empate
             if(this.empate()){
