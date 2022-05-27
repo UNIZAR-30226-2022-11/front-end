@@ -301,8 +301,13 @@ get avatarUser():string{
           this.timer.stop();
           this.timer.stop2();
           if(JuegoComponent.online){
+            if(JuegoComponent.torneo){
+              //derrota de torneo
+              
+            } else{
             this.servicioCliente.SaveMatchResult(UserServiceService.user.nickname, this.rival.nickname, "lose");
             this.socketTwo.conect(UserServiceService.user.nickname);
+            }
           }
           return
         }else {
@@ -330,8 +335,13 @@ get avatarUser():string{
           this.timer.stop();
           this.timer.stop2();
           if(JuegoComponent.online){
+            if(JuegoComponent.torneo){
+              //derrota de torneo
+             
+            } else{
             this.servicioCliente.SaveMatchResult(UserServiceService.user.nickname, this.rival.nickname, "lose");
             this.socketTwo.conect(UserServiceService.user.nickname);
+            }
           }
           return
         }else {
@@ -366,8 +376,13 @@ get avatarUser():string{
         this.timer.stop();
         this.timer.stop2();
         if(JuegoComponent.online){
+          if(JuegoComponent.torneo){
+            //derrota de torneo
+            
+          } else{
           this.servicioCliente.SaveMatchResult(UserServiceService.user.nickname, this.rival.nickname, "lose");
           this.socketTwo.conect(UserServiceService.user.nickname);
+          }
         }
       }else{
         console.log("caso 6")
@@ -394,8 +409,13 @@ get avatarUser():string{
         this.timer.stop();
         this.timer.stop2();
         if(JuegoComponent.online){
+          if(JuegoComponent.torneo){
+            //derrota de torneo
+            
+          } else{
           this.servicioCliente.SaveMatchResult(UserServiceService.user.nickname, this.rival.nickname, "lose");
           this.socketTwo.conect(UserServiceService.user.nickname);
+          }
         }
       }else{
         console.log("caso 8")
@@ -6072,8 +6092,13 @@ moverPieza(pieza:pieza):boolean{
                     this.timer.stop();
                     this.timer.stop2();
                     if(JuegoComponent.online){
+                      if(JuegoComponent.torneo){
+                        //derrota de torneo
+                        
+                      } else{
                       this.servicioCliente.SaveMatchResult(UserServiceService.user.nickname, this.rival.nickname, "lose");
                       this.socketTwo.conect(UserServiceService.user.nickname);
+                      }
                     }
                   }else{
                     console.log("caso 2")
@@ -6100,8 +6125,13 @@ moverPieza(pieza:pieza):boolean{
                     this.timer.stop();
                     this.timer.stop2();
                     if(JuegoComponent.online){
+                      if(JuegoComponent.torneo){
+                        //derrota de torneo
+                        
+                      } else{
                       this.servicioCliente.SaveMatchResult(UserServiceService.user.nickname, this.rival.nickname, "lose");
                       this.socketTwo.conect(UserServiceService.user.nickname);
+                      }
                     }
                   }else{
                     console.log("caso 4")
@@ -6129,8 +6159,13 @@ moverPieza(pieza:pieza):boolean{
             this.timer.stop();
             this.timer.stop2();
             if(JuegoComponent.online){
+              if(JuegoComponent.torneo){
+                //derrota de torneo
+                
+              } else{
               this.servicioCliente.SaveMatchResult(UserServiceService.user.nickname, this.rival.nickname, "lose");
               this.socketTwo.conect(UserServiceService.user.nickname);
+              }
             }
             return
           }else {
@@ -6162,10 +6197,14 @@ moverPieza(pieza:pieza):boolean{
             this.timer.stop2();
 
             if(JuegoComponent.online){
+              if(JuegoComponent.torneo){
+                //derrota de torneo
+                
+              } else{
               this.servicioCliente.SaveMatchResult(UserServiceService.user.nickname, this.rival.nickname, "lose");
               this.socketTwo.conect(UserServiceService.user.nickname);
+              }
             }
-
             return
           }else {
             this.gana = true
