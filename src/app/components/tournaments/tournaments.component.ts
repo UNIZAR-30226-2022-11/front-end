@@ -13,20 +13,17 @@ import { JuegoComponent } from '../juego/juego.component';
 })
 export class TournamentsComponent implements OnInit {
   
-  static ronda: string = "semifinal";
-  players:number = 1; 
+  static ronda: number  = 0;
+  players:number = 0; 
   static privado: boolean;
-  codigo:string ="GALKGSD";
+  codigo:string ="";
   static propietario: boolean = false;
   static owner: string = '';
+  static primeraVez = false;
+  get getPropietario(){
+    return TournamentsComponent.propietario;
+  }
 
-  jugador1: usuario = UserServiceService.user;
-  jugador2: usuario = {nickname:"Ines", avatar:"",monedas:0,piezas:"",puntos:0,tablero:""}
-  jugador3: usuario = {nickname:"Maria", avatar:"",monedas:0,piezas:"",puntos:0,tablero:""}
-  jugador4: usuario = {nickname:"Mariano", avatar:"",monedas:0,piezas:"",puntos:0,tablero:""}
-  finalista1: usuario = {nickname:"Ernesto", avatar:"",monedas:0,piezas:"",puntos:0,tablero:""}
-  finalista2: usuario = {nickname:"Mariano", avatar:"",monedas:0,piezas:"",puntos:0,tablero:""}
-  ganador: usuario = {nickname:"Ernesto", avatar:"",monedas:0,piezas:"",puntos:0,tablero:""}
   
   jugadores: Array<usuario> = [
     {nickname:"", avatar:"",monedas:0,piezas:"",puntos:0,tablero:""},
@@ -59,16 +56,27 @@ export class TournamentsComponent implements OnInit {
         this.tournamentsService.crearTorneoPublico(UserServiceService.user.nickname).subscribe(datos=>{exito = datos.exito;});
       }
       if (exito){
-        this.socket.unirseTorneo(TournamentsComponent.owner,UserServiceService.user.nickname);
+        
         //continuar
       }
 
     }
+    if (TournamentsComponent.primeraVez){
+    console.log("unir a "+ UserServiceService.user.nickname)
+    this.socket.unirseTorneo(TournamentsComponent.owner,UserServiceService.user.nickname);
+    TournamentsComponent.primeraVez = false;
+    }
     
+    console.log("esperar jugadores")
     this.socket.esperarJugadores().subscribe((data:any)=>{
-      for (let i = 0; data.length; i++){
-        this.jugadores[i].nickname = data[i]
-      }
+        this.jugadores[0].nickname = data.j0;
+        this.jugadores[1].nickname = data.j1;
+        this.jugadores[2].nickname = data.j2;
+        this.jugadores[3].nickname = data.j3;
+        this.jugadores[4].nickname = data.j4;
+        this.jugadores[5].nickname = data.j5;
+        this.jugadores[6].nickname = data.j6;
+
       this.players = this.players + 1;
       /*
       this.jugador1 = data[0];
@@ -88,9 +96,85 @@ export class TournamentsComponent implements OnInit {
           break;
         }
       }
+
+      if (this.jugadores[6].nickname != ''){
+        if (this.jugadores[6].nickname == UserServiceService.user.nickname){
+          if (this.jugadores[5].nickname != UserServiceService.user.nickname){
+            this.tournamentsService.resultadosTorneo(UserServiceService.user.nickname, this.jugadores[5].nickname)  
+          }else{
+            this.tournamentsService.resultadosTorneo(UserServiceService.user.nickname, this.jugadores[4].nickname)  
+          }
+        }
+        this.router.navigate(['/play']); 
+      }else if (this.jugadores[5].nickname != '' && this.jugadores[4].nickname != ''){
+        if (this.jugadores[5].nickname == UserServiceService.user.nickname){
+          JuegoComponent.minutos = 3;
+          JuegoComponent.segundos = 0;
+          JuegoComponent.ia = false;
+          JuegoComponent.online = true;
+          JuegoComponent.modoJuego = "A"
+          JuegoComponent.amigo = this.jugadores[4].nickname;
+          JuegoComponent.torneo = true;
+          this.router.navigate(['/juego']);
+        }else if (this.jugadores[4].nickname == UserServiceService.user.nickname){
+          JuegoComponent.minutos = 3;
+          JuegoComponent.segundos = 0;
+          JuegoComponent.ia = false;
+          JuegoComponent.online = true;
+          JuegoComponent.modoJuego = "A"
+          JuegoComponent.amigo = this.jugadores[5].nickname;
+          JuegoComponent.torneo = true;
+          this.router.navigate(['/juego']);
+        }
+      }else {
+        if (this.jugadores[0].nickname == UserServiceService.user.nickname){
+          JuegoComponent.minutos = 3;
+          JuegoComponent.segundos = 0;
+          JuegoComponent.ia = false;
+          JuegoComponent.online = true;
+          JuegoComponent.modoJuego = "A"
+          JuegoComponent.amigo = this.jugadores[1].nickname;
+          JuegoComponent.torneo = true;
+          this.router.navigate(['/juego']);
+        }else if (this.jugadores[1].nickname == UserServiceService.user.nickname){
+          JuegoComponent.minutos = 3;
+          JuegoComponent.segundos = 0;
+          JuegoComponent.ia = false;
+          JuegoComponent.online = true;
+          JuegoComponent.modoJuego = "A"
+          JuegoComponent.amigo = this.jugadores[0].nickname;
+          JuegoComponent.torneo = true;
+          this.router.navigate(['/juego']);
+        }else if (this.jugadores[2].nickname == UserServiceService.user.nickname){
+          if (this.jugadores[3].nickname == ''){
+            console.log("unir a "+ UserServiceService.user.nickname)
+            //this.socket.unirseTorneo(TournamentsComponent.owner,UserServiceService.user.nickname);          
+          }else{
+            JuegoComponent.minutos = 3;
+              JuegoComponent.segundos = 0;
+              JuegoComponent.ia = false;
+              JuegoComponent.online = true;
+              JuegoComponent.modoJuego = "A"
+              JuegoComponent.amigo = this.jugadores[3].nickname;
+              JuegoComponent.torneo = true;
+              this.router.navigate(['/juego']);
+          }
+        }else if (this.jugadores[3].nickname == UserServiceService.user.nickname){
+            JuegoComponent.minutos = 3;
+            JuegoComponent.segundos = 0;
+            JuegoComponent.ia = false;
+            JuegoComponent.online = true;
+            JuegoComponent.modoJuego = "A"
+            JuegoComponent.amigo = this.jugadores[2].nickname;
+            JuegoComponent.torneo = true;
+            this.router.navigate(['/juego']);
+        }
+      }
+
+/*
       switch (k){
         case 0:
-          if (TournamentsComponent.ronda == "semifinal"){
+          if (TournamentsComponent.ronda == 0){
             JuegoComponent.minutos = 3;
             JuegoComponent.segundos = 0;
             JuegoComponent.ia = false;
@@ -102,7 +186,7 @@ export class TournamentsComponent implements OnInit {
           }
           break;
         case 1:
-          if (TournamentsComponent.ronda == "semifinal"){
+          if (TournamentsComponent.ronda == 0){
             JuegoComponent.minutos = 3;
             JuegoComponent.segundos = 0;
             JuegoComponent.ia = false;
@@ -114,19 +198,24 @@ export class TournamentsComponent implements OnInit {
           }
           break;
         case 2:
-          if (TournamentsComponent.ronda == "semifinal"){
-            JuegoComponent.minutos = 3;
-            JuegoComponent.segundos = 0;
-            JuegoComponent.ia = false;
-            JuegoComponent.online = true;
-            JuegoComponent.modoJuego = "A"
-            JuegoComponent.amigo = this.jugadores[3].nickname;
-            //JuegoComponent.torneo = true;
-            this.router.navigate(['/juego']);
+          if (TournamentsComponent.ronda == 0){
+            if (this.jugadores[3].nickname == ''){
+              this.socket.unirseTorneo(TournamentsComponent.owner,UserServiceService.user.nickname);
+              TournamentsComponent.ronda = 1;
+            }else{
+              JuegoComponent.minutos = 3;
+              JuegoComponent.segundos = 0;
+              JuegoComponent.ia = false;
+              JuegoComponent.online = true;
+              JuegoComponent.modoJuego = "A"
+              JuegoComponent.amigo = this.jugadores[3].nickname;
+              //JuegoComponent.torneo = true;
+              this.router.navigate(['/juego']);
+            }
           }
           break;
         case 3:
-          if (TournamentsComponent.ronda == "semifinal"){
+          if (TournamentsComponent.ronda == 0){
             JuegoComponent.minutos = 3;
             JuegoComponent.segundos = 0;
             JuegoComponent.ia = false;
@@ -138,7 +227,7 @@ export class TournamentsComponent implements OnInit {
           }
           break;
         case 4:
-          if (TournamentsComponent.ronda == "final"){
+          if (TournamentsComponent.ronda == 1){
             JuegoComponent.minutos = 3;
             JuegoComponent.segundos = 0;
             JuegoComponent.ia = false;
@@ -150,7 +239,7 @@ export class TournamentsComponent implements OnInit {
           }
           break;
         case 5:
-          if (TournamentsComponent.ronda == "final"){
+          if (TournamentsComponent.ronda == 1){
             JuegoComponent.minutos = 3;
             JuegoComponent.segundos = 0;
             JuegoComponent.ia = false;
@@ -162,7 +251,7 @@ export class TournamentsComponent implements OnInit {
           }
           break;
 
-      }
+      }*/
     })
     
 
@@ -180,14 +269,16 @@ export class TournamentsComponent implements OnInit {
     return TournamentsComponent.privado
   }
 
-  sumar(){
-    this.tournamentsService.borrarTorneo('contra').subscribe(datos=>{});;
+  eliminarTorneo(){
+    this.tournamentsService.borrarTorneo(UserServiceService.user.nickname).subscribe(datos=>{});
+    this.socket.eliminarTorneo(UserServiceService.user.nickname)
   }
 
   ngOnDestroy(){
     //cerrar torneo
     if (TournamentsComponent.propietario){
       this.tournamentsService.borrarTorneo(UserServiceService.user.nickname).subscribe(datos=>{});
+      
     }
     console.log("cerrarTorneo")
   }
@@ -197,7 +288,9 @@ export class TournamentsComponent implements OnInit {
     //borramos el torneo para que no se pueda unir nadie mas
     this.tournamentsService.borrarTorneo(UserServiceService.user.nickname).subscribe(datos=>{});
     if (this.players == 3){
+      console.log("unir a "+'')
       this.socket.unirseTorneo(TournamentsComponent.owner,'');
+      this.socket.unirseTorneo(TournamentsComponent.owner,this.jugadores[2].nickname )
     }
     this.socket.empezar(UserServiceService.user.nickname);
 

@@ -137,4 +137,8 @@ export class SocketTournaments {
   recibirOrden(){
 	  return this.socket.fromEvent('recibirOrden');
   }
+
+  eliminarTorneo(owner:string){
+	  this.socket.emit('eliminarTorneo', owner)
+  }
 }

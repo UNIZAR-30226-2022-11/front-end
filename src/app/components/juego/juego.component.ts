@@ -9,6 +9,7 @@ import { ServiceClientService } from 'src/app/services/service-client.service';
 import { ChatComponent } from '../chat/chat.component';
 import { TournamentsService } from 'src/app/services/tournaments-service.service';
 import { TournamentsComponent } from '../tournaments/tournaments.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-juego',
@@ -21,7 +22,8 @@ export class JuegoComponent implements OnInit{
 		protected socketService: SocketService,
     private servicioCliente:ServiceClientService,
     protected socketTwo: SocketFriends,
-    protected socketThree: SocketTournaments
+    protected socketThree: SocketTournaments,
+    protected router: Router
 	) { }
 
   //export socket : SocketService =  this.socketService;
@@ -119,7 +121,9 @@ get avatarUser():string{
         if(JuegoComponent.online){
           if(JuegoComponent.torneo){
             //Victoria de torneo
+            console.log("unir a "+ UserServiceService.user.nickname)
             this.socketThree.unirseTorneo(TournamentsComponent.owner, UserServiceService.user.nickname);
+            this.router.navigate(['/tournaments']);
           } else{
           this.servicioCliente.SaveMatchResult(UserServiceService.user.nickname, this.rival.nickname, "win");
           this.socketTwo.conect(UserServiceService.user.nickname);
@@ -312,7 +316,9 @@ get avatarUser():string{
           if(JuegoComponent.online){
             if(JuegoComponent.torneo){
               //Victoria de torneo
+              console.log("unir a "+ UserServiceService.user.nickname)
               this.socketThree.unirseTorneo(TournamentsComponent.owner, UserServiceService.user.nickname);
+              this.router.navigate(['/tournaments']);
             } else{
             this.servicioCliente.SaveMatchResult(UserServiceService.user.nickname, this.rival.nickname, "win");
             this.socketTwo.conect(UserServiceService.user.nickname);
@@ -341,7 +347,9 @@ get avatarUser():string{
           if(JuegoComponent.online){
             if(JuegoComponent.torneo){
               //Victoria de torneo
+              console.log("unir a "+ UserServiceService.user.nickname)
               this.socketThree.unirseTorneo(TournamentsComponent.owner, UserServiceService.user.nickname);
+              this.router.navigate(['/tournaments']);
             } else{
             this.servicioCliente.SaveMatchResult(UserServiceService.user.nickname, this.rival.nickname, "win");
             this.socketTwo.conect(UserServiceService.user.nickname);
@@ -377,7 +385,9 @@ get avatarUser():string{
         if(JuegoComponent.online){
           if(JuegoComponent.torneo){
             //Victoria de torneo
+            console.log("unir a "+ UserServiceService.user.nickname)
             this.socketThree.unirseTorneo(TournamentsComponent.owner, UserServiceService.user.nickname);
+            this.router.navigate(['/tournaments']);
           } else{
           this.servicioCliente.SaveMatchResult(UserServiceService.user.nickname, this.rival.nickname, "win");
           this.socketTwo.conect(UserServiceService.user.nickname);
@@ -405,7 +415,9 @@ get avatarUser():string{
         if(JuegoComponent.online){
           if(JuegoComponent.torneo){
             //Victoria de torneo
+            console.log("unir a "+ UserServiceService.user.nickname)
             this.socketThree.unirseTorneo(TournamentsComponent.owner, UserServiceService.user.nickname);
+            this.router.navigate(['/tournaments']);
           } else{
           this.servicioCliente.SaveMatchResult(UserServiceService.user.nickname, this.rival.nickname, "win");
           this.socketTwo.conect(UserServiceService.user.nickname);
@@ -6083,7 +6095,9 @@ moverPieza(pieza:pieza):boolean{
                     if(JuegoComponent.online){
                       if(JuegoComponent.torneo){
                         //Victoria de torneo
+                        console.log("unir a "+ UserServiceService.user.nickname)
                         this.socketThree.unirseTorneo(TournamentsComponent.owner, UserServiceService.user.nickname);
+                        this.router.navigate(['/tournaments']);
                       } else{
                       this.servicioCliente.SaveMatchResult(UserServiceService.user.nickname, this.rival.nickname, "win");
                       this.socketTwo.conect(UserServiceService.user.nickname);
@@ -6111,7 +6125,10 @@ moverPieza(pieza:pieza):boolean{
                     if(JuegoComponent.online){
                       if(JuegoComponent.torneo){
                         //Victoria de torneo
+                        console.log("unir a "+ UserServiceService.user.nickname)
                         this.socketThree.unirseTorneo(TournamentsComponent.owner, UserServiceService.user.nickname);
+                        this.router.navigate(['/tournaments']);
+
                       } else{
                       this.servicioCliente.SaveMatchResult(UserServiceService.user.nickname, this.rival.nickname, "win");
                       this.socketTwo.conect(UserServiceService.user.nickname);
@@ -6141,7 +6158,9 @@ moverPieza(pieza:pieza):boolean{
             if(JuegoComponent.online){
               if(JuegoComponent.torneo){
                 //Victoria de torneo
+                console.log("unir a "+ UserServiceService.user.nickname)
                 this.socketThree.unirseTorneo(TournamentsComponent.owner, UserServiceService.user.nickname);
+                this.router.navigate(['/tournaments']);
               } else{
               this.servicioCliente.SaveMatchResult(UserServiceService.user.nickname, this.rival.nickname, "win");
               this.socketTwo.conect(UserServiceService.user.nickname);
@@ -6175,7 +6194,9 @@ moverPieza(pieza:pieza):boolean{
             if(JuegoComponent.online){
               if(JuegoComponent.torneo){
                 //Victoria de torneo
+                console.log("unir a "+ UserServiceService.user.nickname)
                 this.socketThree.unirseTorneo(TournamentsComponent.owner, UserServiceService.user.nickname);
+                this.router.navigate(['/tournaments']);
               } else{
               this.servicioCliente.SaveMatchResult(UserServiceService.user.nickname, this.rival.nickname, "win");
               this.socketTwo.conect(UserServiceService.user.nickname);

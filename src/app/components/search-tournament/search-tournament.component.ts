@@ -29,6 +29,7 @@ export class SearchTournamentComponent implements OnInit {
     this.serviceTournaments.entrarTorneo(owner).subscribe(datos=>{
       TournamentsComponent.propietario = false;
       TournamentsComponent.owner = owner;
+      TournamentsComponent.primeraVez = true;
       this.router.navigate(['/tournaments'])
     });
 

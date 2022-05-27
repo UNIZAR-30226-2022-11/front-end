@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { TournamentsService } from 'src/app/services/tournaments-service.service';
 import { UserServiceService } from 'src/app/services/user-service.service';
 import { JuegoComponent } from '../juego/juego.component';
@@ -15,7 +16,8 @@ export class PlayComponent implements OnInit {
   codigoForm: FormGroup
 
   constructor(private _builderCodigo: FormBuilder,
-    protected serviceTournaments:TournamentsService) { 
+    protected serviceTournaments:TournamentsService,
+    protected router:Router) { 
     this.codigoForm = this._builderCodigo.group({
       codigo: ['', Validators.required]
     })
@@ -60,11 +62,12 @@ export class PlayComponent implements OnInit {
   buscarCodigo(g: FormGroup){
     this.serviceTournaments.comprobarCodigoTorneo(g.get('codigo')!.value).subscribe(data =>{
       if (data.exito){
-        /*this.serviceTournaments.entrarTorneo(owner).subscribe(datos=>{
+        this.serviceTournaments.entrarTorneo(data.creador).subscribe(datos=>{
           TournamentsComponent.propietario = false;
-          TournamentsComponent.owner = owner;
+          TournamentsComponent.owner = data.creador;
+          TournamentsComponent.primeraVez = true;
           this.router.navigate(['/tournaments'])
-        });*/
+        });
       }
     });
     console.log(g.get('codigo')!.value);
@@ -75,12 +78,14 @@ export class PlayComponent implements OnInit {
     TournamentsComponent.privado = false;
     TournamentsComponent.propietario = true;
     TournamentsComponent.owner = UserServiceService.user.nickname;
+    TournamentsComponent.primeraVez = true;
   }
 
   torneoPrivado(){
     TournamentsComponent.privado = true;
     TournamentsComponent.propietario = true;
     TournamentsComponent.owner = UserServiceService.user.nickname;
+    TournamentsComponent.primeraVez = true;
   }
 
 
