@@ -27,10 +27,23 @@ export class RankingComponent implements OnInit {
       this.rankingList = []
       //var rankingAux = []
       for(let i=0;i<datos.rankingList.length;i++){
-        console.log(datos.rankingList[i]);
         if (datos.rankingList[i] == null){continue;}
+        this.rankingList.push(datos.rankingList[i]);
+      }
+
+      for(let i=0;i<this.rankingList.length;i++){
+        var max = i;
+        for (let j = i + 1; j <this.rankingList.length; j++){
+          if (this.rankingList[j].puntos > this.rankingList[max].puntos){
+            max = j;
+          }
+        }if (max != i){
+          var aux:rankingItem   = this.rankingList[max];
+          this.rankingList[max] = this.rankingList[i];
+          this.rankingList[i] = aux;
+        }
+        console.log(datos.rankingList[i]);
         
-          this.rankingList.push(datos.rankingList[i]);
         
       }
       //if 

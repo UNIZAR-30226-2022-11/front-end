@@ -2,11 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { piecesPath, pieza, usuario, tablePath, avatarPath } from 'src/app/other/interfaces';
 import { ViewChild } from '@angular/core';
 import { TimerComponent } from '../timer/timer.component';
-import { SocketFriends, SocketService } from 'src/app/services/socket.service';
+import { SocketFriends, SocketService, SocketTournaments } from 'src/app/services/socket.service';
 import { flush } from '@angular/core/testing';
 import { UserServiceService } from 'src/app/services/user-service.service';
 import { ServiceClientService } from 'src/app/services/service-client.service';
 import { ChatComponent } from '../chat/chat.component';
+import { TournamentsService } from 'src/app/services/tournaments-service.service';
+import { TournamentsComponent } from '../tournaments/tournaments.component';
 
 @Component({
   selector: 'app-juego',
@@ -19,6 +21,7 @@ export class JuegoComponent implements OnInit{
 		protected socketService: SocketService,
     private servicioCliente:ServiceClientService,
     protected socketTwo: SocketFriends,
+    protected socketThree: SocketTournaments
 	) { }
 
   //export socket : SocketService =  this.socketService;
@@ -116,8 +119,10 @@ get avatarUser():string{
         if(JuegoComponent.online){
           if(JuegoComponent.torneo){
             //Victoria de torneo
+            this.socketThree.unirseTorneo(TournamentsComponent.owner, UserServiceService.user.nickname);
           } else{
           this.servicioCliente.SaveMatchResult(UserServiceService.user.nickname, this.rival.nickname, "win");
+          this.socketTwo.conect(UserServiceService.user.nickname);
           }
         }
       })
@@ -297,6 +302,7 @@ get avatarUser():string{
           this.timer.stop2();
           if(JuegoComponent.online){
             this.servicioCliente.SaveMatchResult(UserServiceService.user.nickname, this.rival.nickname, "lose");
+            this.socketTwo.conect(UserServiceService.user.nickname);
           }
           return
         }else {
@@ -306,8 +312,10 @@ get avatarUser():string{
           if(JuegoComponent.online){
             if(JuegoComponent.torneo){
               //Victoria de torneo
+              this.socketThree.unirseTorneo(TournamentsComponent.owner, UserServiceService.user.nickname);
             } else{
             this.servicioCliente.SaveMatchResult(UserServiceService.user.nickname, this.rival.nickname, "win");
+            this.socketTwo.conect(UserServiceService.user.nickname);
             }
           }
         return
@@ -323,6 +331,7 @@ get avatarUser():string{
           this.timer.stop2();
           if(JuegoComponent.online){
             this.servicioCliente.SaveMatchResult(UserServiceService.user.nickname, this.rival.nickname, "lose");
+            this.socketTwo.conect(UserServiceService.user.nickname);
           }
           return
         }else {
@@ -332,8 +341,10 @@ get avatarUser():string{
           if(JuegoComponent.online){
             if(JuegoComponent.torneo){
               //Victoria de torneo
+              this.socketThree.unirseTorneo(TournamentsComponent.owner, UserServiceService.user.nickname);
             } else{
             this.servicioCliente.SaveMatchResult(UserServiceService.user.nickname, this.rival.nickname, "win");
+            this.socketTwo.conect(UserServiceService.user.nickname);
             }
           }
         return
@@ -356,6 +367,7 @@ get avatarUser():string{
         this.timer.stop2();
         if(JuegoComponent.online){
           this.servicioCliente.SaveMatchResult(UserServiceService.user.nickname, this.rival.nickname, "lose");
+          this.socketTwo.conect(UserServiceService.user.nickname);
         }
       }else{
         console.log("caso 6")
@@ -365,8 +377,10 @@ get avatarUser():string{
         if(JuegoComponent.online){
           if(JuegoComponent.torneo){
             //Victoria de torneo
+            this.socketThree.unirseTorneo(TournamentsComponent.owner, UserServiceService.user.nickname);
           } else{
           this.servicioCliente.SaveMatchResult(UserServiceService.user.nickname, this.rival.nickname, "win");
+          this.socketTwo.conect(UserServiceService.user.nickname);
           }
         }
       }
@@ -381,6 +395,7 @@ get avatarUser():string{
         this.timer.stop2();
         if(JuegoComponent.online){
           this.servicioCliente.SaveMatchResult(UserServiceService.user.nickname, this.rival.nickname, "lose");
+          this.socketTwo.conect(UserServiceService.user.nickname);
         }
       }else{
         console.log("caso 8")
@@ -390,8 +405,10 @@ get avatarUser():string{
         if(JuegoComponent.online){
           if(JuegoComponent.torneo){
             //Victoria de torneo
+            this.socketThree.unirseTorneo(TournamentsComponent.owner, UserServiceService.user.nickname);
           } else{
           this.servicioCliente.SaveMatchResult(UserServiceService.user.nickname, this.rival.nickname, "win");
+          this.socketTwo.conect(UserServiceService.user.nickname);
           }
         }
       }
@@ -6056,6 +6073,7 @@ moverPieza(pieza:pieza):boolean{
                     this.timer.stop2();
                     if(JuegoComponent.online){
                       this.servicioCliente.SaveMatchResult(UserServiceService.user.nickname, this.rival.nickname, "lose");
+                      this.socketTwo.conect(UserServiceService.user.nickname);
                     }
                   }else{
                     console.log("caso 2")
@@ -6065,8 +6083,10 @@ moverPieza(pieza:pieza):boolean{
                     if(JuegoComponent.online){
                       if(JuegoComponent.torneo){
                         //Victoria de torneo
+                        this.socketThree.unirseTorneo(TournamentsComponent.owner, UserServiceService.user.nickname);
                       } else{
                       this.servicioCliente.SaveMatchResult(UserServiceService.user.nickname, this.rival.nickname, "win");
+                      this.socketTwo.conect(UserServiceService.user.nickname);
                       }
                     }
                   }
@@ -6081,6 +6101,7 @@ moverPieza(pieza:pieza):boolean{
                     this.timer.stop2();
                     if(JuegoComponent.online){
                       this.servicioCliente.SaveMatchResult(UserServiceService.user.nickname, this.rival.nickname, "lose");
+                      this.socketTwo.conect(UserServiceService.user.nickname);
                     }
                   }else{
                     console.log("caso 4")
@@ -6090,8 +6111,10 @@ moverPieza(pieza:pieza):boolean{
                     if(JuegoComponent.online){
                       if(JuegoComponent.torneo){
                         //Victoria de torneo
+                        this.socketThree.unirseTorneo(TournamentsComponent.owner, UserServiceService.user.nickname);
                       } else{
                       this.servicioCliente.SaveMatchResult(UserServiceService.user.nickname, this.rival.nickname, "win");
+                      this.socketTwo.conect(UserServiceService.user.nickname);
                       }
                     }
                   }
@@ -6107,6 +6130,7 @@ moverPieza(pieza:pieza):boolean{
             this.timer.stop2();
             if(JuegoComponent.online){
               this.servicioCliente.SaveMatchResult(UserServiceService.user.nickname, this.rival.nickname, "lose");
+              this.socketTwo.conect(UserServiceService.user.nickname);
             }
             return
           }else {
@@ -6117,8 +6141,10 @@ moverPieza(pieza:pieza):boolean{
             if(JuegoComponent.online){
               if(JuegoComponent.torneo){
                 //Victoria de torneo
+                this.socketThree.unirseTorneo(TournamentsComponent.owner, UserServiceService.user.nickname);
               } else{
               this.servicioCliente.SaveMatchResult(UserServiceService.user.nickname, this.rival.nickname, "win");
+              this.socketTwo.conect(UserServiceService.user.nickname);
               }
             }
 
@@ -6137,6 +6163,7 @@ moverPieza(pieza:pieza):boolean{
 
             if(JuegoComponent.online){
               this.servicioCliente.SaveMatchResult(UserServiceService.user.nickname, this.rival.nickname, "lose");
+              this.socketTwo.conect(UserServiceService.user.nickname);
             }
 
             return
@@ -6148,8 +6175,10 @@ moverPieza(pieza:pieza):boolean{
             if(JuegoComponent.online){
               if(JuegoComponent.torneo){
                 //Victoria de torneo
+                this.socketThree.unirseTorneo(TournamentsComponent.owner, UserServiceService.user.nickname);
               } else{
               this.servicioCliente.SaveMatchResult(UserServiceService.user.nickname, this.rival.nickname, "win");
+              this.socketTwo.conect(UserServiceService.user.nickname);
               }
             }
 
@@ -6165,6 +6194,7 @@ moverPieza(pieza:pieza):boolean{
 
           if(JuegoComponent.online){
             this.servicioCliente.SaveMatchResult(UserServiceService.user.nickname, this.rival.nickname, "draw");
+            this.socketTwo.conect(UserServiceService.user.nickname);
           }
 
             return

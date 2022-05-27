@@ -168,7 +168,7 @@ export class LoginComponent implements OnInit {
 
   hacedAlgo(){ //borrar
     //console.log("pq no va")
-    //this.servicioCliente.SaveMatchResult("contra", "contra2", "lose").subscribe(resp=>{});
+    this.servicioCliente.SaveMatchResult("contra4", "contra2", "lose").subscribe(resp=>{});
     //this.servicioCliente.SaveMatchResult("contra2", "contra", "win").subscribe(resp=>{});
     
   }

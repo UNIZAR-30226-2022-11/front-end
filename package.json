@@ -6,7 +6,8 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "aws-deploy": "aws s3 sync dist/ajedrez/ s3://ajedrez-proyecto-software-unizar"
   },
   "private": true,
   "dependencies": {

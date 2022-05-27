@@ -67,6 +67,7 @@ export class TournamentsComponent implements OnInit {
       for (let i = 0; data.length; i++){
         this.jugadores[i].nickname = data[i]
       }
+      this.players = this.players + 1;
       /*
       this.jugador1 = data[0];
       this.jugador2 = data[1];
@@ -178,7 +179,7 @@ export class TournamentsComponent implements OnInit {
   }
 
   sumar(){
-    this.players = this.players + 1;
+    this.socket.unirseTorneo(TournamentsComponent.owner,'');
   }
 
   ngOnDestroy(){

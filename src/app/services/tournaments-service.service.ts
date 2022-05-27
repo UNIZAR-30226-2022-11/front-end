@@ -51,7 +51,25 @@ export class TournamentsService {
       });
     return this.servicio.get(this.servidor1+"/obtenerTorneos", {headers});
   }
+
+  entrarTorneo(nickname: string):Observable<any>{  
+    const body = {nickname}
+    const headers = new HttpHeaders(
+      {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*'
+      });
+    return this.servicio.get(this.servidor1+"/entrarTorneo", {headers});
+  }
+
+  comprobarCodigoTorneo(codigo:string):Observable<any>{
+    const body = {codigo}
+    const headers = new HttpHeaders(
+      {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*'
+      });
+    return this.servicio.get(this.servidor1+"/obtenerTorneos", {headers});
+  }
  
 }
-
-
