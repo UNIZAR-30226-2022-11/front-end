@@ -50,7 +50,7 @@ export class TournamentsComponent implements OnInit {
     if (TournamentsComponent.propietario){
       //creo el torneo en la bd
       var exito: boolean = false;
-      this.tournamentsService.borrarTorneo(UserServiceService.user.nickname);
+      //this.tournamentsService.borrarTorneo(UserServiceService.user.nickname).subscribe(datos=>{});;
       console.log("borrar torneo");
       if (this.getPrivate){
         this.codigo = this.makeid();
@@ -181,13 +181,13 @@ export class TournamentsComponent implements OnInit {
   }
 
   sumar(){
-    this.tournamentsService.borrarTorneo('contra');
+    this.tournamentsService.borrarTorneo('contra').subscribe(datos=>{});;
   }
 
   ngOnDestroy(){
     //cerrar torneo
     if (TournamentsComponent.propietario){
-      this.tournamentsService.borrarTorneo(UserServiceService.user.nickname)
+      this.tournamentsService.borrarTorneo(UserServiceService.user.nickname).subscribe(datos=>{});
     }
     console.log("cerrarTorneo")
   }

@@ -26,10 +26,12 @@ export class SearchTournamentComponent implements OnInit {
 
   join(owner:string){
     console.log(owner);
-    this.serviceTournaments.entrarTorneo(owner);
-    TournamentsComponent.propietario = false;
-    TournamentsComponent.owner = owner;
-    this.router.navigate(['/tournaments'])
+    this.serviceTournaments.entrarTorneo(owner).subscribe(datos=>{
+      TournamentsComponent.propietario = false;
+      TournamentsComponent.owner = owner;
+      this.router.navigate(['/tournaments'])
+    });
+
   }
 
   buscarTorneos(){

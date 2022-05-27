@@ -71,7 +71,8 @@ export class TournamentsService {
           'Content-Type': 'application/json',
           'Access-Control-Allow-Origin': '*'
       });
-    return this.servicio.post(this.servidor1+"/obtenerTorneos",body, {headers});
+      console.log("comprobar codigo torneos 2")
+    return this.servicio.get(this.servidor1+"/comprobarCodigoTorneo?codigo="+ codigo, {headers});
   }
  
   resultadosTorneo(ganador:string, segundo:string):Observable<any>{
