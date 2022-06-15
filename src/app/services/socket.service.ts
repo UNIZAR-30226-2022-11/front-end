@@ -12,7 +12,15 @@ import { UserServiceService } from './user-service.service';
 export class SocketService{
 	constructor(private socket: SocketOne) { }
 
-  	
+  	desconectar(){
+		//this.socket.removeAllListeners()
+		//this.socket.disconnect()
+	}
+
+	sendAcabar(nick:string, motivo:boolean){
+		this.socket.emit('sendAcabar', nick, motivo);
+	}
+
 	//(opponent, moveFI, moveCI, moveFF, moveCF)
 	sendGameMove(moveFI:number, moveCI:number, moveFF:number, moveCF:number) {
 		this.socket.emit('sendGameMove', moveFI, moveCI, moveFF, moveCF);
@@ -40,6 +48,7 @@ export class SocketService{
 	}
 
 	buscarPartida(nickname:string, modoJuego:string, avatar:string, friend:string){
+		console.log("BUSCO PARTIDA")
 		this.socket.emit('buscarPartida', nickname, modoJuego, avatar, friend);	
 	}
 

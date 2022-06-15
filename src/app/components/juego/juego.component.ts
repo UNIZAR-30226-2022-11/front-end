@@ -29,12 +29,18 @@ export class JuegoComponent implements OnInit{
   //export socket : SocketService =  this.socketService;
 
     ngOnDestroy(): void{
+      console.log("DESTROY")
+
+      var motivo:boolean = !(this.gana || this.pierde)
+      this.socketService.sendAcabar(UserServiceService.user.nickname, motivo)
+
       this.socketTwo.conect(UserServiceService.user.nickname);
       JuegoComponent.finTiempo1 = false;
       JuegoComponent.finTiempo2 = false;
     }
 
   ngOnInit(): void {
+    console.log("INIT")
     //reset
   //variable estática de victoria
   JuegoComponent.finTiempo1 = false;
@@ -112,7 +118,7 @@ get avatarUser():string{
     //console.log(JuegoComponent.modoJuego)
     console.log(this.user.nickname)
     console.log(UserServiceService.user.nickname)
-      this.socketService.buscarPartida(this.user.nickname, JuegoComponent.modoJuego, this.user.avatar, JuegoComponent.amigo )
+    this.socketService.buscarPartida(this.user.nickname, JuegoComponent.modoJuego, this.user.avatar, JuegoComponent.amigo)
 
       this.socketService.enviarTablero().subscribe(() => {
         console.log("ME HAN PEDIDO EL TABLERO")

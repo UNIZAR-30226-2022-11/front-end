@@ -98,7 +98,7 @@ const config: SocketIoConfig = {
 @Injectable()
 export class SocketOne extends Socket {
   constructor() {
-    super({ url:  'http://ec2-18-206-137-85.compute-1.amazonaws.com:3000',options: {transports: ['websocket']}});
+    super({ url:  'http://ec2-18-206-137-85.compute-1.amazonaws.com:3000',options: {transports: ['websocket']},});
   }
 }
 
