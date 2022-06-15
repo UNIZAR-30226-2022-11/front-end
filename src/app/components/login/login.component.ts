@@ -81,11 +81,12 @@ export class LoginComponent implements OnInit {
        
         this.friendListService.refreshLists();
       }else{
+       
         console.log(resp.exito);
       }
       
     },
-    error => {console.error(error)});
+    error => { alert('Usuario y/o contraseña incorrecto');console.error(error)});
     
   }
 
@@ -115,6 +116,7 @@ export class LoginComponent implements OnInit {
         //FriendListComponent.
         this.friendListService.refreshLists();
       }else{
+        alert('Usuario "'+  g.get('user')!.value+ '" ya existe');
         console.log(resp.exito);
       }
     },

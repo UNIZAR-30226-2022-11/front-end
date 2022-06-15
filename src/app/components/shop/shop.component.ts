@@ -76,7 +76,9 @@ export class ShopComponent implements OnInit {
         this.getShop();
         this.servicioCliente.GetCoins(UserServiceService.user.nickname).subscribe(datos=>{
           UserServiceService.user.monedas = datos.coins.coins;
+          alert('Objeto comprado con exito')
         })
+
       }
     })
   }

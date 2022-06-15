@@ -28,12 +28,15 @@ export class AddFriendComponent implements OnInit {
       this.servicioCliente.SendFriendRequest(UserServiceService.user.nickname, g.get('amigo')!.value).subscribe(datos=>{
           if (datos.resultado == "La solicitud se ha mandado correctamente") {
             g.reset();
+            alert("La solicitud se ha mandado correctamente")
           }else{
+            alert("La solicitud no se ha podido mandar")
             console.log(datos.resultado);
           }
       },
       error => {console.error(error)});
     }else{
+      alert("Debes logearte para enviar solicitudes de amistad")
       console.log("not logged");
     }
   }
