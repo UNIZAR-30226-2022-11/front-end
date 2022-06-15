@@ -83,6 +83,7 @@ export class InventaryComponent implements OnInit {
         InventaryComponent.selectedTable = table;
         UserServiceService.user.tablero = table;
         //JuegoComponent.tableroImg = tablePath[table];
+        alert('Tablero equipado con exito')
       }
     })
   }
@@ -94,6 +95,7 @@ export class InventaryComponent implements OnInit {
   selectPieces(pieza:string){
     this.servicioCliente.UpdatePieces(UserServiceService.user.nickname, pieza).subscribe(datos=>{
       if (datos.exito == true){
+        alert('Piezas equipadas con exito')
         InventaryComponent.selectedPieza = pieza;
         UserServiceService.user.piezas = pieza;
         if(pieza == "default_Piezas"){
@@ -180,6 +182,7 @@ export class InventaryComponent implements OnInit {
         InventaryComponent.selectedAvatar = avatar;
         UserServiceService.user.avatar = avatar;
         //JuegoComponent.avatarImg = avatarPath[avatar];
+        alert('Avatar equipado con exito')
       }
     })
   }

@@ -31,10 +31,12 @@ export class FriendListComponent implements OnInit {
       this.showFriendList = true;
       var element=document.getElementById(obj.id)
       element?.classList.add('showing')
+      this.servicioCliente.getFriendList()
     }else{
       this.showFriendList = false;
       var element=document.getElementById(obj.id)
       element?.classList.add('showing')
+      this.servicioCliente.getFriendRequests()
     }
     
   }
@@ -130,6 +132,7 @@ export class FriendListComponent implements OnInit {
       if (datos.exito){
         this.servicioCliente.getFriendList();
         this.servicioCliente.getFriendRequests();
+        alert('Ahora "'+ user + '" es tu amigo')
       }
     })
   }
@@ -139,6 +142,7 @@ export class FriendListComponent implements OnInit {
       if (datos.exito){
         this.servicioCliente.getFriendList();
         this.servicioCliente.getFriendRequests();
+        alert('Se ha rechazado la peticion de amistad de "'+ user + '"')
       }
     })
   }
